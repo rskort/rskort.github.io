@@ -21,7 +21,8 @@ permalink: /:categories/:year/:month/:day/:title/
 collections:
   chapters:
     output: true
-    permalink: /:series_slug/:name/
+    permalink: /:path/
+
 
 # Defaults so chapters render as pages with no dates
 defaults:
