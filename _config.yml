@@ -1,26 +1,37 @@
 title: Rick Kort
-description: Short, precise explainers on electrochemical interfaces and AFM.
+description: Tutorial and explanations of topics related to electrochemical interfaces, molecular dynamics, AFM, and more.
 theme: minima
 
 author: Rick Kort
 github_username: rskort
 
-# Markdown and math
 markdown: kramdown
 kramdown:
   input: GFM
   math_engine: mathjax
 
-# Useful plugins that GitHub Pages supports
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
 
-# Collections and permalinks
 permalink: /:categories/:year/:month/:day/:title/
 
-# Navigation links for the header
+# Collections for chapter style content
+collections:
+  chapters:
+    output: true
+    permalink: /:series_slug/:name/
+
+# Defaults so chapters render as pages with no dates
+defaults:
+  - scope:
+      path: ""
+      type: chapters
+    values:
+      layout: page
+
+# Minimal Minima settings
 minima:
   social_links:
     - { platform: github, user_url: "https://github.com/rskort" }
