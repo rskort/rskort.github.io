@@ -5,4 +5,8 @@ chapter: 1
 layout: page
 ---
 
-Atomic Force Microscopy
+*Part {{ page.chapter }} of the AFM series.*
+
+Short introduction text about Atomic Force Microscopy...
+
+{% include chapter-nav.html %}
