@@ -1,4 +1,37 @@
-<!-- MathJax loader -->
-<script id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+<!-- MathJax config and loader -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['$$', '$$']],
+    tags: 'ams',
+    packages: {'[+]': ['mhchem']},
+    macros: {
+      dd: '\\,\\mathrm{d}',
+      vb: ['\\left\\langle #1 \\right\\rangle', 1]
+    }
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
 </script>
+<script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Minimal styling for chapter navigation -->
+<style>
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e1e4e8;
+  font-weight: 500;
+}
+.chapter-nav a {
+  text-decoration: none;
+}
+.chapter-nav a:hover {
+  text-decoration: underline;
+}
+</style>
