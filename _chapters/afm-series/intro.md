@@ -1,10 +1,13 @@
 ---
 title: "Introduction"
-series: afm-series
+series: "afm-series"
 chapter: 1
-layout: page
 ---
 
-Short introduction text about Atomic Force Microscopy...
+Short introduction text about Atomic Force Microscopy.
 
-{% include chapter-nav.html %}
+More content here. Equations like \( E = mc^2 \) or
+
+$$
+\nabla \cdot \mathbf{E} = \frac{\rho}{\varepsilon_0}
+$$
