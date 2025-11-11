@@ -1,11 +1,9 @@
 ---
-title: Introduction
+title: Chapter {{ page.chapter }} -- Introduction
 series: afm-series
 chapter: 1
 layout: page
 ---
-
-*Part {{ page.chapter }} of the AFM series.*
 
 Short introduction text about Atomic Force Microscopy...
 
