@@ -13,16 +13,21 @@ From understanding tip–sample interactions to reconstructing force profiles an
 
 ## Chapters
 
-{% assign items = site.chapter
+{% comment %} Collect chapters from pages and the series collection {% endcomment %}
+{% assign from_pages = site.pages
   | where: "series", "afm-series"
   | where_exp: "p", "p.chapter"
-  | sort: "chapter" %}
+%}
+{% assign from_series = site.series
+  | where: "series", "afm-series"
+  | where_exp: "p", "p.chapter"
+%}
+
+{% assign items = from_pages | concat: from_series | sort: "chapter" %}
 
 <ol>
 {% for c in items %}
-  <li>
-    <a href="{{ c.url | relative_url }}">Chapter {{ c.chapter }}: {{ c.title }}</a>
-  </li>
+  <li><a href="{{ c.url | relative_url }}">Chapter {{ c.chapter }}: {{ c.title }}</a></li>
 {% endfor %}
 </ol>
 
