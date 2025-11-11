@@ -20,13 +20,13 @@ defaults:
   # AFM series pages → /afm-series/…
   - scope:
       type: series
-      path: "_series/afm-series"
+      path: "afm-series"
     values:
-      permalink: "/afm-series/:basename/"
+      permalink: "/afm-series/:name/"
 
   # Add new ones as you go:
   # - scope:
   #     type: series
-  #     path: "_series/example-series"
+  #     path: "example-series"  # path is relative to _series
   #   values:
-  #     permalink: "/example-series/:basename/"
+  #     permalink: "/example-series/:name/"
