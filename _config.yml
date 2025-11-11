@@ -13,6 +13,6 @@ defaults:
       layout: "page"
 
 collections:
-  series:
+  chapter:
     output: true
-    permalink: /:path/
+    permalink: /:collection/:name/
