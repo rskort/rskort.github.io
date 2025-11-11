@@ -1,5 +1,5 @@
 ---
-title: Chapter {{ page.chapter }} -- Introduction
+title: Chapter 1: Introduction
 series: afm-series
 chapter: 1
 layout: page
