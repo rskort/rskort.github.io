@@ -36,30 +36,36 @@ window.MathJax = {
 }
 </style>
 
+<!-- Dynamic chapter heading and metadata update -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var chapter = '{{ page.chapter }}';
+  var chapter = '{{ page.chapter | escape }}';
   var title   = '{{ page.title | escape }}';
+  var siteTitle = '{{ site.title | default: site.name | escape }}';
 
-  if (chapter && title) {
-    // Find the first <h1> that Jekyll themes usually generate
-    var h1 = document.querySelector('main h1, article h1, .post-title, h1');
-    if (h1 && !/Chapter\s+\d+:/.test(h1.textContent)) {
-      h1.textContent = 'Chapter ' + chapter + ': ' + title;
+  // Only modify if a chapter number exists
+  if (chapter && chapter !== '' && title) {
+    var fullTitle = 'Chapter ' + chapter + ': ' + title;
+
+    // Find the visible H1 used by Minima or similar themes
+    var h1 = document.querySelector('main h1, article h1, .page-title, .post-title, h1');
+    if (h1 && !/Chapter\s+\d+:/.test(h1.textContent.trim())) {
+      h1.textContent = fullTitle;
     }
 
-    // Update browser tab title and meta tags for consistency
-    var full = 'Chapter ' + chapter + ': ' + title;
-    var siteTitle = '{{ site.title | default: site.name | escape }}';
-    if (siteTitle) document.title = full + ' | ' + siteTitle;
+    // Update browser tab title
+    if (siteTitle) {
+      document.title = fullTitle + ' | ' + siteTitle;
+    } else {
+      document.title = fullTitle;
+    }
 
+    // Update Open Graph and Twitter metadata titles
     var og = document.querySelector('meta[property="og:title"]');
-    if (og) og.setAttribute('content', full);
+    if (og) og.setAttribute('content', fullTitle);
 
     var tw = document.querySelector('meta[name="twitter:title"]');
-    if (tw) tw.setAttribute('content', full);
+    if (tw) tw.setAttribute('content', fullTitle);
   }
 });
 </script>
-
-
