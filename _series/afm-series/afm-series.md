@@ -13,7 +13,7 @@ From understanding tip–sample interactions to reconstructing force profiles an
 
 ## Chapters
 
-{% assign items = site.pages
+{% assign items = site.chapter
   | where: "series", "afm-series"
   | where_exp: "p", "p.chapter"
   | sort: "chapter" %}
