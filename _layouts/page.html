@@ -238,15 +238,16 @@
       {{ content }}
 
       {% comment %}
-      Bottom chapter navigation that works across pages and the `_series` collection.
+      Bottom chapter navigation that works across pages and the `_series` collection
+      and does not rely on dynamic array indexing.
       Requires per page:
-        series: my-series-slug
+        series: afm-series
         chapter: 1
       {% endcomment %}
       {% if page.series and page.chapter %}
         {%- assign this_series = page.series -%}
         {%- assign this_chapter = page.chapter | plus: 0 -%}
-
+      
         {%- assign from_pages = site.pages
           | where: "series", this_series
           | where_exp: "p", "p.chapter"
@@ -256,59 +257,61 @@
           | where_exp: "p", "p.chapter"
         -%}
         {%- assign items = from_pages | concat: from_series -%}
-
+      
+        {%- comment -%} Build a sortable list "ccccc||url||title" where ccccc is zero padded chapter {%- endcomment -%}
         {%- assign sortable = "" | split: "" -%}
         {%- for it in items -%}
-          {%- assign chap_num = it.chapter | plus: 0 -%}
-          {%- assign pad = chap_num | prepend: "00000" | slice: -5, 5 -%}
-          {%- assign pair = pad | append: "||" | append: it.url | append: "||" | append: it.title -%}
-          {%- assign sortable = sortable | push: pair -%}
+          {%- assign chap = it.chapter | plus: 0 -%}
+          {%- assign pad = chap | prepend: "00000" | slice: -5, 5 -%}
+          {%- assign rec = pad | append: "||" | append: it.url | append: "||" | append: it.title -%}
+          {%- assign sortable = sortable | push: rec -%}
         {%- endfor -%}
         {%- assign sorted = sortable | sort_natural -%}
-
-        {%- assign idx = -1 -%}
-        {%- for s in sorted -%}
-          {%- assign parts = s | split: "||" -%}
+      
+        {%- assign prev_title = nil -%}
+        {%- assign prev_url = nil -%}
+        {%- assign next_title = nil -%}
+        {%- assign next_url = nil -%}
+        {%- assign found_current = false -%}
+        {%- assign prev_parts_mem = nil -%}
+      
+        {%- for rec in sorted -%}
+          {%- assign parts = rec | split: "||" -%}
           {%- assign u = parts[1] -%}
-          {%- assign c = parts[0] | plus: 0 -%}
-          {%- if c == this_chapter and u == page.url -%}
-            {%- assign idx = forloop.index0 -%}
+          {%- assign t = parts[2] -%}
+      
+          {%- if found_current == true and next_url == nil -%}
+            {%- assign next_url = u -%}
+            {%- assign next_title = t -%}
+            {%- break -%}
           {%- endif -%}
+      
+          {%- if u == page.url -%}
+            {%- assign found_current = true -%}
+            {%- if prev_parts_mem -%}
+              {%- assign prev_url = prev_parts_mem[1] -%}
+              {%- assign prev_title = prev_parts_mem[2] -%}
+            {%- endif -%}
+          {%- endif -%}
+      
+          {%- assign prev_parts_mem = parts -%}
         {%- endfor -%}
-
-        {%- if idx > -1 -%}
-          {%- assign prev_title = nil -%}
-          {%- assign prev_url = nil -%}
-          {%- assign next_title = nil -%}
-          {%- assign next_url = nil -%}
-
-          {%- if idx > 0 -%}
-            {%- assign prev_parts = sorted[idx | minus: 1] | split: "||" -%}
-            {%- assign prev_url = prev_parts[1] -%}
-            {%- assign prev_title = prev_parts[2] -%}
-          {%- endif -%}
-          {%- if idx < sorted.size | minus: 1 -%}
-            {%- assign next_parts = sorted[idx | plus: 1] | split: "||" -%}
-            {%- assign next_url = next_parts[1] -%}
-            {%- assign next_title = next_parts[2] -%}
-          {%- endif -%}
-
-          <nav class="chapter-nav" aria-label="Chapter navigation">
-            {% if prev_url %}
-              <a class="prev" href="{{ prev_url | relative_url }}">Chapter {{ page.chapter | minus: 1 }}: {{ prev_title }}</a>
-            {% else %}
-              <span></span>
-            {% endif %}
-
-            <span class="center">{{ page.series }} • Chapter {{ page.chapter }}</span>
-
-            {% if next_url %}
-              <a class="next" href="{{ next_url | relative_url }}">Chapter {{ page.chapter | plus: 1 }}: {{ next_title }}</a>
-            {% else %}
-              <span></span>
-            {% endif %}
-          </nav>
-        {%- endif -%}
+      
+        <nav class="chapter-nav" aria-label="Chapter navigation">
+          {% if prev_url %}
+            <a class="prev" href="{{ prev_url | relative_url }}">Chapter {{ page.chapter | minus: 1 }}: {{ prev_title }}</a>
+          {% else %}
+            <span></span>
+          {% endif %}
+      
+          <span class="center">{{ page.series }} • Chapter {{ page.chapter }}</span>
+      
+          {% if next_url %}
+            <a class="next" href="{{ next_url | relative_url }}">Chapter {{ page.chapter | plus: 1 }}: {{ next_title }}</a>
+          {% else %}
+            <span></span>
+          {% endif %}
+        </nav>
       {% endif %}
     </main>
 
