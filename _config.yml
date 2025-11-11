@@ -15,4 +15,18 @@ defaults:
 collections:
   series:
     output: true
-    permalink: /:collection/:name/
+
+defaults:
+  # AFM series pages → /afm-series/…
+  - scope:
+      type: series
+      path: "_series/afm-series"
+    values:
+      permalink: "/afm-series/:basename/"
+
+  # Add new ones as you go:
+  # - scope:
+  #     type: series
+  #     path: "_series/example-series"
+  #   values:
+  #     permalink: "/example-series/:basename/"
