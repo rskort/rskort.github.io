@@ -38,18 +38,17 @@ window.MathJax = {
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var series  = '{{ page.series | escape }}';
   var chapter = '{{ page.chapter }}';
-  var title   = '{{ page.title   | escape }}';
+  var title   = '{{ page.title | escape }}';
 
-  if (series && chapter) {
-    // Find the displayed H1 used by common Jekyll themes
+  if (chapter && title) {
+    // Find the first <h1> that Jekyll themes usually generate
     var h1 = document.querySelector('main h1, article h1, .post-title, h1');
     if (h1 && !/Chapter\s+\d+:/.test(h1.textContent)) {
       h1.textContent = 'Chapter ' + chapter + ': ' + title;
     }
 
-    // Keep metadata consistent without changing front matter
+    // Update browser tab title and meta tags for consistency
     var full = 'Chapter ' + chapter + ': ' + title;
     var siteTitle = '{{ site.title | default: site.name | escape }}';
     if (siteTitle) document.title = full + ' | ' + siteTitle;
@@ -62,4 +61,5 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
+
 
