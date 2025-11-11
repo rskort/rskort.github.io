@@ -1,9 +1,0 @@
-{% comment %}
-Build the visible H1 without changing page.title.
-If a page has `chapter` in front matter, show "Chapter X: Title".
-{% endcomment %}
-{% if page.chapter %}
-  Chapter {{ page.chapter }}: {{ page.title }}
-{% else %}
-  {{ page.title }}
-{% endif %}
