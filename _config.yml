@@ -5,18 +5,17 @@ markdown: kramdown
 kramdown:
   input: GFM
 
+collections:
+  series:
+    output: true
+
 # Every Markdown file uses the page layout by default
 defaults:
   - scope:
       path: ""
     values:
       layout: "page"
-
-collections:
-  series:
-    output: true
-
-defaults:
+      
   # AFM series pages → /afm-series/…
   - scope:
       type: series
