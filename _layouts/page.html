@@ -1,7 +1,204 @@
-<h1>
-  {% if page.chapter %}
-    Chapter {{ page.chapter }}: {{ page.title }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {% assign has_chapter = page.chapter %}
+  {% if has_chapter %}
+    {% capture display_title %}Chapter {{ page.chapter }}: {{ page.title | escape }}{% endcapture %}
   {% else %}
-    {{ page.title }}
+    {% assign display_title = page.title | escape %}
   {% endif %}
-</h1>
+
+  <title>{{ display_title }} | {{ site.title | default: site.name }}</title>
+  <meta property="og:title" content="{{ display_title }}">
+  <meta name="twitter:title" content="{{ display_title }}">
+  {% if page.description %}
+    <meta name="description" content="{{ page.description | escape }}">
+    <meta property="og:description" content="{{ page.description | escape }}">
+    <meta name="twitter:description" content="{{ page.description | escape }}">
+  {% endif %}
+  {% if page.image %}
+    <meta property="og:image" content="{{ page.image | absolute_url }}">
+    <meta name="twitter:image" content="{{ page.image | absolute_url }}">
+  {% endif %}
+
+  <!-- MathJax config and loader -->
+  <script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['$$', '$$']],
+      tags: 'ams',
+      packages: {'[+]': ['mhchem']},
+      macros: {
+        dd: '\\,\\mathrm{d}',
+        vb: ['\\left\\langle #1 \\right\\rangle', 1]
+      }
+    },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Minimal one file CSS -->
+  <style>
+    :root {
+      --text: #1f2328;
+      --muted: #6a737d;
+      --border: #e1e4e8;
+      --link: #0366d6;
+      --bg: #ffffff;
+      --maxw: 860px;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji, sans-serif;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    header.page-header {
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+    header.page-header h1 {
+      margin: 0;
+      font-size: clamp(1.75rem, 2.2vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    header.page-header .meta {
+      margin-top: 0.25rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    main.page-content {
+      margin-top: 1rem;
+    }
+    main.page-content h2 { margin-top: 1.5rem; }
+    main.page-content img { max-width: 100%; height: auto; }
+    pre, code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace;
+      font-size: 0.95rem;
+    }
+    pre {
+      background: #f6f8fa;
+      border: 1px solid var(--border);
+      padding: 0.9rem 1rem;
+      overflow: auto;
+      border-radius: 6px;
+    }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Bottom chapter navigation */
+    .chapter-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-weight: 600;
+    }
+    .chapter-nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--link);
+      white-space: nowrap;
+    }
+    .chapter-nav .spacer { flex: 1; }
+    .chapter-nav .prev::before { content: "←"; }
+    .chapter-nav .next::after { content: "→"; }
+    footer.site-footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="page-header">
+      <h1>{{ display_title }}</h1>
+      {% if page.series %}
+        <div class="meta">Series: {{ page.series }}</div>
+      {% endif %}
+    </header>
+
+    <main class="page-content">
+      {{ content }}
+
+      {% comment %}
+      Bottom chapter navigation
+      Works when pages share a series and have numeric chapter
+      {% endcomment %}
+      {% if page.series and page.chapter %}
+        {% assign siblings = site.pages
+          | where: "series", page.series
+          | where_exp: "p", "p.chapter"
+          | sort: "chapter" %}
+
+        {% assign prev_page = nil %}
+        {% assign next_page = nil %}
+        {% assign last = nil %}
+        {% assign capture_next = false %}
+
+        {% for p in siblings %}
+          {% if capture_next and next_page == nil %}
+            {% assign next_page = p %}
+            {% assign capture_next = false %}
+          {% endif %}
+          {% if p.url == page.url %}
+            {% assign prev_page = last %}
+            {% assign capture_next = true %}
+          {% endif %}
+          {% assign last = p %}
+        {% endfor %}
+
+        {% if prev_page or next_page %}
+          <nav class="chapter-nav" aria-label="Chapter navigation">
+            {% if prev_page %}
+              <a class="prev" href="{{ prev_page.url | relative_url }}">
+                Chapter {{ prev_page.chapter }}: {{ prev_page.title }}
+              </a>
+            {% else %}
+              <span class="spacer"></span>
+            {% endif %}
+
+            {% if next_page %}
+              <a class="next" href="{{ next_page.url | relative_url }}">
+                Chapter {{ next_page.chapter }}: {{ next_page.title }}
+              </a>
+            {% else %}
+              <span class="spacer"></span>
+            {% endif %}
+          </nav>
+        {% endif %}
+      {% endif %}
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        © {{ site.time | date: "%Y" }} {{ site.title | default: site.name }}
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
