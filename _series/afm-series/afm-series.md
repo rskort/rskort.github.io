@@ -27,7 +27,7 @@ From understanding tip–sample interactions to reconstructing force profiles an
 
 <ol>
 {% for c in items %}
-  <li><a href="{{ c.url | relative_url }}">Chapter {{ c.chapter }}: {{ c.title }}</a></li>
+  <li><a href="{{ c.url | relative_url }}">{{ c.title }}</a></li>
 {% endfor %}
 </ol>
 
