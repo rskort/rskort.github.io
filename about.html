@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>About - R.S. Kort</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title"><a href="./">My Site</a></h1>
+      <nav class="site-nav">
+        <a href="./">Home</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <div class="container">
+      <section>
+        <h2>About</h2>
+        <p>I am a PhD Candidate at Leiden University studying computational chemistry.</p>
+        <p>My main interests and focuses are:</p>
+        <ul>
+          <li>Electrical Double Layer (EDL)</li>
+          <li>Molecular Dynamics (MD) Simulations</li>
+          <li>Density Functional Theory (DFT)</li>
+          <li>Atomic Force Microscopy (AFM)</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Rick S. Kort</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
