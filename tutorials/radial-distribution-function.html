@@ -1,0 +1,16 @@
+---
+layout: default
+title: How to compute the radial distribution function?
+---
+
+<section>
+  <h2>How to compute the radial distribution function?</h2>
+  <p>The radial distribution function (RDF) describes how particle density varies as a function of distance from a reference particle. Here is a version of the computation I usually follow:</p>
+  <ol>
+    <li>Collect all particle coordinates and choose a shell thickness <code>Δr</code> that balances resolution and statistics.</li>
+    <li>For each particle, count how many neighbors fall between <code>r</code> and <code>r + Δr</code>. Accumulate counts for every shell radius.</li>
+    <li>Convert counts to density by dividing by the shell volume <code>4πr²Δr</code> (in 3D) and normalize by the average particle density.</li>
+    <li>Average the resulting histogram over all reference particles to smooth the signal.</li>
+  </ol>
+  <p>Plot the RDF and look for peaks that reflect preferred neighbor distances.</p>
+</section>
