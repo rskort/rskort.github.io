@@ -1,53 +1,22 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Contact</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header class="site-header">
-    <div class="container">
-      <h1 class="site-title"><a href="./">R.S. Kort</a></h1>
-      <nav class="site-nav">
-        <a href="./">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
+---
+layout: default
+title: Contact
+---
 
-  <main class="site-main">
-    <div class="container">
-      <section>
-        <h2>Contact</h2>
-        <p>You can use the form below to send a message.</p>
+<section>
+  <h2>Contact</h2>
+  <p>You can use the form below to send a message.</p>
 
-        <form action="https://formspree.io/f/your_form_id" method="POST" class="contact_form">
-          <label for="name">Name</label>
-          <input id="name" name="name" type="text" required>
+  <form action="https://formspree.io/f/your_form_id" method="POST" class="contact_form">
+    <label for="name">Name</label>
+    <input id="name" name="name" type="text" required>
 
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" required>
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" required>
 
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="6" required></textarea>
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="6" required></textarea>
 
-          <button type="submit">Send</button>
-        </form>
-      </section>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; <span id="year"></span> R.S. Kort</p>
-    </div>
-  </footer>
-
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+    <button type="submit">Send</button>
+  </form>
+</section>
