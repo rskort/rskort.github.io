@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  line-height: 1.6;
+  background: #FFFFFF;
+  color: #000000;
+}
+
+.site-footer {
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  background: #f9fafb;
+}
