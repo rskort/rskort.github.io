@@ -1,6 +1,6 @@
 # rskort.github.io
 
-Personal academic site of **Rick Kort**, Leiden Institute of Chemistry.  
+Personal academic site of **Rick S. Kort**, Leiden Institute of Chemistry.  
 Short explainers, figures, and small research notes on computational electrochemistry, molecular simulations, and AFM.
 
 - Public site: https://rskort.github.io
