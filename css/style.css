@@ -109,3 +109,38 @@ li {
   text-align: center;
   font-size: 0.9rem;
 }
+
+/* Contact form layout */
+.contact_form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.contact_form label {
+  font-weight: 600;
+}
+
+.contact_form input,
+.contact_form textarea {
+  width: 100 percent;
+  padding: 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.contact_form button {
+  padding: 0.7rem 1.4rem;
+  font-size: 1rem;
+  background: #1a73e8;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.contact_form button:hover {
+  background: #155ac4;
+}
