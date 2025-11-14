@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rskort.github.io/sitemap.xml

@@ -16,3 +16,12 @@ collections:
   tutorials:
     output: true
     permalink: /tutorials/:name/
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+author:
+  name: "Rick Kort"
+  url: "https://rskort.github.io/about.html"
+google_site_verification: "googlef62d558329548b46.html"
