@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
-gem "jekyll"
+# Use the same Jekyll + plugins as GitHub Pages
 gem "github-pages", group: :jekyll_plugins
-gem "webrick"   # needed for Ruby 3 locally
+
+# Needed only for local `bundle exec jekyll serve` on Ruby 3
+gem "webrick"

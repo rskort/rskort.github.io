@@ -1,9 +1,9 @@
   <meta charset="utf-8">
-  <title>{{ page.title }}</title>
+  <title>{{ page.title }} | {{ site.title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ page.description | default: site.description }}">
-  <meta property="og:title" content="R.S. Kort">
-  <meta property="og:description" content="Research highlights, tutorials, and opportunities to collaborate with Rick Kort.">
+  <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
+  <meta property="og:description" content="{{ page.description | default: site.description }}">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
