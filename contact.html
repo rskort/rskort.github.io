@@ -1,22 +1,24 @@
 ---
 layout: default
 title: Contact
-custom_css: <link rel="stylesheet" href="/css/contact.css">
+styles:
+  - /css/contact.css
 ---
-<head><link rel="stylesheet" href="/css/main.css"></head>
 <section>
-  <h2>Contact</h2>
-  <p>You can use the form below to send a message.</p>
+  <h1>Contact Form</h1>
+  <p>For questions or comments you can email me at <a href="mailto:r.s.kort@lic.leidenuniv.nl">r.s.kort@lic.leidenuniv.nl</a>
+     or fill out the form below. <br>
+     &emsp;&#10132;&ensp;<small>Please add your <em>email address</em> so I can get back to you.</small></p>
 
   <form action="https://formspree.io/f/meovorek" method="POST" class="contact_form">
     <label for="name">Name</label>
-    <input id="name" name="name" type="text" required>
+    <input id="name" name="name" type="text" placeholder="Your full name" required>
 
     <label for="email">Email</label>
-    <input id="email" name="email" type="email" required>
+    <input id="email" name="email" type="email" placeholder="your.email@example.com" required>
 
     <label for="message">Message</label>
-    <textarea id="message" name="message" rows="6" required></textarea>
+    <textarea id="message" name="message" rows="6" placeholder="Please share your inquiry or message here..." required></textarea>
 
     <button type="submit">Send</button>
   </form>

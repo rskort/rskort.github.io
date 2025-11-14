@@ -1,0 +1,112 @@
+/* Layout and typography for the RDF section */
+section ul,
+section ol {
+  margin: 0.5rem 0 0.75rem 1.25rem;
+  padding-left: 1rem;
+}
+
+section li {
+  margin-bottom: 0.35rem;
+}
+
+/* Inline code and math text alignment */
+section code {
+  font-family: "JetBrains Mono", "Fira Code", SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9rem;
+  padding: 0.05rem 0.25rem;
+  border-radius: 0.2rem;
+  background-color: #f3f4f6;
+}
+
+/* If MathJax or KaTeX is used, keep formulas visually aligned and readable */
+mjx-container {
+  font-size: 1.02em;
+  line-height: 1.5;
+}
+
+/* Code block styling for the pseudocode */
+section pre {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background-color: #0b1120;
+  color: #e5e7eb;
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+section pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Interactive test blocks */
+.interactive-test {
+  margin: 1.25rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 0.6rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.interactive-test p:first-of-type {
+  margin-top: 0;
+}
+
+/* Quiz form layout */
+.rdf-quiz {
+  margin-top: 0.5rem;
+}
+
+.rdf-quiz label {
+  display: block;
+  margin-bottom: 0.4rem;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.rdf-quiz input[type="radio"] {
+  margin-right: 0.4rem;
+}
+
+/* Quiz button styling */
+.rdf-quiz-submit {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #1d4ed8;
+  background-color: #1d4ed8;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 120ms ease, box-shadow 120ms ease,
+    transform 80ms ease;
+}
+
+.rdf-quiz-submit:hover,
+.rdf-quiz-submit:focus-visible {
+  background-color: #1e40af;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+  transform: translateY(-1px);
+}
+
+.rdf-quiz-submit:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Feedback text under the quiz */
+.rdf-quiz-feedback {
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #374151;
+}
+
+/* Lists inside explanation blocks */
+section ul li strong,
+section ol li strong {
+  font-weight: 600;
+}

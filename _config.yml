@@ -1,0 +1,18 @@
+title: "R.S. Kort"
+description: "Rick Kort’s personal site"
+url: "https://rskort.github.io"
+baseurl: ""  # important for username.github.io sites
+
+exclude:
+  - backup
+
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  math_engine: mathjax
+
+collections:
+  tutorials:
+    output: true
+    permalink: /tutorials/:name/

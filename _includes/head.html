@@ -1,0 +1,15 @@
+  <meta charset="utf-8">
+  <title>{{ page.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Rick Kort's personal website covering research updates, tutorials, and contact information.">
+  <meta property="og:title" content="R.S. Kort">
+  <meta property="og:description" content="Research highlights, tutorials, and opportunities to collaborate with Rick Kort.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="preload" href="/css/main.css" as="style">
+  <link rel="stylesheet" href="/css/main.css">
+  {% if page.styles %}
+    {% for style in page.styles %}
+      <link rel="stylesheet" href="{{ style }}">
+    {% endfor %}
+  {% endif %}
