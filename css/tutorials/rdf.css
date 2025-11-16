@@ -13,7 +13,7 @@ section li {
 section code {
   font-family: "JetBrains Mono", "Fira Code", SFMono-Regular, Menlo, Monaco,
     Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.9rem;
+  font-size: var(--font-size-8);
   padding: 0.05rem 0.25rem;
   border-radius: 0.2rem;
   background-color: #f3f4f6;
@@ -21,7 +21,7 @@ section code {
 
 /* If MathJax or KaTeX is used, keep formulas visually aligned and readable */
 mjx-container {
-  font-size: 1.02em;
+  font-size: var(--font-size-8);
   line-height: 1.5;
 }
 
@@ -33,7 +33,7 @@ section pre {
   background-color: #0b1120;
   color: #e5e7eb;
   overflow-x: auto;
-  font-size: 0.9rem;
+  font-size: var(--font-size-8);
 }
 
 section pre code {
@@ -55,58 +55,134 @@ section pre code {
 }
 
 /* Quiz form layout */
-.rdf-quiz {
+.quiz {
   margin-top: 0.5rem;
 }
 
-.rdf-quiz label {
+.quiz .hidden {
+  display: none;
+}
+
+.quiz label {
   display: block;
   margin-bottom: 0.4rem;
   cursor: pointer;
   line-height: 1.5;
 }
 
-.rdf-quiz input[type="radio"] {
+.quiz input[type="radio"] {
   margin-right: 0.4rem;
 }
 
 /* Quiz button styling */
-.rdf-quiz-submit {
-  margin-top: 0.5rem;
+.quiz-submit {
+  margin-top: 1rem;
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
   border: 1px solid #1d4ed8;
   background-color: #1d4ed8;
   color: #ffffff;
-  font-size: 0.9rem;
+  font-size: var(--font-size-8);
   font-weight: 500;
   cursor: pointer;
   transition: background-color 120ms ease, box-shadow 120ms ease,
     transform 80ms ease;
 }
 
-.rdf-quiz-submit:hover,
-.rdf-quiz-submit:focus-visible {
+.quiz-submit:hover,
+.quiz-submit:focus-visible {
   background-color: #1e40af;
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
   transform: translateY(-1px);
 }
 
-.rdf-quiz-submit:active {
+.quiz-submit:active {
   transform: translateY(0);
   box-shadow: none;
 }
 
 /* Feedback text under the quiz */
-.rdf-quiz-feedback {
+.quiz-feedback {
   margin-top: 0.6rem;
-  font-size: 0.95rem;
+  margin-left: 2rem;
+  font-size: var(--font-size-4);
   font-style: italic;
   color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.quiz-feedback p {
+  margin-bottom: 0;
 }
 
 /* Lists inside explanation blocks */
 section ul li strong,
 section ol li strong {
   font-weight: 600;
+}
+
+img.default {
+  display: block;
+  margin: 1.5rem auto;
+  max-width: 480px;
+  height: auto;
+}
+
+img.wide {
+  width: 60%;
+  max-width: 1200px;
+  display: block;
+  margin: 1rem auto;
+}
+
+.site-header.img {
+  margin: 0;
+}
+
+/* Tables */
+/* Container so wide tables scroll on small screens */
+table {
+  width: 90%;
+  border-collapse: collapse;
+  margin: 3rem auto;
+  font-size: var(--font-size-4);
+  border: 1px solid #ddd;
+}
+
+/* Header */
+table thead th {
+  background: #f6f7f9;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 2px solid #ccc;
+}
+
+/* Cells */
+table td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid #eee;
+}
+
+/* Subtle row striping */
+table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Rounded corners (visually, through overflow) */
+table {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+table.table-compact {
+  width: auto;
+}
+
+table.table-compact th,
+table.table-compact td {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }

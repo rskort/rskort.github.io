@@ -11,11 +11,15 @@ markdown: kramdown
 kramdown:
   input: GFM
   math_engine: mathjax
+  parse_block_html: true
 
 collections:
   tutorials:
     output: true
     permalink: /tutorials/:name/
+  games:
+    output: true
+    permalink: /games/:name/
 
 plugins:
   - jekyll-sitemap

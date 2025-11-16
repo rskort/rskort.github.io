@@ -1,3 +1,17 @@
+/* Common parameter variables */
+:root {
+  --font-size-0: 2.000rem;
+  --font-size-1: 1.750rem;
+  --font-size-2: 1.625rem;
+  --font-size-3: 1.500rem;
+  --font-size-4: 1.375rem;
+  --font-size-5: 1.250rem;
+  --font-size-6: 1.125rem;
+  --font-size-7: 1.000rem;
+  --font-size-8: 0.875rem;
+}
+
+
 /* Global reset */
 * {
   box-sizing: border-box;
@@ -9,16 +23,19 @@
 body {
   font-family: system-ui, Arial, sans-serif;
   line-height: 1.7;
-  background: #ffffff;
+  background: #e5e7eb;
   color: #111111;
   padding: 0;
-  font-size: 1.5rem;
+  font-size: var(--font-size-3);
 }
 
 /* Generic container for centered content */
 .container {
   width: min(1200px, 100%);
-  margin: 0 auto; 
+  margin: 0rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: #FFFFFF;
 }
 
 /* Links */
@@ -43,17 +60,11 @@ header > div,
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
+  background-color: #f3f4f6;
 }
 
-header h1,
-.site-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-}
-
-header h1 a,
-.site-title a {
-  color: #111111;
+.site-header.img {
+  margin: 0 !important;
 }
 
 /* Navigation */
@@ -80,14 +91,14 @@ main div > section {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: var(--font-size-0);
   margin-bottom: 0.75rem;
   font-weight: 600;
   line-height: 1.3;
 }
 
 h2 {
-  font-size: 1.75rem;
+  font-size: var(--font-size-1);
   margin-top: 1.75rem;
   margin-bottom: 0.6rem;
   font-weight: 600;
@@ -117,6 +128,6 @@ li {
 .site-footer p {
   color: #6b7280;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: var(--font-size-8);
 }
 

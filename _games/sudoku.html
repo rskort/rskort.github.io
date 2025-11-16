@@ -1,0 +1,1216 @@
+---
+layout: default
+title: Sudoku  - WORK IN PROGRESS
+tags: [game, puzzle, sudoku]
+description: "Play Sudoku online with features like streaks, medals, and puzzle sharing."
+styles:
+  - /css/games/sudoku.css
+---
+
+<body>
+    <div class="app-shell">
+        <header class="app-header card">
+            <div class="brand">
+                <!-- <p class="brand__eyebrow">Stamjer Games</p> -->
+                <h1>Sudoku</h1>
+                <p class="brand__subtitle">Build streaks, chase medals, and share puzzle codes-all without leaving the browser.</p>
+            </div>
+            <div class="header-controls">
+                <div class="stat">
+                    <span>Timer</span>
+                    <strong id="timer-display">00:00</strong>
+                </div>
+                <div class="stat">
+                    <span>Mistakes</span>
+                    <strong id="mistake-count">0</strong>
+                </div>
+                <div class="stat">
+                    <span>Daily</span>
+                    <strong id="daily-status">Not played</strong>
+                </div>
+                <div class="header-buttons">
+                    <button id="open-stats-btn" class="button button--ghost" type="button">Stats</button>
+                    <button id="open-settings-btn" class="button button--ghost" type="button">Settings</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="layout">
+            <section class="board-panel card">
+                <div class="control-row control-row--primary">
+                    <label class="field">
+                        <span>Difficulty</span>
+                        <select id="difficulty-select" aria-label="Select difficulty">
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                            <option value="expert">Expert</option>
+                        </select>
+                    </label>
+                    <div class="primary-actions">
+                        <button id="daily-puzzle-btn" class="button" type="button">Daily puzzle</button>
+                        <button id="new-puzzle-btn" class="button button--primary" type="button">New puzzle</button>
+                        <button id="restart-puzzle-btn" class="button" type="button">Restart</button>
+                    </div>
+                </div>
+
+                <div class="control-row control-row--secondary">
+                    <div class="toggle-group">
+                        <button id="notes-toggle" class="pill-toggle" type="button" aria-pressed="false">Notes (N)</button>
+                        <button id="highlight-toggle" class="pill-toggle is-active" type="button" aria-pressed="true">Highlight (H)</button>
+                        <label class="switch">
+                            <input id="mistake-toggle" type="checkbox" checked>
+                            <span>Auto mistake check</span>
+                        </label>
+                        <button id="hint-btn" class="pill-toggle" type="button">Hint</button>
+                    </div>
+                    <div class="history-group">
+                        <button id="undo-btn" class="button button--ghost" type="button" disabled>Undo</button>
+                        <button id="redo-btn" class="button button--ghost" type="button" disabled>Redo</button>
+                        <button id="check-btn" class="button button--ghost" type="button">Check</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-meta">
+                    <div>
+                        <span>Current puzzle</span>
+                        <strong id="puzzle-code">---</strong>
+                        <span class="meta-tag" id="puzzle-difficulty-tag">Medium</span>
+                    </div>
+                    <form id="code-form" class="code-form">
+                        <label>
+                            <span>Load by code</span>
+                            <div class="code-field">
+                                <input id="code-input" type="text" placeholder="e.g. 24A" aria-label="Puzzle code">
+                                <button type="submit" class="button button--ghost">Load</button>
+                            </div>
+                        </label>
+                    </form>
+                </div>
+
+                <div class="board-wrapper" aria-live="polite">
+                    <table id="sudoku-board" class="board" role="grid" aria-label="Sudoku grid"></table>
+                </div>
+                <div class="status-banner" id="status-text">Loading puzzle...</div>
+
+                <div class="mobile-keypad" id="mobile-keypad" aria-label="Number keypad">
+                    <button data-keypad="1">1</button>
+                    <button data-keypad="2">2</button>
+                    <button data-keypad="3">3</button>
+                    <button data-keypad="4">4</button>
+                    <button data-keypad="5">5</button>
+                    <button data-keypad="6">6</button>
+                    <button data-keypad="7">7</button>
+                    <button data-keypad="8">8</button>
+                    <button data-keypad="9">9</button>
+                    <button data-keypad="clear" class="keypad-clear">Clear</button>
+                </div>
+            </section>
+            <aside class="info-panel">
+                <div class="card info-card">
+                    <h2>Motivation deck</h2>
+                    <ul>
+                        <li>Track completions, best times, and averages per difficulty-no login needed.</li>
+                        <li>Each puzzle receives a shareable code. Replay from the archive or send it to a friend.</li>
+                        <li>Daily puzzle mode locks to the calendar so streaks feel meaningful.</li>
+                    </ul>
+                </div>
+
+                <div class="card info-card">
+                    <h3>Keyboard shortcuts</h3>
+                    <ul class="shortcuts">
+                        <li><strong>1-9</strong> place digits / <strong>Delete</strong> clears</li>
+                        <li><strong>N</strong> toggle notes / <strong>H</strong> toggle highlight</li>
+                        <li><strong>Arrow keys</strong> move selection quickly</li>
+                    </ul>
+                    <p class="info-card__hint">Mobile devices rely on the dedicated keypad for fast entry.</p>
+                </div>
+
+                <div class="card info-card">
+                    <h3>Recent puzzles</h3>
+                    <ul id="recent-list" class="recent-list"></ul>
+                    <button id="open-archive-btn" class="button button--ghost" type="button">Open archive</button>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <div class="modal" id="summary-modal" aria-hidden="true">
+        <div class="modal__content">
+            <button class="modal__close" data-close-modal type="button" aria-label="Close summary">&times;</button>
+            <h2>Puzzle complete</h2>
+            <div class="summary-stats">
+                <div>
+                    <span>Time</span>
+                    <strong id="summary-time">00:00</strong>
+                </div>
+                <div>
+                    <span>Mistakes</span>
+                    <strong id="summary-mistakes">0</strong>
+                </div>
+                <div>
+                    <span>Difficulty</span>
+                    <strong id="summary-difficulty">Medium</strong>
+                </div>
+            </div>
+            <div class="summary-rating" id="summary-rating" aria-label="Performance rating"></div>
+            <div class="modal__actions">
+                <button id="summary-new-btn" class="button button--primary" type="button">New puzzle</button>
+                <button id="summary-retry-btn" class="button" type="button">Retry</button>
+                <button id="summary-stats-btn" class="button button--ghost" type="button">Go to stats</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="stats-modal" aria-hidden="true">
+        <div class="modal__content modal__content--wide">
+            <button class="modal__close" data-close-modal type="button" aria-label="Close stats">&times;</button>
+            <h2>Player progress</h2>
+            <div class="stats-grid" id="stats-grid"></div>
+            <section class="archive-section">
+                <header>
+                    <h3>Archive</h3>
+                    <p>Replay any recent puzzle or share the code.</p>
+                </header>
+                <ul id="archive-list" class="archive-list"></ul>
+            </section>
+        </div>
+    </div>
+
+    <div class="modal" id="settings-modal" aria-hidden="true">
+        <div class="modal__content">
+            <button class="modal__close" data-close-modal type="button" aria-label="Close settings">&times;</button>
+            <h2>Settings</h2>
+            <form id="settings-form" class="settings-form">
+                <label class="settings-row">
+                    <span>Dark mode</span>
+                    <input type="checkbox" name="darkMode">
+                </label>
+                <label class="settings-row">
+                    <span>Instant mistake checking</span>
+                    <input type="checkbox" name="autoMistakes">
+                </label>
+                <label class="settings-row">
+                    <span>Highlight identical numbers</span>
+                    <input type="checkbox" name="highlight">
+                </label>
+                <label class="settings-row">
+                    <span>Visual effects</span>
+                    <input type="checkbox" name="effects">
+                </label>
+                <label class="settings-row">
+                    <span>Enable sound (future use)</span>
+                    <input type="checkbox" name="sound">
+                </label>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+        (() => {
+            const BOARD_SIZE = 9;
+            const MAX_ARCHIVE = 15;
+            const PUZZLE_SOURCE = 'sudoku_puzzles.json';
+            const STORAGE_KEYS = {
+                stats: 'sudokuStats',
+                archive: 'sudokuArchive',
+                settings: 'sudokuSettings',
+                daily: 'sudokuDaily',
+            };
+
+            const defaultStats = () => ({
+                totalCompleted: 0,
+                difficulties: {
+                    easy: { completed: 0, totalTime: 0, best: null },
+                    medium: { completed: 0, totalTime: 0, best: null },
+                    hard: { completed: 0, totalTime: 0, best: null },
+                    expert: { completed: 0, totalTime: 0, best: null },
+                },
+            });
+
+            const defaultSettings = () => ({
+                darkMode: false,
+                autoMistakes: true,
+                highlight: true,
+                effects: true,
+                sound: false,
+            });
+
+            const state = {
+                puzzle: null,
+                solution: null,
+                difficulty: 'medium',
+                puzzleId: null,
+                board: [],
+                givens: [],
+                notes: [],
+                cellRefs: [],
+                selected: null,
+                notesMode: false,
+                highlightMode: true,
+                mistakesEnabled: true,
+                revealMistakes: false,
+                timerSeconds: 0,
+                timerId: null,
+                undoStack: [],
+                redoStack: [],
+                loading: false,
+                puzzleLibrary: [],
+                puzzlesByDifficulty: {},
+                puzzleMap: new Map(),
+                isDaily: false,
+                hintCell: null,
+            };
+
+            const dataStore = {
+                stats: loadFromStorage(STORAGE_KEYS.stats, defaultStats()),
+                archive: loadFromStorage(STORAGE_KEYS.archive, []),
+                settings: loadFromStorage(STORAGE_KEYS.settings, defaultSettings()),
+                daily: loadFromStorage(STORAGE_KEYS.daily, {}),
+            };
+
+            const elements = {
+                board: document.getElementById('sudoku-board'),
+                timer: document.getElementById('timer-display'),
+                mistakes: document.getElementById('mistake-count'),
+                status: document.getElementById('status-text'),
+                notesToggle: document.getElementById('notes-toggle'),
+                highlightToggle: document.getElementById('highlight-toggle'),
+                mistakeToggle: document.getElementById('mistake-toggle'),
+                newPuzzle: document.getElementById('new-puzzle-btn'),
+                restart: document.getElementById('restart-puzzle-btn'),
+                undo: document.getElementById('undo-btn'),
+                redo: document.getElementById('redo-btn'),
+                check: document.getElementById('check-btn'),
+                difficultySelect: document.getElementById('difficulty-select'),
+                codeForm: document.getElementById('code-form'),
+                codeInput: document.getElementById('code-input'),
+                puzzleCode: document.getElementById('puzzle-code'),
+                puzzleDifficultyTag: document.getElementById('puzzle-difficulty-tag'),
+                statusToast: document.getElementById('toast'),
+                dailyBtn: document.getElementById('daily-puzzle-btn'),
+                dailyStatus: document.getElementById('daily-status'),
+                hintBtn: document.getElementById('hint-btn'),
+                recentList: document.getElementById('recent-list'),
+                archiveBtn: document.getElementById('open-archive-btn'),
+                mobileKeypad: document.getElementById('mobile-keypad'),
+                summaryModal: document.getElementById('summary-modal'),
+                summaryTime: document.getElementById('summary-time'),
+                summaryMistakes: document.getElementById('summary-mistakes'),
+                summaryDifficulty: document.getElementById('summary-difficulty'),
+                summaryRating: document.getElementById('summary-rating'),
+                summaryNew: document.getElementById('summary-new-btn'),
+                summaryRetry: document.getElementById('summary-retry-btn'),
+                summaryStats: document.getElementById('summary-stats-btn'),
+                statsModal: document.getElementById('stats-modal'),
+                statsGrid: document.getElementById('stats-grid'),
+                archiveList: document.getElementById('archive-list'),
+                statsBtn: document.getElementById('open-stats-btn'),
+                settingsModal: document.getElementById('settings-modal'),
+                settingsBtn: document.getElementById('open-settings-btn'),
+                settingsForm: document.getElementById('settings-form'),
+                keypadButtons: document.querySelectorAll('[data-keypad]'),
+            };
+
+            init();
+
+            async function init() {
+                await loadPuzzleLibrary();
+                applySettings();
+                attachEventListeners();
+                loadInitialPuzzle();
+                renderStatsView();
+                renderArchivePreview();
+                updateDailyStatus();
+            }
+            function attachEventListeners() {
+                elements.newPuzzle.addEventListener('click', () => loadPuzzle());
+                elements.restart.addEventListener('click', restartPuzzle);
+                elements.difficultySelect.addEventListener('change', () => loadPuzzle(elements.difficultySelect.value));
+                elements.notesToggle.addEventListener('click', toggleNotesMode);
+                elements.highlightToggle.addEventListener('click', toggleHighlightMode);
+                elements.mistakeToggle.addEventListener('change', toggleMistakeChecking);
+                elements.undo.addEventListener('click', undo);
+                elements.redo.addEventListener('click', redo);
+                elements.check.addEventListener('click', handleCheck);
+                document.addEventListener('keydown', handleGlobalKeydown);
+                elements.codeForm.addEventListener('submit', handleCodeSubmit);
+                elements.dailyBtn.addEventListener('click', () => loadDailyPuzzle());
+                elements.hintBtn.addEventListener('click', showHint);
+                elements.archiveBtn.addEventListener('click', () => openModal(elements.statsModal));
+                elements.statsBtn.addEventListener('click', () => openModal(elements.statsModal));
+                elements.settingsBtn.addEventListener('click', () => openModal(elements.settingsModal));
+                elements.summaryNew.addEventListener('click', () => {
+                    closeModal(elements.summaryModal);
+                    loadPuzzle();
+                });
+                elements.summaryRetry.addEventListener('click', () => {
+                    closeModal(elements.summaryModal);
+                    restartPuzzle();
+                });
+                elements.summaryStats.addEventListener('click', () => {
+                    closeModal(elements.summaryModal);
+                    openModal(elements.statsModal);
+                });
+                elements.settingsForm.addEventListener('change', handleSettingsChange);
+                document.querySelectorAll('[data-close-modal]').forEach((btn) => {
+                    btn.addEventListener('click', (event) => {
+                        const modal = event.target.closest('.modal');
+                        closeModal(modal);
+                    });
+                });
+                elements.keypadButtons.forEach((btn) => {
+                    btn.addEventListener('click', () => handleKeypadInput(btn.dataset.keypad));
+                });
+            }
+
+            function loadInitialPuzzle() {
+                const difficulty = elements.difficultySelect.value;
+                loadPuzzle(difficulty);
+            }
+
+            async function loadPuzzleLibrary() {
+                try {
+                    const response = await fetch(PUZZLE_SOURCE, { cache: 'no-store' });
+                    if (!response.ok) {
+                        throw new Error('Unable to load puzzle set.');
+                    }
+                    const data = await response.json();
+                    state.puzzleLibrary = data.map((puzzle, index) => {
+                        const id = String(puzzle.id ?? index + 1);
+                        return { ...puzzle, id };
+                    });
+                    state.puzzlesByDifficulty = state.puzzleLibrary.reduce((acc, puzzle) => {
+                        const level = (puzzle.difficulty || 'custom').toLowerCase();
+                        if (!acc[level]) {
+                            acc[level] = [];
+                        }
+                        acc[level].push(puzzle);
+                        return acc;
+                    }, {});
+                    state.puzzleLibrary.forEach((puzzle) => {
+                        state.puzzleMap.set(String(puzzle.id), puzzle);
+                    });
+                } catch (error) {
+                    console.error(error);
+                    setStatus('Could not load puzzle list. Please refresh.');
+                }
+            }
+
+            function loadPuzzle(difficulty = elements.difficultySelect.value, puzzleOverride) {
+                const puzzleData = puzzleOverride || pickPuzzle(difficulty);
+                if (!puzzleData) {
+                    setStatus('No puzzles available for this difficulty.');
+                    return;
+                }
+                state.isDaily = Boolean(puzzleOverride?.daily);
+                preparePuzzle(puzzleData);
+                buildGrid();
+                resetTimer();
+                startTimer();
+                updatePuzzleMeta();
+                pushArchiveEntry({ id: state.puzzleId, difficulty: state.difficulty, status: 'in-progress' });
+                setStatus(`${capitalize(state.difficulty)} puzzle ready. Good luck!`);
+            }
+
+            function pickPuzzle(difficulty) {
+                const pool = state.puzzlesByDifficulty[difficulty] || state.puzzleLibrary;
+                if (!pool || !pool.length) {
+                    return null;
+                }
+                const index = Math.floor(Math.random() * pool.length);
+                return pool[index];
+            }
+
+            function loadDailyPuzzle() {
+                if (!state.puzzleLibrary.length) {
+                    setStatus('Daily puzzle unavailable.');
+                    return;
+                }
+                const todayKey = getDateKey();
+                const hash = hashString(todayKey);
+                const index = hash % state.puzzleLibrary.length;
+                const puzzle = { ...state.puzzleLibrary[index], daily: todayKey };
+                elements.difficultySelect.value = puzzle.difficulty || 'medium';
+                loadPuzzle(puzzle.difficulty || 'medium', puzzle);
+                setStatus(`Daily puzzle for ${todayKey}`);
+            }
+
+            function preparePuzzle(puzzleData) {
+                state.puzzle = puzzleData.puzzle;
+                state.solution = puzzleData.solution;
+                state.difficulty = (puzzleData.difficulty || 'custom').toLowerCase();
+                state.puzzleId = puzzleData.id || String(Date.now());
+                state.board = puzzleData.puzzle.map((row) => row.map((value) => (value === 0 ? '' : String(value))));
+                state.givens = puzzleData.puzzle.map((row) => row.map((value) => value !== 0));
+                state.notes = Array.from({ length: BOARD_SIZE }, () =>
+                    Array.from({ length: BOARD_SIZE }, () => new Set())
+                );
+                state.cellRefs = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(null));
+                state.selected = null;
+                state.notesMode = false;
+                state.highlightMode = dataStore.settings.highlight;
+                state.mistakesEnabled = dataStore.settings.autoMistakes;
+                state.revealMistakes = false;
+                state.timerSeconds = 0;
+                state.undoStack = [];
+                state.redoStack = [];
+                elements.notesToggle.classList.remove('is-active');
+                elements.highlightToggle.classList.toggle('is-active', state.highlightMode);
+                elements.highlightToggle.setAttribute('aria-pressed', String(state.highlightMode));
+                elements.mistakeToggle.checked = state.mistakesEnabled;
+                elements.notesToggle.setAttribute('aria-pressed', 'false');
+                updateHistoryButtons();
+                updateMistakeDisplay(0);
+            }
+
+            function buildGrid() {
+                elements.board.innerHTML = '';
+                for (let row = 0; row < BOARD_SIZE; row += 1) {
+                    const rowElement = document.createElement('tr');
+                    for (let col = 0; col < BOARD_SIZE; col += 1) {
+                        const cell = document.createElement('td');
+                        cell.tabIndex = 0;
+                        cell.className = 'cell';
+                        cell.dataset.row = row;
+                        cell.dataset.col = col;
+                        if ((col + 1) % 3 === 0 && col !== BOARD_SIZE - 1) {
+                            cell.classList.add('cell--block-right');
+                        }
+                        if ((row + 1) % 3 === 0 && row !== BOARD_SIZE - 1) {
+                            cell.classList.add('cell--block-bottom');
+                        }
+                        if (state.givens[row][col]) {
+                            cell.classList.add('cell--given');
+                        }
+                        const valueEl = document.createElement('div');
+                        valueEl.className = 'cell__value';
+                        const notesEl = document.createElement('div');
+                        notesEl.className = 'cell__notes';
+                        cell.append(valueEl, notesEl);
+                        cell.addEventListener('click', () => selectCell(row, col));
+                        cell.addEventListener('touchstart', () => selectCell(row, col), { passive: true });
+                        cell.addEventListener('keydown', (event) => handleCellNavigation(event, row, col));
+                        state.cellRefs[row][col] = { el: cell, valueEl, notesEl };
+                        rowElement.appendChild(cell);
+                        updateCellDisplay(row, col);
+                    }
+                    elements.board.appendChild(rowElement);
+                }
+                applyHighlights();
+                updateMistakeHighlights();
+            }
+
+            function selectCell(row, col) {
+                state.selected = { row, col };
+                state.cellRefs[row][col].el.focus();
+                state.revealMistakes = false;
+                state.hintCell = null;
+                applyHighlights();
+            }
+
+            function handleCellNavigation(event, row, col) {
+                if (!event.key.startsWith('Arrow')) {
+                    return;
+                }
+                event.preventDefault();
+                const deltas = {
+                    ArrowUp: [-1, 0],
+                    ArrowDown: [1, 0],
+                    ArrowLeft: [0, -1],
+                    ArrowRight: [0, 1],
+                };
+                const [dr, dc] = deltas[event.key];
+                const nr = Math.max(0, Math.min(BOARD_SIZE - 1, row + dr));
+                const nc = Math.max(0, Math.min(BOARD_SIZE - 1, col + dc));
+                selectCell(nr, nc);
+            }
+
+            function applyHighlights() {
+                forEachCell((ref) => {
+                    ref.el.classList.remove('cell--selected', 'cell--related', 'cell--same-value', 'cell--hint');
+                });
+                if (!state.selected) {
+                    return;
+                }
+                const { row, col } = state.selected;
+                const selectedRef = state.cellRefs[row][col];
+                selectedRef.el.classList.add('cell--selected');
+                forEachCell((ref, r, c) => {
+                    if (r === row || c === col || inSameBox(row, col, r, c)) {
+                        ref.el.classList.add('cell--related');
+                    }
+                });
+                if (state.highlightMode) {
+                    const value = state.board[row][col];
+                    if (value) {
+                        forEachCell((ref, r, c) => {
+                            if (state.board[r][c] === value) {
+                                ref.el.classList.add('cell--same-value');
+                            }
+                        });
+                    }
+                }
+                if (state.hintCell) {
+                    state.cellRefs[state.hintCell.row][state.hintCell.col].el.classList.add('cell--hint');
+                }
+            }
+
+            function forEachCell(callback) {
+                state.cellRefs.forEach((row, rowIndex) => {
+                    row.forEach((ref, colIndex) => {
+                        callback(ref, rowIndex, colIndex);
+                    });
+                });
+            }
+
+            function inSameBox(r1, c1, r2, c2) {
+                return Math.floor(r1 / 3) === Math.floor(r2 / 3) && Math.floor(c1 / 3) === Math.floor(c2 / 3);
+            }
+
+            function updateCellDisplay(row, col) {
+                const ref = state.cellRefs[row][col];
+                const value = state.board[row][col];
+                const notes = state.notes[row][col];
+                ref.valueEl.textContent = value || '';
+                ref.notesEl.innerHTML = '';
+                if (!value && notes.size) {
+                    Array.from(notes)
+                        .sort()
+                        .forEach((note) => {
+                            const span = document.createElement('span');
+                            span.textContent = note;
+                            ref.notesEl.appendChild(span);
+                        });
+                }
+            }
+            function handleDigitInput(digit) {
+                if (!state.selected) {
+                    return;
+                }
+                const { row, col } = state.selected;
+                if (state.givens[row][col]) {
+                    return;
+                }
+                if (state.notesMode) {
+                    toggleNote(row, col, digit);
+                } else {
+                    setValue(row, col, digit);
+                }
+            }
+
+            function toggleNote(row, col, digit) {
+                if (state.board[row][col]) {
+                    setValue(row, col, '');
+                }
+                const notes = state.notes[row][col];
+                const previous = Array.from(notes);
+                if (notes.has(digit)) {
+                    notes.delete(digit);
+                } else {
+                    notes.add(digit);
+                }
+                updateCellDisplay(row, col);
+                pushUndo({
+                    type: 'note',
+                    row,
+                    col,
+                    prevNotes: previous,
+                    newNotes: Array.from(notes),
+                });
+            }
+
+            function setValue(row, col, value) {
+                const oldValue = state.board[row][col];
+                if (oldValue === value) {
+                    return;
+                }
+                state.board[row][col] = value;
+                state.notes[row][col].clear();
+                updateCellDisplay(row, col);
+                pushUndo({
+                    type: 'value',
+                    row,
+                    col,
+                    prevValue: oldValue,
+                    newValue: value,
+                });
+                state.revealMistakes = false;
+                markCompletedSections();
+                updateMistakeHighlights();
+                handleEffects(row, col, value);
+                checkCompletionStatus();
+            }
+
+            function handleEffects(row, col, value) {
+                if (!dataStore.settings.effects || !value) {
+                    return;
+                }
+                if (state.solution && value === String(state.solution[row][col])) {
+                    flashLine(row, col);
+                }
+            }
+
+            function flashLine(row, col) {
+                const targets = [];
+                forEachCell((ref, r, c) => {
+                    if (r === row || c === col) {
+                        targets.push(ref.el);
+                    }
+                });
+                targets.forEach((cell) => cell.classList.add('cell--flash'));
+                setTimeout(() => {
+                    targets.forEach((cell) => cell.classList.remove('cell--flash'));
+                }, 300);
+            }
+
+            function markCompletedSections() {
+                forEachCell((ref) => ref.el.classList.remove('cell--completed'));
+                if (!state.solution) {
+                    return;
+                }
+                for (let row = 0; row < BOARD_SIZE; row += 1) {
+                    const completed = state.board[row].every((value, col) => value && value === String(state.solution[row][col]));
+                    if (completed) {
+                        for (let col = 0; col < BOARD_SIZE; col += 1) {
+                            state.cellRefs[row][col].el.classList.add('cell--completed');
+                        }
+                    }
+                }
+                for (let col = 0; col < BOARD_SIZE; col += 1) {
+                    let completed = true;
+                    for (let row = 0; row < BOARD_SIZE; row += 1) {
+                        if (!state.board[row][col] || state.board[row][col] !== String(state.solution[row][col])) {
+                            completed = false;
+                            break;
+                        }
+                    }
+                    if (completed) {
+                        for (let row = 0; row < BOARD_SIZE; row += 1) {
+                            state.cellRefs[row][col].el.classList.add('cell--completed');
+                        }
+                    }
+                }
+            }
+
+            function updateMistakeHighlights(force = false) {
+                if (!state.solution) {
+                    return 0;
+                }
+                let mistakes = 0;
+                forEachCell((ref, row, col) => {
+                    ref.el.classList.remove('cell--mistake');
+                    const value = state.board[row][col];
+                    if (!value || state.givens[row][col]) {
+                        return;
+                    }
+                    if (value !== String(state.solution[row][col])) {
+                        mistakes += 1;
+                        if (state.mistakesEnabled || force || state.revealMistakes) {
+                            ref.el.classList.add('cell--mistake');
+                        }
+                    }
+                });
+                elements.mistakes.textContent = String(mistakes);
+                return mistakes;
+            }
+
+            function updatePuzzleMeta() {
+                elements.puzzleCode.textContent = `#${state.puzzleId}`;
+                elements.puzzleDifficultyTag.textContent = capitalize(state.difficulty);
+                elements.puzzleDifficultyTag.dataset.level = state.difficulty;
+                if (state.isDaily) {
+                    elements.dailyStatus.textContent = 'In progress';
+                } else {
+                    updateDailyStatus();
+                }
+            }
+
+            function updateDailyStatus() {
+                const todayKey = getDateKey();
+                if (dataStore.daily[todayKey]?.completed) {
+                    elements.dailyStatus.textContent = `Done (${formatTime(dataStore.daily[todayKey].time)})`;
+                } else {
+                    elements.dailyStatus.textContent = 'Not played';
+                }
+            }
+            function checkCompletionStatus() {
+                if (!state.solution) {
+                    return;
+                }
+                const filled = state.board.every((row) => row.every(Boolean));
+                if (!filled) {
+                    return;
+                }
+                const mistakes = updateMistakeHighlights();
+                if (mistakes === 0) {
+                    stopTimer();
+                    setStatus(`Solved in ${formatTime(state.timerSeconds)}.`);
+                    handleCompletion();
+                }
+            }
+
+            function handleCompletion() {
+                updateStats();
+                updateArchiveOnCompletion();
+                openSummaryModal();
+                if (state.isDaily) {
+                    const todayKey = getDateKey();
+                    dataStore.daily[todayKey] = {
+                        id: state.puzzleId,
+                        time: state.timerSeconds,
+                        completed: true,
+                    };
+                    saveToStorage(STORAGE_KEYS.daily, dataStore.daily);
+                    updateDailyStatus();
+                }
+                renderStatsView();
+                renderArchivePreview();
+            }
+
+            function openSummaryModal() {
+                elements.summaryTime.textContent = formatTime(state.timerSeconds);
+                elements.summaryMistakes.textContent = elements.mistakes.textContent;
+                elements.summaryDifficulty.textContent = capitalize(state.difficulty);
+                renderStarRating();
+                openModal(elements.summaryModal);
+            }
+
+            function renderStarRating() {
+                const mistakes = Number(elements.mistakes.textContent);
+                let stars = 3;
+                if (mistakes > 0) {
+                    stars -= 1;
+                }
+                const targets = { easy: 300, medium: 600, hard: 900, expert: 1200 };
+                const par = targets[state.difficulty] || 600;
+                if (state.timerSeconds > par * 1.5) {
+                    stars -= 1;
+                }
+                stars = Math.max(1, stars);
+                elements.summaryRating.innerHTML = '';
+                for (let i = 0; i < 3; i += 1) {
+                    const span = document.createElement('span');
+                    span.className = i < stars ? 'star star--filled' : 'star';
+                    span.textContent = '*';
+                    elements.summaryRating.appendChild(span);
+                }
+            }
+            function updateStats() {
+                const diffStats = ensureDifficultyStats(state.difficulty);
+                diffStats.completed += 1;
+                diffStats.totalTime += state.timerSeconds;
+                diffStats.best = diffStats.best === null ? state.timerSeconds : Math.min(diffStats.best, state.timerSeconds);
+                dataStore.stats.totalCompleted += 1;
+                saveToStorage(STORAGE_KEYS.stats, dataStore.stats);
+            }
+
+            function updateArchiveOnCompletion() {
+                pushArchiveEntry({
+                    id: state.puzzleId,
+                    difficulty: state.difficulty,
+                    status: 'completed',
+                    time: state.timerSeconds,
+                    mistakes: Number(elements.mistakes.textContent),
+                });
+            }
+
+            function pushArchiveEntry(entry) {
+                const existingIndex = dataStore.archive.findIndex((p) => p.id === entry.id);
+                const record = {
+                    id: entry.id,
+                    difficulty: entry.difficulty,
+                    time: entry.time ?? null,
+                    mistakes: entry.mistakes ?? null,
+                    status: entry.status,
+                    timestamp: new Date().toISOString(),
+                };
+                if (existingIndex >= 0) {
+                    dataStore.archive[existingIndex] = record;
+                } else {
+                    dataStore.archive.unshift(record);
+                }
+                dataStore.archive = dataStore.archive.slice(0, MAX_ARCHIVE);
+                saveToStorage(STORAGE_KEYS.archive, dataStore.archive);
+            }
+            function renderArchivePreview() {
+                elements.recentList.innerHTML = '';
+                if (!dataStore.archive.length) {
+                    const li = document.createElement('li');
+                    li.textContent = 'No recent history yet.';
+                    elements.recentList.appendChild(li);
+                    return;
+                }
+                dataStore.archive.slice(0, 4).forEach((entry) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <div>
+                            <strong>#${entry.id}</strong>
+                            <span>${capitalize(entry.difficulty)}</span>
+                        </div>
+                        <button class="link-button" data-load-archive="${entry.id}">${entry.status === 'completed' ? 'Replay' : 'Resume'}</button>
+                    `;
+                    elements.recentList.appendChild(li);
+                });
+                elements.recentList.querySelectorAll('[data-load-archive]').forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.dataset.loadArchive;
+                        loadPuzzleById(id);
+                    });
+                });
+            }
+            function renderStatsView() {
+                elements.statsGrid.innerHTML = '';
+                Object.entries(dataStore.stats.difficulties).forEach(([difficulty, stats]) => {
+                    const avg = stats.completed ? Math.round(stats.totalTime / stats.completed) : 0;
+                    const card = document.createElement('div');
+                    card.className = 'stats-card';
+                    card.innerHTML = `
+                        <h4>${capitalize(difficulty)}</h4>
+                        <p>Completed: <strong>${stats.completed}</strong></p>
+                        <p>Best: <strong>${stats.best ? formatTime(stats.best) : '-'}</strong></p>
+                        <p>Average: <strong>${avg ? formatTime(avg) : '-'}</strong></p>
+                    `;
+                    elements.statsGrid.appendChild(card);
+                });
+                elements.archiveList.innerHTML = '';
+                if (!dataStore.archive.length) {
+                    const li = document.createElement('li');
+                    li.textContent = 'No archive entries yet.';
+                    elements.archiveList.appendChild(li);
+                } else {
+                    dataStore.archive.forEach((entry) => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <div>
+                                <strong>#${entry.id}</strong>
+                                <span>${capitalize(entry.difficulty)}</span>
+                                <span>${entry.status === 'completed' ? `Time: ${formatTime(entry.time)}` : 'In progress'}</span>
+                            </div>
+                            <button class="button button--ghost" data-archive-load="${entry.id}" type="button">Open</button>
+                        `;
+                        elements.archiveList.appendChild(li);
+                    });
+                    elements.archiveList.querySelectorAll('[data-archive-load]').forEach((btn) => {
+                        btn.addEventListener('click', () => {
+                            const id = btn.dataset.archiveLoad;
+                            closeModal(elements.statsModal);
+                            loadPuzzleById(id);
+                        });
+                    });
+                }
+            }
+            function loadPuzzleById(code) {
+                const puzzle = state.puzzleMap.get(String(code));
+                if (!puzzle) {
+                    showToast('Puzzle code not found.');
+                    return;
+                }
+                elements.difficultySelect.value = puzzle.difficulty || 'medium';
+                loadPuzzle(puzzle.difficulty || 'medium', puzzle);
+                showToast(`Loaded puzzle #${code}`);
+            }
+
+            function handleCodeSubmit(event) {
+                event.preventDefault();
+                const code = elements.codeInput.value.trim();
+                if (!code) {
+                    return;
+                }
+                loadPuzzleById(code);
+                elements.codeInput.value = '';
+            }
+
+            function toggleNotesMode() {
+                state.notesMode = !state.notesMode;
+                elements.notesToggle.classList.toggle('is-active', state.notesMode);
+                elements.notesToggle.setAttribute('aria-pressed', String(state.notesMode));
+                setStatus(state.notesMode ? 'Notes mode enabled.' : 'Notes mode disabled.');
+            }
+
+            function toggleHighlightMode() {
+                state.highlightMode = !state.highlightMode;
+                elements.highlightToggle.classList.toggle('is-active', state.highlightMode);
+                elements.highlightToggle.setAttribute('aria-pressed', String(state.highlightMode));
+                dataStore.settings.highlight = state.highlightMode;
+                saveToStorage(STORAGE_KEYS.settings, dataStore.settings);
+                applyHighlights();
+            }
+
+            function toggleMistakeChecking(event) {
+                state.mistakesEnabled = event.target.checked;
+                dataStore.settings.autoMistakes = state.mistakesEnabled;
+                saveToStorage(STORAGE_KEYS.settings, dataStore.settings);
+                if (!state.mistakesEnabled) {
+                    forEachCell((ref) => ref.el.classList.remove('cell--mistake'));
+                    setStatus('Mistake checking disabled.');
+                } else {
+                    updateMistakeHighlights();
+                }
+            }
+
+            function undo() {
+                if (!state.undoStack.length) {
+                    return;
+                }
+                const action = state.undoStack.pop();
+                applyAction(action, 'undo');
+                state.redoStack.push(action);
+                updateHistoryButtons();
+            }
+
+            function redo() {
+                if (!state.redoStack.length) {
+                    return;
+                }
+                const action = state.redoStack.pop();
+                applyAction(action, 'redo');
+                state.undoStack.push(action);
+                updateHistoryButtons();
+            }
+
+            function pushUndo(action) {
+                state.undoStack.push(action);
+                state.redoStack = [];
+                updateHistoryButtons();
+            }
+
+            function applyAction(action, direction) {
+                if (action.type === 'value') {
+                    state.board[action.row][action.col] = direction === 'undo' ? action.prevValue : action.newValue;
+                } else if (action.type === 'note') {
+                    state.notes[action.row][action.col] = new Set(direction === 'undo' ? action.prevNotes : action.newNotes);
+                }
+                updateCellDisplay(action.row, action.col);
+                updateMistakeHighlights();
+            }
+
+            function updateHistoryButtons() {
+                elements.undo.disabled = !state.undoStack.length;
+                elements.redo.disabled = !state.redoStack.length;
+            }
+            function handleCheck() {
+                state.revealMistakes = true;
+                const mistakes = updateMistakeHighlights(true);
+                if (mistakes === 0 && state.board.every((row) => row.every(Boolean))) {
+                    stopTimer();
+                    setStatus(`Puzzle solved in ${formatTime(state.timerSeconds)}.`);
+                    handleCompletion();
+                } else if (mistakes > 0) {
+                    setStatus(`There ${mistakes === 1 ? 'is' : 'are'} ${mistakes} mistake${mistakes === 1 ? '' : 's'}.`);
+                } else {
+                    setStatus('All clear so far!');
+                }
+            }
+
+            function restartPuzzle() {
+                if (!state.puzzle) {
+                    return;
+                }
+                preparePuzzle({ puzzle: state.puzzle, solution: state.solution, difficulty: state.difficulty, id: state.puzzleId });
+                buildGrid();
+                resetTimer();
+                startTimer();
+                setStatus('Puzzle restarted.');
+            }
+
+            function handleGlobalKeydown(event) {
+                if (['INPUT', 'SELECT', 'TEXTAREA'].includes(event.target.tagName)) {
+                    return;
+                }
+                if (/^[1-9]$/.test(event.key)) {
+                    event.preventDefault();
+                    handleDigitInput(event.key);
+                } else if (event.key === 'Backspace' || event.key === 'Delete') {
+                    event.preventDefault();
+                    if (state.selected && !state.givens[state.selected.row][state.selected.col]) {
+                        setValue(state.selected.row, state.selected.col, '');
+                    }
+                } else if (event.key.toLowerCase() === 'n') {
+                    event.preventDefault();
+                    toggleNotesMode();
+                } else if (event.key.toLowerCase() === 'h') {
+                    event.preventDefault();
+                    toggleHighlightMode();
+                }
+            }
+
+            function handleKeypadInput(key) {
+                if (key === 'clear') {
+                    if (state.selected && !state.givens[state.selected.row][state.selected.col]) {
+                        setValue(state.selected.row, state.selected.col, '');
+                    }
+                    return;
+                }
+                handleDigitInput(key);
+            }
+            function showHint() {
+                if (!state.solution) {
+                    return;
+                }
+                const candidate = findSingleCandidateCell();
+                if (!candidate) {
+                    setStatus('No simple hints available.');
+                    return;
+                }
+                state.hintCell = candidate;
+                selectCell(candidate.row, candidate.col);
+                const suggestion = 'Try ' + state.solution[candidate.row][candidate.col] + ' at #' + (candidate.row + 1) + ',' + (candidate.col + 1);
+                showToast(suggestion);
+                state.cellRefs[candidate.row][candidate.col].el.classList.add('cell--hint');
+            }
+            function findSingleCandidateCell() {
+                for (let row = 0; row < BOARD_SIZE; row += 1) {
+                    for (let col = 0; col < BOARD_SIZE; col += 1) {
+                        if (state.board[row][col]) {
+                            continue;
+                        }
+                        const candidates = [];
+                        for (let digit = 1; digit <= 9; digit += 1) {
+                            const str = String(digit);
+                            if (isValidCandidate(row, col, str)) {
+                                candidates.push(str);
+                            }
+                        }
+                        if (candidates.length === 1) {
+                            return { row, col };
+                        }
+                    }
+                }
+                return null;
+            }
+            function isValidCandidate(row, col, digit) {
+                for (let c = 0; c < BOARD_SIZE; c += 1) {
+                    if (state.board[row][c] === digit) {
+                        return false;
+                    }
+                }
+                for (let r = 0; r < BOARD_SIZE; r += 1) {
+                    if (state.board[r][col] === digit) {
+                        return false;
+                    }
+                }
+                const startRow = Math.floor(row / 3) * 3;
+                const startCol = Math.floor(col / 3) * 3;
+                for (let r = startRow; r < startRow + 3; r += 1) {
+                    for (let c = startCol; c < startCol + 3; c += 1) {
+                        if (state.board[r][c] === digit) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            function applySettings() {
+                const settings = dataStore.settings;
+                document.body.classList.toggle('theme-dark', settings.darkMode);
+                state.highlightMode = settings.highlight;
+                state.mistakesEnabled = settings.autoMistakes;
+                elements.highlightToggle.classList.toggle('is-active', settings.highlight);
+                elements.mistakeToggle.checked = settings.autoMistakes;
+                Array.from(elements.settingsForm.elements).forEach((input) => {
+                    if (input.type === 'checkbox' && settings[input.name] !== undefined) {
+                        input.checked = settings[input.name];
+                    }
+                });
+            }
+            function handleSettingsChange(event) {
+                if (event.target.type !== 'checkbox') {
+                    return;
+                }
+                dataStore.settings[event.target.name] = event.target.checked;
+                saveToStorage(STORAGE_KEYS.settings, dataStore.settings);
+                applySettings();
+            }
+
+            function openModal(modal) {
+                modal.setAttribute('aria-hidden', 'false');
+            }
+
+            function closeModal(modal) {
+                modal.setAttribute('aria-hidden', 'true');
+            }
+
+            function showToast(message) {
+                elements.statusToast.textContent = message;
+                elements.statusToast.classList.add('is-visible');
+                setTimeout(() => elements.statusToast.classList.remove('is-visible'), 2000);
+            }
+            function startTimer() {
+                stopTimer();
+                state.timerId = window.setInterval(() => {
+                    state.timerSeconds += 1;
+                    updateTimerDisplay();
+                }, 1000);
+            }
+
+            function stopTimer() {
+                if (state.timerId) {
+                    clearInterval(state.timerId);
+                    state.timerId = null;
+                }
+            }
+
+            function resetTimer() {
+                stopTimer();
+                state.timerSeconds = 0;
+                updateTimerDisplay();
+            }
+
+            function updateTimerDisplay() {
+                elements.timer.textContent = formatTime(state.timerSeconds);
+            }
+
+            function setStatus(message) {
+                elements.status.textContent = message;
+            }
+
+            function updateMistakeDisplay(value) {
+                elements.mistakes.textContent = String(value);
+            }
+
+            function loadFromStorage(key, fallback) {
+                try {
+                    const value = localStorage.getItem(key);
+                    return value ? JSON.parse(value) : fallback;
+                } catch {
+                    return fallback;
+                }
+            }
+
+            function saveToStorage(key, value) {
+                localStorage.setItem(key, JSON.stringify(value));
+            }
+
+            function ensureDifficultyStats(difficulty) {
+                if (!dataStore.stats.difficulties[difficulty]) {
+                    dataStore.stats.difficulties[difficulty] = { completed: 0, totalTime: 0, best: null };
+                }
+                return dataStore.stats.difficulties[difficulty];
+            }
+            function formatTime(totalSeconds) {
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                return String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+            }
+
+            function capitalize(text) {
+                return text.charAt(0).toUpperCase() + text.slice(1);
+            }
+
+            function getDateKey() {
+                return new Date().toISOString().slice(0, 10).replace(/-/g, '');
+            }
+
+            function hashString(input) {
+                let hash = 0;
+                for (let i = 0; i < input.length; i += 1) {
+                    hash = (hash * 31 + input.charCodeAt(i)) % 1000000007;
+                }
+                return hash;
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+---
+layout: default
+title: Games
+styles:
+  - /css/main.css
+---
+
+
+<section>    
+  <h1>Explore games</h1>
+  <ul>
+    {% for t in site.games %}
+      <li>
+        <a href="{{ t.url }}">{{ t.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
