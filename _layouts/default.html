@@ -19,16 +19,9 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
-  {% if jekyll.environment != "production" %}
-  <script src="/assets/js/local-env.js"></script>
-  {% endif %}
   <script>
-    (function assignSupabaseKey() {
-      const metaKey = document.querySelector('meta[name="supabase-key"]');
-      const keyFromMeta = metaKey?.content?.trim();
-      const placeholder = 'PASTE_SUPABASE_ANON_KEY_HERE';
-      window.SUPABASE_ANON_KEY = keyFromMeta || window.SUPABASE_ANON_KEY || placeholder;
-    }());
+    window.SUPABASE_ANON_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhubnJxZGxicG9peGl5bmZ4Y3BtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzMjUyNTEsImV4cCI6MjA3ODkwMTI1MX0.ojT5L6ydLv1_KWq2GDILWTQjjJp3JKaLVOPsEUXF6M4";
   </script>
   <script type="module" src="/assets/js/auth.js"></script>
   <script>

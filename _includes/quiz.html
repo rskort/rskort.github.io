@@ -1,0 +1,50 @@
+<script>
+    (function () {
+        function setupQuizzes() {
+        var quizzes = document.querySelectorAll("form.quiz");
+
+        quizzes.forEach(function (form) {
+            var button = form.querySelector(".quiz-submit");
+            if (!button) {
+            return;
+            }
+
+            var correctBlock = form.querySelector(".quiz-correct");
+            var wrongBlock = form.querySelector(".quiz-wrong");
+
+            button.addEventListener("click", function () {
+            var selected = form.querySelector("input[type='radio']:checked");
+            var feedback = form.parentElement.querySelector(".quiz-feedback");
+            if (!feedback) {
+                return;
+            }
+
+            if (!selected) {
+                feedback.textContent = "Please select an option before checking your answer.";
+                return;
+            }
+
+            var correctValue = form.dataset.answer;
+
+            if (selected.value === correctValue) {
+                var explanation = correctBlock ? correctBlock.innerHTML : "Correct.";
+                feedback.innerHTML = "✅ " + explanation;
+            } else {
+                var wrongExplanation = wrongBlock ? wrongBlock.innerHTML : "Incorrect.";
+                feedback.innerHTML = "❌ " + wrongExplanation;
+            }
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([feedback]);
+            }
+            });
+        });
+        }
+
+        if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", setupQuizzes);
+        } else {
+        setupQuizzes();
+        }
+    })();
+</script>

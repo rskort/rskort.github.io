@@ -1,7 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
 const SUPABASE_URL = 'https://xnnrqdlbpoixiynfxcpm.supabase.co';
-const PLACEHOLDER_PATTERN = /PASTE_SUPABASE_ANON_KEY_HERE/i;
+const PLACEHOLDER_PATTERN = window.SUPABASE_ANON_KEY;
 
 const $ = (id) => document.getElementById(id);
 

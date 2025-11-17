@@ -1,53 +1,162 @@
-/* Layout and typography for the RDF section */
-section ul,
-section ol {
+/* Lists inside tutorial sections */
+ul,
+ol {
   margin: 0.5rem 0 0.75rem 1.25rem;
   padding-left: 1rem;
 }
 
-section li {
+li {
   margin-bottom: 0.35rem;
 }
 
-/* Inline code and math text alignment */
-section code {
-  font-family: "JetBrains Mono", "Fira Code", SFMono-Regular, Menlo, Monaco,
-    Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: var(--font-size-8);
-  padding: 0.05rem 0.25rem;
-  border-radius: 0.2rem;
-  background-color: #f3f4f6;
-}
-
-/* If MathJax or KaTeX is used, keep formulas visually aligned and readable */
+/* Math (MathJax or KaTeX) */
 mjx-container {
-  font-size: var(--font-size-8);
+  font-size: var(--font-size-6);
   line-height: 1.5;
 }
 
-/* Code block styling for the pseudocode */
-section pre {
-  margin: 1rem 0;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  background-color: #0b1120;
-  color: #e5e7eb;
-  overflow-x: auto;
-  font-size: var(--font-size-8);
+/* Inline code in text (kept light) */
+section code {
+  font-family: "JetBrains Mono", "Fira Code", SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  padding: 0.1rem 0.25rem;
+  border-radius: 0.2rem;
+  background-color: var(--color-bg-soft);
+  border: 1px solid var(--color-border-subtle);
 }
 
-section pre code {
+/* Code blocks (generic and with .code-block) */
+section pre,
+pre.code-block {
+  margin: 1.2rem 0;
+  padding: 1rem 1.2rem;
+  padding-left: 2.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--color-code-bg);          /* Slightly darker, same look */
+  color: var(--color-code-text);
+  overflow-x: auto;
+  font-size: var(--font-size-6);
+  line-height: 1.6;
+  border: 1px solid var(--color-code-border);          /* Thin border to separate from page */
+  box-shadow: 0 3px 10px var(--color-shadow-code);
+  font-family: "JetBrains Mono", "Fira Code", SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  position: relative;                 /* Needed for the language badge */
+}
+
+/* Inner code inherits the block style */
+section pre code,
+pre.code-block code {
   background: none;
   padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  white-space: pre;                   /* Keep spacing as typed */
 }
+
+/* Language pill in the top right of code blocks that use .code-block */
+pre.code-block::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0.45rem;
+  right: 0.7rem;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: var(--font-size-6);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background-color: var(--color-code-border);
+  color: var(--color-border-strong);
+  border: 1px solid var(--color-code-border);
+}
+
+code.highlighter-rouge,
+.inline-code {
+  font-family: monospace;
+  padding: 0.1rem 0.25rem;
+  border-radius: 0.2rem;
+  background-color: var(--color-bg-soft);
+  border: 1px solid var(--color-border-subtle);
+}
+
+
+/* DETAILS DISCLOSURE BLOCKS */
+details {
+  margin: 1.5rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.6rem;
+  background-color: var(--color-surface-soft);
+  box-shadow: 0 3px 10px var(--color-shadow-card);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+details p {
+  margin: 0;
+}
+
+/* Hover on closed state */
+details:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: 0 2px 4px var(--color-shadow-subtle);
+}
+
+/* SUMMARY TEXT */
+details summary {
+  cursor: pointer;
+  font-size: var(--font-size-6);
+  font-weight: 600;
+  color: var(--color-text-main);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Remove default marker */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* CUSTOM DISCLOSURE ARROW */
+details summary::before {
+  content: "▸";
+  display: inline-block;
+  width: 1rem;
+  color: var(--color-primary);
+  transition: transform 0.15s ease;
+  transform-origin: center center;
+}
+
+/* ARROW ROTATION ON OPEN */
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* CONTENT AREA */
+details > *:not(summary) {
+  margin-top: 0.75rem;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-6);
+  line-height: 1.55;
+}
+
+/* Extra spacing when open */
+details[open] {
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 6px var(--color-shadow-subtle);
+}
+
+
 
 /* Interactive test blocks */
 .interactive-test {
   margin: 1.25rem 0;
   padding: 1rem 1.25rem;
   border-radius: 0.6rem;
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-soft);
+  box-shadow: 0 3px 10px var(--color-shadow-card);
 }
 
 .interactive-test p:first-of-type {
@@ -74,25 +183,27 @@ section pre code {
   margin-right: 0.4rem;
 }
 
-/* Quiz button styling */
+/* Quiz button */
 .quiz-submit {
   margin-top: 1rem;
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
-  border: 1px solid #1d4ed8;
-  background-color: #1d4ed8;
-  color: #ffffff;
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-surface);
   font-size: var(--font-size-8);
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 120ms ease, box-shadow 120ms ease,
+  transition:
+    background-color 120ms ease,
+    box-shadow 120ms ease,
     transform 80ms ease;
 }
 
 .quiz-submit:hover,
 .quiz-submit:focus-visible {
-  background-color: #1e40af;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+  background-color: var(--color-primary-strong);
+  box-shadow: 0 0 0 2px var(--color-shadow-focus);
   transform: translateY(-1px);
 }
 
@@ -107,7 +218,7 @@ section pre code {
   margin-left: 2rem;
   font-size: var(--font-size-4);
   font-style: italic;
-  color: #374151;
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   gap: 4rem;
@@ -123,6 +234,7 @@ section ol li strong {
   font-weight: 600;
 }
 
+/* Figures */
 img.default {
   display: block;
   margin: 1.5rem auto;
@@ -137,52 +249,74 @@ img.wide {
   margin: 1rem auto;
 }
 
+/* Edge case if header contains images */
 .site-header.img {
   margin: 0;
 }
 
 /* Tables */
-/* Container so wide tables scroll on small screens */
 table {
   width: 90%;
+  max-width: 100%;
   border-collapse: collapse;
   margin: 3rem auto;
   font-size: var(--font-size-4);
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 /* Header */
 table thead th {
-  background: #f6f7f9;
+  background: var(--color-gray-100);
   font-weight: 600;
   text-align: left;
   padding: 0.6rem 0.8rem;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid var(--color-border-strong);
 }
 
 /* Cells */
 table td {
   padding: 0.6rem 0.8rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 /* Subtle row striping */
 table tbody tr:nth-child(even) {
-  background: #fafafa;
+  background: var(--color-gray-50);
 }
 
-/* Rounded corners (visually, through overflow) */
-table {
-  border-radius: 6px;
-  overflow: hidden;
-}
-
+/* Compact tables used in tutorials */
 table.table-compact {
   width: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 table.table-compact th,
 table.table-compact td {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+}
+
+/* Small screen tweaks */
+@media (max-width: 768px) {
+  img.default {
+    max-width: 70%;
+  }
+
+  img.wide {
+    width: 100%;
+  }
+
+  table {
+    width: 100%;
+    margin: 2rem 0;
+  }
+
+  .quiz-feedback {
+    margin-left: 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

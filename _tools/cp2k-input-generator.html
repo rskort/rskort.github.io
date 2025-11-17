@@ -1,0 +1,414 @@
+---
+layout: default
+title: CP2K Input Generator
+description: Browser-based CP2K (2025.2) input wizard for single point and NVT MD calculations.
+styles:
+  - /css/tools/cp2k-input-generator.css
+---
+
+<section class="tool-shell">
+  <header class="tool-head">
+    <div>
+      <p class="eyebrow">Tools - CP2K 2025.2</p>
+      <h1>CP2K Input Generator</h1>
+      <p class="lede">
+        Guided wizard for producing a readable CP2K input. Defaults follow common CP2K recommendations
+        where the manual defines them. Inline links jump to the CP2K manual so you know what each keyword
+        controls.
+      </p>
+      <div class="doc-links">
+        <a class="doc-link" href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT.html" target="_blank" rel="noopener">CP2K input tree</a>
+        <a class="doc-link" href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/GLOBAL.html" target="_blank" rel="noopener">GLOBAL</a>
+        <a class="doc-link" href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/FORCE_EVAL/DFT.html" target="_blank" rel="noopener">DFT</a>
+        <a class="doc-link" href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/MOTION/MD.html" target="_blank" rel="noopener">MD</a>
+        <a class="doc-link" href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/FORCE_EVAL/SUBSYS.html" target="_blank" rel="noopener">SUBSYS</a>
+      </div>
+    </div>
+    <div class="progress" id="wizard-progress" aria-label="Wizard progress">
+      <button type="button" data-step="1">1. Workflow</button>
+      <button type="button" data-step="2">2. Structure</button>
+      <button type="button" data-step="3">3. Method</button>
+      <button type="button" data-step="4">4. Run</button>
+      <button type="button" data-step="5">5. Output</button>
+      <button type="button" data-step="6">6. Review</button>
+    </div>
+  </header>
+
+  <div class="tool-layout">
+    <div class="wizard-column">
+      <div class="wizard-step" data-step="1">
+        <h2>Step 1 - Choose workflow and scope</h2>
+        <p class="help-text">
+          Pick the type of run and system boundary conditions. See
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/GLOBAL.html#list_RUN_TYPE" target="_blank" rel="noopener">GLOBAL &rarr; RUN_TYPE</a>
+          and
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/FORCE_EVAL/DFT/POISSON.html#list_PERIODIC" target="_blank" rel="noopener">POISSON &rarr; PERIODIC</a>.
+        </p>
+        <div class="card-grid">
+          <label class="card-option">
+            <input type="radio" name="workflow" value="single_point" checked>
+            <span>
+              <strong>Single Point Energy</strong>
+              <small>RUN_TYPE ENERGY. Good for quick energies and SCF settings.</small>
+            </span>
+          </label>
+          <label class="card-option">
+            <input type="radio" name="workflow" value="nvt_md">
+            <span>
+              <strong>NVT Molecular Dynamics</strong>
+              <small>RUN_TYPE MD with NVT thermostat. Configure time step, thermostat, output.</small>
+            </span>
+          </label>
+        </div>
+
+        <div class="card-grid">
+          <label class="card-option">
+            <input type="radio" name="system-type" value="bulk">
+            <span>
+              <strong>Bulk periodic</strong>
+              <small>Orthorhombic box; periodic in XYZ; k-points optional.</small>
+            </span>
+          </label>
+          <label class="card-option">
+            <input type="radio" name="system-type" value="molecule" checked>
+            <span>
+              <strong>Isolated molecule</strong>
+              <small>Non-periodic; wavelet Poisson solver recommended.</small>
+            </span>
+          </label>
+        </div>
+
+        <div class="field grid-two">
+          <div>
+            <label for="project-name">Project name (GLOBAL &rarr; PROJECT)</label>
+            <input type="text" id="project-name">
+          </div>
+          <div>
+            <label for="print-level">Print level (GLOBAL &rarr; PRINT_LEVEL)</label>
+            <select id="print-level">
+              <option value="LOW">LOW</option>
+              <option value="MEDIUM" selected>MEDIUM</option>
+              <option value="HIGH">HIGH</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="wizard-step" data-step="2">
+        <h2>Step 2 - Define system and upload structure</h2>
+        <p class="help-text">
+          Upload an .xyz file (no coordinates leave placeholders). For bulk, provide cell edges (ABC). See
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/FORCE_EVAL/SUBSYS/COORD.html" target="_blank" rel="noopener">SUBSYS &rarr; COORD</a>
+          and
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/FORCE_EVAL/SUBSYS/CELL.html" target="_blank" rel="noopener">SUBSYS &rarr; CELL</a>.
+        </p>
+        <div class="field">
+          <label for="xyz-upload">XYZ structure file</label>
+          <input type="file" id="xyz-upload" accept=".xyz">
+          <p class="hint">Only .xyz is supported. Parsed locally; nothing is uploaded.</p>
+        </div>
+
+        <div class="structure-summary">
+          <h3>Structure details</h3>
+          <dl>
+            <div>
+              <dt>Atoms</dt>
+              <dd id="struct-atom-count">-</dd>
+            </div>
+            <div>
+              <dt>Elements</dt>
+              <dd id="struct-elements">-</dd>
+            </div>
+          </dl>
+          <div id="structure-feedback" class="feedback muted">Upload a structure to see details.</div>
+        </div>
+
+        <div class="field grid-two">
+          <div>
+            <label for="total-charge">Total charge (DFT &rarr; CHARGE)</label>
+            <input type="number" id="total-charge" step="1">
+          </div>
+          <div>
+            <label for="multiplicity">Multiplicity (DFT &rarr; MULTIPLICITY)</label>
+            <input type="number" id="multiplicity" min="1" step="1">
+          </div>
+        </div>
+
+        <div class="field bulk-only" data-visible="bulk">
+          <label>Box lengths (Angstrom, CELL &rarr; ABC)</label>
+          <div class="triple-inputs">
+            <div>
+              <span>Lx</span>
+              <input type="number" id="box-lx" step="0.1" min="0">
+            </div>
+            <div>
+              <span>Ly</span>
+              <input type="number" id="box-ly" step="0.1" min="0">
+            </div>
+            <div>
+              <span>Lz</span>
+              <input type="number" id="box-lz" step="0.1" min="0">
+            </div>
+          </div>
+          <p class="hint">Orthorhombic cell aligned to axes; add k-point grid in Step 3 if needed.</p>
+        </div>
+      </div>
+
+      <div class="wizard-step" data-step="3">
+        <h2>Step 3 - Method and basis presets</h2>
+        <p class="help-text">
+          Choose XC, basis/pseudopotential, cutoffs, and spin treatment. See
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/FORCE_EVAL/DFT/XC.html" target="_blank" rel="noopener">DFT &rarr; XC</a>,
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/FORCE_EVAL/DFT/MGRID.html" target="_blank" rel="noopener">MGRID</a>,
+          and
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/FORCE_EVAL/DFT/SCF.html" target="_blank" rel="noopener">SCF</a>.
+        </p>
+
+        <div class="field grid-two">
+          <div>
+            <label for="xc-preset">XC preset (XC_FUNCTIONAL)</label>
+            <select id="xc-preset">
+              <option value="PBE_D3">PBE + D3 (BJ)</option>
+              <option value="RPBE_D3">RPBE + D3 (BJ)</option>
+              <option value="BLYP_D3">BLYP + D3 (BJ)</option>
+            </select>
+          </div>
+          <div>
+            <label for="basis-preset">Basis / pseudo preset (KIND)</label>
+            <select id="basis-preset">
+              <option value="standard_condensed">Standard condensed (DZVP-MOLOPT-SR-GTH / GTH-PBE)</option>
+              <option value="triple_zeta">Accurate (TZV2P-MOLOPT-GTH / GTH-PBE)</option>
+              <option value="cheap_exploratory">Cheap exploratory (SZV-MOLOPT-GTH / GTH-PBE-q)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field grid-two">
+          <div>
+            <label for="cutoff">Plane-wave cutoff (MGRID &rarr; CUTOFF, Ry)</label>
+            <input type="number" id="cutoff" min="0" step="10">
+          </div>
+          <div>
+            <label for="rel-cutoff">Relative cutoff (MGRID &rarr; REL_CUTOFF, Ry)</label>
+            <input type="number" id="rel-cutoff" min="0" step="5">
+          </div>
+        </div>
+
+        <div class="field grid-two">
+          <div>
+            <label for="spin-treatment">Spin treatment</label>
+            <select id="spin-treatment">
+              <option value="restricted">Restricted (RKS, UKS=false)</option>
+              <option value="unrestricted">Unrestricted (UKS=true)</option>
+            </select>
+          </div>
+          <div>
+            <label for="smear-temp">Electronic smearing (SCF &rarr; SMEAR, K)</label>
+            <div class="inline-field">
+              <input type="checkbox" id="smear-toggle" checked>
+              <input type="number" id="smear-temp" min="0" step="50">
+              <span class="hint-inline">FERMI_DIRAC, default 300 K</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field grid-two">
+          <div>
+            <label for="scf-solver">SCF solver</label>
+            <select id="scf-solver">
+              <option value="diagonalization">DIAGONALIZATION + MIXING</option>
+              <option value="ot">OT (Orbital Transformation)</option>
+            </select>
+          </div>
+          <div>
+            <label for="mixing-method">Mixing (SCF &rarr; MIXING)</label>
+            <select id="mixing-method">
+              <option value="BROYDEN_MIXING">BROYDEN_MIXING</option>
+              <option value="PULAY_MIXING">PULAY_MIXING</option>
+              <option value="DIRECT_P_MIXING">DIRECT_P_MIXING</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field grid-two">
+          <div>
+            <label for="mixing-alpha">Mixing alpha</label>
+            <input type="number" id="mixing-alpha" step="0.05" min="0" max="1">
+          </div>
+          <div>
+            <label for="mixing-history">Mixing history</label>
+            <input type="number" id="mixing-history" step="1" min="2" max="50">
+          </div>
+        </div>
+
+        <div class="field bulk-only" data-visible="bulk">
+          <label>K-point sampling (KPOINTS &rarr; SCHEME)</label>
+          <div class="inline-field">
+            <select id="kpoint-scheme">
+              <option value="GAMMA">Gamma point</option>
+              <option value="MONKHORST-PACK">Monkhorst-Pack</option>
+            </select>
+            <input type="number" id="kpoint-nx" min="1" step="1">
+            <input type="number" id="kpoint-ny" min="1" step="1">
+            <input type="number" id="kpoint-nz" min="1" step="1">
+          </div>
+          <p class="hint">Use Gamma for large cells; Monkhorst-Pack for small periodic cells.</p>
+        </div>
+      </div>
+
+      <div class="wizard-step" data-step="4">
+        <h2>Step 4 - Run parameters</h2>
+        <p class="help-text">
+          Configure SCF or MD controls. See
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/FORCE_EVAL/DFT/SCF.html" target="_blank" rel="noopener">SCF</a>
+          and
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/MOTION/MD.html" target="_blank" rel="noopener">MOTION &rarr; MD</a>.
+        </p>
+
+        <div class="field run-only" data-workflow="single_point">
+          <label>SCF convergence (ENERGY)</label>
+          <div class="grid-two">
+            <div>
+              <span>EPS_SCF</span>
+              <input type="number" id="eps-scf" step="1e-7" min="0">
+            </div>
+            <div>
+              <span>MAX_SCF</span>
+              <input type="number" id="max-scf" min="1" step="1">
+            </div>
+          </div>
+          <p class="hint">Default EPS_SCF 1e-5 (CP2K default) and 50 SCF cycles.</p>
+        </div>
+
+        <div class="run-only" data-workflow="nvt_md">
+          <div class="field three-col">
+            <div>
+              <label for="timestep">Time step (fs)</label>
+              <input type="number" id="timestep" min="0" step="0.1">
+            </div>
+            <div>
+              <label for="md-steps">Number of MD steps</label>
+              <input type="number" id="md-steps" min="1" step="10">
+            </div>
+            <div>
+              <label for="temperature">Target temperature (K)</label>
+              <input type="number" id="temperature" min="0" step="10">
+            </div>
+          </div>
+          <div class="field grid-two">
+            <div>
+              <label for="thermostat">Thermostat</label>
+              <select id="thermostat">
+                <option value="CSVR">CSVR (canonical sampling)</option>
+                <option value="NOSE">Nose-Hoover chains</option>
+              </select>
+            </div>
+            <div>
+              <label for="time-constant">Thermostat time constant (fs)</label>
+              <input type="number" id="time-constant" min="1" step="10">
+            </div>
+          </div>
+          <div class="field grid-two">
+            <div>
+              <label for="vel-scaling">Initial velocities</label>
+              <select id="vel-scaling">
+                <option value="MAXWELL">MAXWELL at target T</option>
+                <option value="ZERO">ZERO (no velocities)</option>
+              </select>
+            </div>
+            <div>
+              <label for="vel-seed">Random seed (INTEGER)</label>
+              <input type="number" id="vel-seed" min="0" step="1">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wizard-step" data-step="5">
+        <h2>Step 5 - Output settings</h2>
+        <p class="help-text">
+          Control printed data and restart cadence. See
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/GLOBAL/PRINT.html" target="_blank" rel="noopener">GLOBAL &rarr; PRINT</a>,
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/FORCE_EVAL/DFT/PRINT.html" target="_blank" rel="noopener">DFT PRINT</a>,
+          and
+          <a href="https://manual.cp2k.org/cp2k-2025_2-branch/CP2K_INPUT/MOTION/PRINT.html" target="_blank" rel="noopener">MOTION PRINT</a>.
+        </p>
+        <div class="field three-col">
+          <div>
+            <label for="traj-freq">Trajectory write frequency (steps)</label>
+            <input type="number" id="traj-freq" min="1" step="1">
+          </div>
+          <div>
+            <label for="energy-freq">Energy print frequency (steps)</label>
+            <input type="number" id="energy-freq" min="1" step="1">
+          </div>
+          <div>
+            <label for="restart-freq">Restart write frequency (steps)</label>
+            <input type="number" id="restart-freq" min="1" step="1">
+          </div>
+        </div>
+        <div class="field grid-two">
+          <div>
+            <label for="force-freq">Force print frequency</label>
+            <input type="number" id="force-freq" min="0" step="1">
+            <p class="hint">0 means do not print forces.</p>
+          </div>
+          <div>
+            <label for="stress-freq">Stress/pressure frequency</label>
+            <input type="number" id="stress-freq" min="0" step="1">
+            <p class="hint">0 means do not print stress.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="wizard-step" data-step="6">
+        <h2>Step 6 - Review and export</h2>
+        <p class="help-text">
+          Review the summary, sanity checks, and preview. Use Copy/Download. All generation stays in-browser.
+        </p>
+        <div class="summary">
+          <div>
+            <h3>Summary</h3>
+            <ul id="summary-list"></ul>
+          </div>
+          <div>
+            <h3>Sanity checks</h3>
+            <ul id="sanity-list" class="sanity-list"></ul>
+          </div>
+        </div>
+        <div class="field">
+          <label for="review-preview">CP2K input preview</label>
+          <textarea id="review-preview" rows="12" readonly></textarea>
+        </div>
+        <div class="export-actions">
+          <button type="button" id="download-input">Download cp2k.inp</button>
+          <button type="button" id="copy-input">Copy to clipboard</button>
+        </div>
+      </div>
+
+      <div class="wizard-nav">
+        <button type="button" id="prev-step">Back</button>
+        <button type="button" id="next-step">Next</button>
+      </div>
+    </div>
+
+    <aside class="preview-column">
+      <div class="live-preview" id="live-preview">
+        <div class="preview-head">
+          <div>
+            <p class="eyebrow">Live preview</p>
+            <h3>Generated CP2K input</h3>
+          </div>
+          <div class="preview-actions">
+            <button type="button" id="preview-toggle">Expand</button>
+            <button type="button" id="copy-input-side">Copy</button>
+            <button type="button" id="download-input-side">Download</button>
+          </div>
+        </div>
+        <pre id="cp2k-preview" class="preview-box" aria-label="CP2K input preview"></pre>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script type="module" src="/assets/js/tools/cp2k-input-generator.js"></script>
