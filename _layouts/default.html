@@ -4,18 +4,7 @@
   {% include head.html %}
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <a href="/"><img src="/assets/icons/logo.png" alt="R.S. Kort" width="100" height="100"></a>
-      <nav class="site-nav">
-        <a href="/">Home</a>
-        <a href="/tutorials.html">Tutorials</a>
-        <a href="/games.html">Games</a>
-        <a href="/about.html">About</a>
-        <a href="/contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
+  {% include header.html %}
 
   <main class="site-main">
     <div class="container">
@@ -23,27 +12,36 @@
     </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; <span id="year"></span> R.S. Kort</p>
-    </div>
-  </footer>
+  {% include footer.html %}
+
+  {% include auth.html %}
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+  {% if jekyll.environment != "production" %}
+  <script src="/assets/js/local-env.js"></script>
+  {% endif %}
+  <script>
+    (function assignSupabaseKey() {
+      const metaKey = document.querySelector('meta[name="supabase-key"]');
+      const keyFromMeta = metaKey?.content?.trim();
+      const placeholder = 'PASTE_SUPABASE_ANON_KEY_HERE';
+      window.SUPABASE_ANON_KEY = keyFromMeta || window.SUPABASE_ANON_KEY || placeholder;
+    }());
+  </script>
+  <script type="module" src="/assets/js/auth.js"></script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
 </html>
-
-<script>
-  window.MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
-      displayMath: [['$$', '$$'], ['\\[', '\\]']]
-    },
-    options: {
-      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    }
-  };
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

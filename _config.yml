@@ -20,6 +20,9 @@ collections:
   games:
     output: true
     permalink: /games/:name/
+  tools:
+    output: true
+    permalink: /tools/:name/
 
 plugins:
   - jekyll-sitemap

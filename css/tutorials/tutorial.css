@@ -126,7 +126,7 @@ section ol li strong {
 img.default {
   display: block;
   margin: 1.5rem auto;
-  max-width: 480px;
+  max-width: 30%;
   height: auto;
 }
 

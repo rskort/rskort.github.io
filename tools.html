@@ -1,0 +1,16 @@
+---
+layout: default
+title: Tools
+---
+
+<section>
+  <h1>Explore tools</h1>
+  <ul>
+    {% for t in site.tools %}
+      <li>
+        <a href="{{ t.url }}">{{ t.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  Coming soon!
+</section>

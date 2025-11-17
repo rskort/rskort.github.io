@@ -1,19 +1,19 @@
 ---
 layout: default
-title: Sudoku  - WORK IN PROGRESS
+title: Sudoku [WORK IN PROGRESS]
 tags: [game, puzzle, sudoku]
 description: "Play Sudoku online with features like streaks, medals, and puzzle sharing."
 styles:
   - /css/games/sudoku.css
 ---
 
-<body>
+<section class="sudoku-page" data-sudoku-root aria-labelledby="sudoku-title">
     <div class="app-shell">
         <header class="app-header card">
             <div class="brand">
-                <!-- <p class="brand__eyebrow">Stamjer Games</p> -->
-                <h1>Sudoku</h1>
-                <p class="brand__subtitle">Build streaks, chase medals, and share puzzle codes-all without leaving the browser.</p>
+                <p class="brand__eyebrow">Mindful break</p>
+                <h1 id="sudoku-title">Sudoku</h1>
+                <p class="brand__subtitle">Build streaks, chase medals, and share puzzle codes—all without leaving this site.</p>
             </div>
             <div class="header-controls">
                 <div class="stat">
@@ -35,7 +35,7 @@ styles:
             </div>
         </header>
 
-        <main class="layout">
+        <div class="layout">
             <section class="board-panel card">
                 <div class="control-row control-row--primary">
                     <label class="field">
@@ -91,7 +91,7 @@ styles:
                 <div class="board-wrapper" aria-live="polite">
                     <table id="sudoku-board" class="board" role="grid" aria-label="Sudoku grid"></table>
                 </div>
-                <div class="status-banner" id="status-text">Loading puzzle...</div>
+                <div class="status-banner" id="status-text" role="status" aria-live="polite">Loading puzzle...</div>
 
                 <div class="mobile-keypad" id="mobile-keypad" aria-label="Number keypad">
                     <button data-keypad="1">1</button>
@@ -132,13 +132,13 @@ styles:
                     <button id="open-archive-btn" class="button button--ghost" type="button">Open archive</button>
                 </div>
             </aside>
-        </main>
+        </div>
     </div>
 
-    <div class="modal" id="summary-modal" aria-hidden="true">
+    <div class="modal" id="summary-modal" role="dialog" aria-modal="true" aria-labelledby="summary-modal-title" aria-hidden="true">
         <div class="modal__content">
             <button class="modal__close" data-close-modal type="button" aria-label="Close summary">&times;</button>
-            <h2>Puzzle complete</h2>
+            <h2 id="summary-modal-title">Puzzle complete</h2>
             <div class="summary-stats">
                 <div>
                     <span>Time</span>
@@ -162,10 +162,10 @@ styles:
         </div>
     </div>
 
-    <div class="modal" id="stats-modal" aria-hidden="true">
+    <div class="modal" id="stats-modal" role="dialog" aria-modal="true" aria-labelledby="stats-modal-title" aria-hidden="true">
         <div class="modal__content modal__content--wide">
             <button class="modal__close" data-close-modal type="button" aria-label="Close stats">&times;</button>
-            <h2>Player progress</h2>
+            <h2 id="stats-modal-title">Player progress</h2>
             <div class="stats-grid" id="stats-grid"></div>
             <section class="archive-section">
                 <header>
@@ -177,10 +177,10 @@ styles:
         </div>
     </div>
 
-    <div class="modal" id="settings-modal" aria-hidden="true">
+    <div class="modal" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title" aria-hidden="true">
         <div class="modal__content">
             <button class="modal__close" data-close-modal type="button" aria-label="Close settings">&times;</button>
-            <h2>Settings</h2>
+            <h2 id="settings-modal-title">Settings</h2>
             <form id="settings-form" class="settings-form">
                 <label class="settings-row">
                     <span>Dark mode</span>
@@ -211,7 +211,7 @@ styles:
         (() => {
             const BOARD_SIZE = 9;
             const MAX_ARCHIVE = 15;
-            const PUZZLE_SOURCE = 'sudoku_puzzles.json';
+            const PUZZLE_SOURCE = '{{ "/assets/games/sudoku_puzzles.json" | relative_url }}';
             const STORAGE_KEYS = {
                 stats: 'sudokuStats',
                 archive: 'sudokuArchive',
@@ -269,6 +269,8 @@ styles:
                 settings: loadFromStorage(STORAGE_KEYS.settings, defaultSettings()),
                 daily: loadFromStorage(STORAGE_KEYS.daily, {}),
             };
+
+            const rootElement = document.querySelector('[data-sudoku-root]');
 
             const elements = {
                 board: document.getElementById('sudoku-board'),
@@ -1104,7 +1106,9 @@ styles:
             }
             function applySettings() {
                 const settings = dataStore.settings;
-                document.body.classList.toggle('theme-dark', settings.darkMode);
+                if (rootElement) {
+                    rootElement.classList.toggle('is-dark', settings.darkMode);
+                }
                 state.highlightMode = settings.highlight;
                 state.mistakesEnabled = settings.autoMistakes;
                 elements.highlightToggle.classList.toggle('is-active', settings.highlight);
@@ -1212,5 +1216,4 @@ styles:
             }
         })();
     </script>
-</body>
-</html>
+</section>

@@ -1,10 +1,10 @@
 ---
 layout: default
-title: "Computing the Radial Distribution Function (RDF) - WORK IN PROGRESS"
+title: "Computing the Radial Distribution Function (RDF) [WORK IN PROGRESS]"
 tags: [radial distribution function, RDF, g(r), molecular dynamics, MD, tutorial]
 description: "Step by step tutorial on how to compute and interpret the radial distribution function g(r) from molecular dynamics trajectories, with examples, quizzes, and implementation tips."
 styles:
-  - /css/tutorials/rdf.css
+  - /css/tutorials/tutorial.css
 ---
 
 # {{ page.title }}
@@ -65,7 +65,7 @@ This normalization leads to the following counts:
 You might have noticed that the by normalizing, we divide by area and thus compute the **number density**, $\rho_\text{shell}$, of the shell. The last thing we must do to obtain the actual RDF is also divide by the average number density, $\rho$, of the full system.
 
 $$
-\rho = \dfrac{N_\text{total}}{V_\text{total}}
+\rho = \dfrac{N_\text{total}}{A_\text{total}}
 $$
 
 This gives us a reference towards the average number density of the whole system.
@@ -131,7 +131,6 @@ Now we can complete our table by adding the RDF:
 If we plot this, we get the following boring graph:
 
 ![Figure 4: RDF barplot to show the RDF for each shell](/assets/tutorials/rdf/rdf_barplot.png){: .wide }
-
 
 
 
