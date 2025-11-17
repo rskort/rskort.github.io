@@ -27,7 +27,7 @@ jobs:
           bundler-cache: true
       - name: Build site
         run: bundle exec jekyll build
-      - uses: actions/upload-pages-artifact@v1
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
 
@@ -37,7 +37,7 @@ jobs:
     environment:
       name: github-pages
     steps:
-      - uses: actions/download-pages-artifact@v1
+      - uses: actions/download-pages-artifact@v2
         with:
           path: _site
       - uses: actions/deploy-pages@v1
