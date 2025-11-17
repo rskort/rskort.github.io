@@ -44,6 +44,10 @@ const supabase = keyIssue ? null : createClient(SUPABASE_URL, supabaseKey);
 const keyIssueMessage = () => {
   const host = typeof window !== 'undefined' ? window.location.hostname : '';
   const onGitHubPages = /\.github\.io$/i.test(host);
+  const sourceLabel =
+    (metaSource === 'github_environment' && 'GitHub Pages environment') ||
+    (metaSource === 'env' && 'build environment variable') ||
+    (metaSource && `${metaSource}`);
   if (keyIssue === 'missing') {
     return onGitHubPages
       ? 'Supabase key is missing in this deployment. Add SUPABASE_ANON_KEY to the GitHub Pages environment/secret, then redeploy.'
@@ -54,8 +58,8 @@ const keyIssueMessage = () => {
       ? 'Supabase key was not injected; check your GitHub Pages environment variables or secrets (SUPABASE_ANON_KEY).'
       : 'Replace the placeholder key in _layouts/default.html (or assets/js/local-env.js when developing locally).';
   }
-  if (!keyIssue && metaSource) {
-    return `Supabase key loaded from ${metaSource}.`;
+  if (!keyIssue && sourceLabel) {
+    return `Supabase key loaded from ${sourceLabel}.`;
   }
   return '';
 };

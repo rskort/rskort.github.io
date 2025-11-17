@@ -25,6 +25,15 @@ jobs:
         with:
           ruby-version: 3.2
           bundler-cache: true
+      - name: Prepare runtime config
+        env:
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          mkdir -p _data
+          cat > _data/runtime.yml <<EOF
+supabase_key: "${SUPABASE_ANON_KEY}"
+supabase_key_source: "env"
+EOF
       - name: Build site
         env:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
