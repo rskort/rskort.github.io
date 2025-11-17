@@ -27,42 +27,9 @@ const forms = {
 let activeView = 'signin';
 let lastKnownUserId = null;
 
-const metaNode =
-  typeof document !== 'undefined' ? document.querySelector('meta[name="supabase-key"]') : undefined;
-const metaKey = metaNode?.content?.trim();
-const metaSource =
-  typeof document !== 'undefined'
-    ? document.querySelector('meta[name="supabase-key-source"]')?.content?.trim()
-    : '';
-const windowKey = typeof window !== 'undefined' ? window.SUPABASE_ANON_KEY : undefined;
-const supabaseKey = metaKey || windowKey;
-const isMissingKey = !supabaseKey;
-const isPlaceholderKey = PLACEHOLDER_PATTERN.test(String(supabaseKey || '').trim());
-const keyIssue = isMissingKey ? 'missing' : isPlaceholderKey ? 'placeholder' : null;
-const supabase = keyIssue ? null : createClient(SUPABASE_URL, supabaseKey);
-
-const keyIssueMessage = () => {
-  const host = typeof window !== 'undefined' ? window.location.hostname : '';
-  const onGitHubPages = /\.github\.io$/i.test(host);
-  const sourceLabel =
-    (metaSource === 'github_environment' && 'GitHub Pages environment') ||
-    (metaSource === 'env' && 'build environment variable') ||
-    (metaSource && `${metaSource}`);
-  if (keyIssue === 'missing') {
-    return onGitHubPages
-      ? 'Supabase key is missing in this deployment. Add SUPABASE_ANON_KEY to the GitHub Pages environment/secret, then redeploy.'
-      : 'Supabase key is missing locally. Set SUPABASE_ANON_KEY when building Jekyll or update assets/js/local-env.js for local testing.';
-  }
-  if (keyIssue === 'placeholder') {
-    return onGitHubPages
-      ? 'Supabase key was not injected; check your GitHub Pages environment variables or secrets (SUPABASE_ANON_KEY).'
-      : 'Replace the placeholder key in _layouts/default.html (or assets/js/local-env.js when developing locally).';
-  }
-  if (!keyIssue && sourceLabel) {
-    return `Supabase key loaded from ${sourceLabel}.`;
-  }
-  return '';
-};
+const supabaseKey = typeof window !== 'undefined' ? window.SUPABASE_ANON_KEY : undefined;
+const isKeyMissing = !supabaseKey || PLACEHOLDER_PATTERN.test(String(supabaseKey).trim());
+const supabase = isKeyMissing ? null : createClient(SUPABASE_URL, supabaseKey);
 
 const setStatus = (message = '', variant = 'info') => {
   if (!elements.status) return;
@@ -281,15 +248,12 @@ elements.signOutButton?.addEventListener('click', async () => {
 });
 
 if (elements.keyHint) {
-  elements.keyHint.hidden = !keyIssue;
-  if (keyIssue) {
-    elements.keyHint.textContent = keyIssueMessage();
-  }
+  elements.keyHint.hidden = !isKeyMissing;
 }
 
 if (supabase) {
   setStatus('Use your email and password to sign in or create an account.', 'info');
   initAuth();
 } else {
-  setStatus(keyIssueMessage() || 'Supabase key unavailable.', 'error');
+  setStatus('Add your Supabase anon key near the bottom of _layouts/default.html, then reload.', 'error');
 }

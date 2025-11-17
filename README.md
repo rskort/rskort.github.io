@@ -14,13 +14,6 @@ Rick S. Kort’s personal academic site from the Leiden Institute of Chemistry, 
 2. Use `bundle exec jekyll serve` to build and preview the site locally.
 3. Edit HTML, CSS, and JavaScript assets directly; assets under `css/`, `assets/js/`, and `_includes/` are copied through the build as-is.
 
-## Supabase auth setup (deployment and local)
-- On GitHub: open **Settings → Environments → github-pages**, add a secret (or variable) named `SUPABASE_ANON_KEY` with the anon key from Supabase. The workflow fails up front if this is missing or still the placeholder.
-- Deploy again; in the rendered page source you should see `<meta name="supabase-key-source" content="github_environment">` instead of `none`.
-- Locally: set `SUPABASE_ANON_KEY` in your shell before running `bundle exec jekyll serve`, or update `assets/js/local-env.js` with the anon key for quick testing (never commit a real key).
-- If the UI shows “Supabase key was not injected…”, the meta tags in `_includes/head.html` did not receive a value; recheck the steps above.
-- If deploys start but Supabase returns 401/“Invalid API key”, rotate/copy the project’s **anon/publishable** key from Supabase Settings → API and update the `SUPABASE_ANON_KEY` secret/variable; the workflow now pings `https://xnnrqdlbpoixiynfxcpm.supabase.co/auth/v1/health` and fails if the key doesn’t belong to that project.
-
 ## Future plans
 - Expand `_tutorials/` with additional walkthroughs on electrochemical simulations and data visualization.
 - Grow the `_games/` section with more demos or interactive teaching aids tied to current projects.

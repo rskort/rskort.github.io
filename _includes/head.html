@@ -5,28 +5,7 @@
   <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
   <meta property="og:description" content="{{ page.description | default: site.description }}">
   <meta property="og:type" content="website">
-{% assign github_environment = site.github.environment %}
-{% if github_environment %}
-  {% assign environment_supabase_key = github_environment.SUPABASE_ANON_KEY | default: github_environment.variables.SUPABASE_ANON_KEY %}
-{% endif %}
-{% assign runtime_supabase_key = site.data.runtime.supabase_key %}
-{% assign runtime_supabase_key_source = site.data.runtime.supabase_key_source | default: 'data_runtime' %}
-{% assign env_supabase_key = ENV['SUPABASE_ANON_KEY'] %}
-
-{% assign supabase_key = environment_supabase_key | default: runtime_supabase_key | default: env_supabase_key %}
-{% capture supabase_key_source %}
-  {% if environment_supabase_key %}
-    github_environment
-  {% elsif runtime_supabase_key %}
-    {{ runtime_supabase_key_source }}
-  {% elsif env_supabase_key %}
-    env
-  {% else %}
-    none
-  {% endif %}
-{% endcapture %}
-<meta name="supabase-key" content="{{ supabase_key | default: '' }}">
-<meta name="supabase-key-source" content="{{ supabase_key_source | strip }}">
+  <meta name="supabase-key" content="{{ site.github.environment.SUPABASE_ANON_KEY | default: '' }}">
   <link rel="icon" type="image/png" href="{{ '/assets/icons/logo.png' | relative_url }}">
   <meta name="twitter:card" content="summary">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
