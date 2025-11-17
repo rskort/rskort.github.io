@@ -5,7 +5,12 @@
   <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
   <meta property="og:description" content="{{ page.description | default: site.description }}">
   <meta property="og:type" content="website">
-  <meta name="supabase-key" content="{{ site.github.environment.SUPABASE_ANON_KEY | default: '' }}">
+  {% assign github_environment = site.github.environment %}
+  {% if github_environment %}
+    {% assign environment_supabase_key = github_environment.SUPABASE_ANON_KEY | default: github_environment.variables.SUPABASE_ANON_KEY %}
+  {% endif %}
+  {% assign supabase_key = environment_supabase_key | default: ENV['SUPABASE_ANON_KEY'] %}
+  <meta name="supabase-key" content="{{ supabase_key | default: '' }}">
   <link rel="icon" type="image/png" href="{{ '/assets/icons/logo.png' | relative_url }}">
   <meta name="twitter:card" content="summary">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
