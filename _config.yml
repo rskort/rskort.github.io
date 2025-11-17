@@ -5,6 +5,7 @@ baseurl: ""  # important for username.github.io sites
 
 exclude:
   - backup
+  - vendor
 
 markdown: kramdown
 
