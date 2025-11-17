@@ -25,6 +25,18 @@ jobs:
         with:
           ruby-version: 3.2
           bundler-cache: true
+      - name: Validate Supabase key is present
+        env:
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || vars.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "SUPABASE_ANON_KEY is missing. Add it to the GitHub Pages environment as a secret or variable."
+            exit 1
+          fi
+          if [ "$SUPABASE_ANON_KEY" = "PASTE_SUPABASE_ANON_KEY_HERE" ]; then
+            echo "SUPABASE_ANON_KEY is still the placeholder value. Update the GitHub Pages secret/variable with the real anon key."
+            exit 1
+          fi
       - name: Prepare runtime config
         env:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
