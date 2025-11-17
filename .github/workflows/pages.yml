@@ -27,6 +27,8 @@ jobs:
           bundler-cache: true
       - name: Build site
         run: bundle exec jekyll build
-      - uses: actions/deploy-pages@v1
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v1
         with:
           path: _site
+      - uses: actions/deploy-pages@v1
