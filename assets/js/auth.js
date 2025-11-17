@@ -27,10 +27,13 @@ const forms = {
 let activeView = 'signin';
 let lastKnownUserId = null;
 
-const metaKey =
+const metaNode =
+  typeof document !== 'undefined' ? document.querySelector('meta[name="supabase-key"]') : undefined;
+const metaKey = metaNode?.content?.trim();
+const metaSource =
   typeof document !== 'undefined'
-    ? document.querySelector('meta[name="supabase-key"]')?.content?.trim()
-    : undefined;
+    ? document.querySelector('meta[name="supabase-key-source"]')?.content?.trim()
+    : '';
 const windowKey = typeof window !== 'undefined' ? window.SUPABASE_ANON_KEY : undefined;
 const supabaseKey = metaKey || windowKey;
 const isMissingKey = !supabaseKey;
@@ -50,6 +53,9 @@ const keyIssueMessage = () => {
     return onGitHubPages
       ? 'Supabase key was not injected; check your GitHub Pages environment variables or secrets (SUPABASE_ANON_KEY).'
       : 'Replace the placeholder key in _layouts/default.html (or assets/js/local-env.js when developing locally).';
+  }
+  if (!keyIssue && metaSource) {
+    return `Supabase key loaded from ${metaSource}.`;
   }
   return '';
 };
