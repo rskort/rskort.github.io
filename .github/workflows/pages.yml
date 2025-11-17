@@ -37,9 +37,21 @@ jobs:
             echo "SUPABASE_ANON_KEY is still the placeholder value. Update the GitHub Pages secret/variable with the real anon key."
             exit 1
           fi
+      - name: Validate Supabase key against project
+        env:
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || vars.SUPABASE_ANON_KEY }}
+        run: |
+          STATUS=$(curl -o /dev/null -w "%{http_code}" -s \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            https://xnnrqdlbpoixiynfxcpm.supabase.co/auth/v1/health)
+          if [ "$STATUS" != "200" ]; then
+            echo "Supabase auth health check failed (HTTP $STATUS). Ensure SUPABASE_ANON_KEY is the anon/publishable key for project xnnrqdlbpoixiynfxcpm."
+            exit 1
+          fi
       - name: Prepare runtime config
         env:
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || vars.SUPABASE_ANON_KEY }}
         run: |
           mkdir -p _data
           cat > _data/runtime.yml <<'EOF'
@@ -48,7 +60,7 @@ jobs:
           EOF
       - name: Build site
         env:
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || vars.SUPABASE_ANON_KEY }}
         run: bundle exec jekyll build
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v4

@@ -19,6 +19,7 @@ Rick S. Kort’s personal academic site from the Leiden Institute of Chemistry, 
 - Deploy again; in the rendered page source you should see `<meta name="supabase-key-source" content="github_environment">` instead of `none`.
 - Locally: set `SUPABASE_ANON_KEY` in your shell before running `bundle exec jekyll serve`, or update `assets/js/local-env.js` with the anon key for quick testing (never commit a real key).
 - If the UI shows “Supabase key was not injected…”, the meta tags in `_includes/head.html` did not receive a value; recheck the steps above.
+- If deploys start but Supabase returns 401/“Invalid API key”, rotate/copy the project’s **anon/publishable** key from Supabase Settings → API and update the `SUPABASE_ANON_KEY` secret/variable; the workflow now pings `https://xnnrqdlbpoixiynfxcpm.supabase.co/auth/v1/health` and fails if the key doesn’t belong to that project.
 
 ## Future plans
 - Expand `_tutorials/` with additional walkthroughs on electrochemical simulations and data visualization.
