@@ -9,6 +9,14 @@ li {
   margin-bottom: 0.35rem;
 }
 
+.tutorial-header {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-6);
+  margin: 0;
+  /* Put at the end */
+  text-align: end;
+}
+
 /* Math (MathJax or KaTeX) */
 mjx-container {
   font-size: var(--font-size-6);

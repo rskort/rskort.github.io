@@ -1,17 +1,23 @@
 ---
 layout: default
 title: "How to run CP2K"
+author: R.S. Kort
 tags: [cp2k, molecular dynamics, DFT, CP2K, tutorial]
 description: "Step-by-step tutorial on how to run CP2K: from executables and modules to job scripts, parallel settings and basic sanity checks, with interactive questions and examples."
 styles:
   - /css/tutorials/tutorial.css
 ---
 
+<p class="tutorial-header"> By {{ page.author }} · Last updated: 18 November 2025 </p>
+
+---
+
 # {{ page.title }}
 
 [CP2K](https://www.cp2k.org/) is an *open source* **electronic structure** and **molecular dynamics** package for simulations of solids, liquids, molecules and interfaces, with methods such as **density functional theory (DFT)** in the *Gaussian and plane waves (GPW)* framework and *classical force fields*.
 
-This tutorial will not be about the *theory* behind CP2K or MD/DFT calculations, but about the **practical steps** needed to get started with running CP2K on your own hardware or on a shared cluster.<br>
+This tutorial will **not** be about the *theory* behind CP2K or MD/DFT calculations, but about the **practical steps** needed to get started with running CP2K on your own hardware or on a shared cluster.
+
 **Conceptually**, running CP2K is rather simple:
 
 1. You have a **CP2K executable**, for example `cp2k.psmp`.
@@ -749,58 +755,60 @@ Setting these parameters can be a little bit tricky, however, so let's look at s
 - If you explicitly set e.g. `RESTART_POS .FALSE.`, then **only this data** is **not** read from the restart file, while other data is.
 
 <div class="interactive-test" data-test-id="cp2k-ext-restart-basics">
-  <p>
-    You run CP2K with the following restart settings:
-  </p>
+<p>
+  You run CP2K with the following restart settings:
+</p>
 
-```fortran
+<pre class="code-block" data-lang="fortran">
+  <code>
 &EXT_RESTART
-  RESTART_FILE_NAME example-project-1.restart
-  RESTART_DEFAULT .TRUE.
-  RESTART_VEL .FALSE.
+RESTART_FILE_NAME example-project-1.restart
+RESTART_DEFAULT .TRUE.
+RESTART_VEL .FALSE.
 &END EXT_RESTART
-```
+  </code>
+</pre>
 
-  <p>
-    Assuming `example-project-1.restart` contains positions, velocities, cell, and thermostat state, what will CP2K actually read from the restart file?
-  </p>
+<p>
+  Assuming `example-project-1.restart` contains positions, velocities, cell, and thermostat state, what will CP2K actually read from the restart file?
+</p>
 
-  <form class="quiz" data-answer="2">
+<form class="quiz" data-answer="2">
 
-  <div class="quiz-correct hidden">
-    Correct. `RESTART_DEFAULT .TRUE.` activates all restartable quantities, and `RESTART_VEL .FALSE.` selectively disables velocities, so positions, cell, thermostat state and all other restart data are read, but velocities are not.
-  </div>
+<div class="quiz-correct hidden">
+  Correct. `RESTART_DEFAULT .TRUE.` activates all restartable quantities, and `RESTART_VEL .FALSE.` selectively disables velocities, so positions, cell, thermostat state and all other restart data are read, but velocities are not.
+</div>
 
-  <div class="quiz-wrong hidden">
-    Not quite. `RESTART_DEFAULT` controls the global default, and explicit `RESTART_*` keywords refine that behavior. In this case, everything that can be restarted is read except the velocities, which are explicitly disabled with `RESTART_VEL .FALSE.`.
-  </div>
+<div class="quiz-wrong hidden">
+  Not quite. `RESTART_DEFAULT` controls the global default, and explicit `RESTART_*` keywords refine that behavior. In this case, everything that can be restarted is read except the velocities, which are explicitly disabled with `RESTART_VEL .FALSE.`.
+</div>
 
-  <label>
-    <input type="radio" name="cp2k-ext-restart-basics" value="0">
-    **Only velocities** are read, because `RESTART_VEL .FALSE.` sets everything except velocities to false.
-  </label>
+<label>
+  <input type="radio" name="cp2k-ext-restart-basics" value="0">
+  **Only velocities** are read, because `RESTART_VEL .FALSE.` sets everything except velocities to false.
+</label>
 
-  <label>
-    <input type="radio" name="cp2k-ext-restart-basics" value="1">
-    **No data** is read, since `RESTART_VEL .FALSE.` overrides `RESTART_DEFAULT .TRUE.`.
-  </label>
+<label>
+  <input type="radio" name="cp2k-ext-restart-basics" value="1">
+  **No data** is read, since `RESTART_VEL .FALSE.` overrides `RESTART_DEFAULT .TRUE.`.
+</label>
 
-  <label>
-    <input type="radio" name="cp2k-ext-restart-basics" value="2">
-    **All** restartable quantities, **except velocities**, are read.
-  </label>
+<label>
+  <input type="radio" name="cp2k-ext-restart-basics" value="2">
+  **All** restartable quantities, **except velocities**, are read.
+</label>
 
-  <label>
-    <input type="radio" name="cp2k-ext-restart-basics" value="3">
-    **All** restartable quantities are read, because `RESTART_DEFAULT .TRUE.` overrides `RESTART_VEL .FALSE.`.
-  </label>
+<label>
+  <input type="radio" name="cp2k-ext-restart-basics" value="3">
+  **All** restartable quantities are read, because `RESTART_DEFAULT .TRUE.` overrides `RESTART_VEL .FALSE.`.
+</label>
 
-  <button type="button" class="quiz-submit">
-    Check answer
-  </button>
+<button type="button" class="quiz-submit">
+  Check answer
+</button>
 
-  </form>
-  <p class="quiz-feedback" aria-live="polite"></p>
+</form>
+<p class="quiz-feedback" aria-live="polite"></p>
 </div>
 
 
@@ -883,7 +891,7 @@ A `.wfn` file is safe to reuse as an initial SCF guess as long as the basis sets
 
 ---
 
-## 10. Practical use of CP2K documentation
+## 10. Habbits and conclusions
 
 When using CP2K, a few good habits I would suggest are:
 
@@ -891,7 +899,7 @@ When using CP2K, a few good habits I would suggest are:
 * For methods such as geometry optimization or MD, start from the method specific tutorials in the manual, which provide complete example inputs.
 * Use my [CP2K Input Generator](/tools/cp2k-input-generator/) to create initial inputs :)
 
-You can also generate an input reference that exactly matches your executable by running CP2K with special flags:
+You can also generate a complete input reference that exactly matches your executable by running CP2K with special flags:
 
 <pre class="code-block" data-lang="bash">
   <code>
@@ -899,11 +907,17 @@ cp2k.psmp --xml
   </code>
 </pre>
 
-This tells CP2K to print an <abbr title="eXtensible Markup Language">XML</abbr> representation of the full input tree and defaults (the entire keyword hierarchy).
+This tells CP2K to print an <abbr title="eXtensible Markup Language">XML</abbr> representation of the full input tree and defaults (the entire keyword hierarchy). However, this output is very large and not easy to read. A more user friendly alternative is:
 
----
+<pre class="code-block" data-lang="bash">
+  <code>
+cp2k.psmp --help
+  </code>
+</pre>
 
-## 11. Summary
+<br>
+
+### 10.1 Summary
 
 In this tutorial we focused on the **workflow** of running CP2K:
 
@@ -916,6 +930,16 @@ In this tutorial we focused on the **workflow** of running CP2K:
 * How to connect your executable to matching documentation using the CP2K manual and `--xml` or related flags.
 
 Once this workflow is comfortable, you can move on to more method specific workflows, more advanced input features, and performance tuning. At that point CP2K becomes just one component in a larger toolchain: pre processing, simulation, and post processing all linked together by scripts and analysis codes.
+
+---
+
+## Words by the author
+**Thank you** for completing this **"{{ page.title }}" tutorial**! I hope it helped you get started and maybe give you a better understanding of the program.
+
+This is my **first completed tutorial**, so feel free to share any feedback, suggestions or ideas [here](/contact.html).
+
+Do you have an idea for a **tutorial**, **game**, or **tool** related to computational chemistry or materials science?
+I am always **open to suggestions** and **would love to brainstorm** about what would be useful to you.
 
 ---
 
