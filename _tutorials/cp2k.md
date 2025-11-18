@@ -702,82 +702,209 @@ The [CP2K documentation](https://www.cp2k.org) explains the energy components an
 
 ## 9. Restarts and continuing runs
 
-Many CP2K workflows require long runs or multiple stages. CP2K can write restart files that allow you to:
+Many realistic CP2K workflows *cannot* be completed in a single execution, either because they exceed the wall time limit, involve multiple simulation phases, or intentionally reuse previously converged electronic states. CP2K is designed for these situations and can write **restart files** that store the essential state of the calculation: **coordinates**, **velocities**, **wavefunctions**, **density matrices**, or even the **SCF history**.
 
-* Continue a simulation after a wall time limit.
-* Use a converged wavefunction as a starting point for another calculation.
+Restart capability is useful for:
 
-The details depend strongly on the task (geometry optimization, MD, metadynamics, and so on), so here we only state the essential operational idea:
+* **Recovering** from a scheduler timeout instead of discarding partial progress.
+* **Switching** from a cheaper “preconverged” calculation to a more accurate one (for example: LDA to PBE, smaller cutoff to larger cutoff, or pure DFT to hybrid DFT).
+* **Multi-stage workflows** such as equilibration, annealing, production MD, or metadynamics.
+* **Incremental geometry optimization**, where intermediate electronic states help subsequent steps converge faster.
 
-* Use appropriate `&EXT_RESTART` and related sections in your input, as documented under `EXT_RESTART` in the input reference. ([xconfigure.readthedocs.io][10])
-* Tell CP2K where to read restart information and what to write out at the end of the run.
+### What is in CP2K restart files?
 
-The exact syntax changes between CP2K versions and calculation types, so always cross check with the official examples and manual pages for your method.
+CP2K writes **two different kinds of restart files**, and they serve different purposes.
 
----
+### 9.1. The `.restart` file
 
-## 10. Getting help from the CP2K documentation
+This is a **structured text file** containing metadata needed to continue a calculation.
+It can store (depending on settings):
 
-The CP2K input reference is embedded in the code and also available online for each release. ([manual.cp2k.org][2])
+* atomic positions
+* velocities
+* cell parameters
+* thermostat state
+* barostat state
+* counters and MD step index
+* metadynamics hills
+* bead positions in PIMD
+* and many other internal states
 
-Good habits:
+This behavior is controlled by keywords in [`&EXT_RESTART`](https://manual.cp2k.org/trunk/CP2K_INPUT/EXT_RESTART.html), for example:
 
-* Keep a browser tab open with the main manual index and the input reference.
-* Look up each top level section you use (GLOBAL, FORCE_EVAL, MOTION, EXT_RESTART).
-* For methods such as geometry optimization or MD, start from the method specific tutorials in the manual, which provide complete example inputs. ([manual.cp2k.org][8])
+<pre class="code-block" data-lang="fortran">
+  <code>
+&EXT_RESTART
+  RESTART_FILE_NAME example-project-1.restart
+&END EXT_RESTART
+  </code>
+</pre>
 
-You can also generate an input reference that exactly matches your executable by running CP2K with special flags:
+The `&EXT_RESTART` section has [many options](https://manual.cp2k.org/trunk/CP2K_INPUT/EXT_RESTART.html) to control what is written and read from the restart file. For example, you can choose to restart only positions, or positions and velocities, or also thermostat state, etc.
 
-```bash
-cp2k.psmp --xml
-# or, depending on the version
-cp2k.psmp --html-manual
-```
+Setting these parameters can be a little bit tricky, however, so let's look at some practical examples.
 
-This produces files that describe the full input structure for that particular build. The procedure is documented in the manual on generating the input reference. ([manual.cp2k.org][11])
+- By default, if `&EXT_RESTART` is not present, CP2K does **not** write or read any restart file.
+- If `&EXT_RESTART` is present with only `RESTART_FILE_NAME`, CP2K reads the restart file with **all available data**, because `RESTART_DEFAULT` is `.TRUE.` by default.
+  - If you set `RESTART_DEFAULT .FALSE.`, no data is read.
+- If you explicitly set e.g. `RESTART_POS .TRUE.`, then **only this data** is read from the restart file.
+  - In other words, `RESTART_DEFAULT` is overridden by any explicit `RESTART_* .TRUE.` settings.
+- If you explicitly set e.g. `RESTART_POS .FALSE.`, then **only this data** is **not** read from the restart file, while other data is.
 
-<div class="interactive-test" data-test-id="cp2k-manual-xml">
+<div class="interactive-test" data-test-id="cp2k-ext-restart-basics">
   <p>
-    Why can it be useful to run <code>cp2k.psmp --xml</code> for the executable you actually use on a cluster?
+    You run CP2K with the following restart settings:
   </p>
 
-  <form class="quiz" data-answer="3">
+<pre class="code-block" data-lang="fortran">
+  <code>
+&EXT_RESTART
+  RESTART_FILE_NAME example-project-1.restart
+  RESTART_DEFAULT .TRUE.
+  RESTART_VEL .FALSE.
+&END EXT_RESTART
+  </code>
+</pre>
 
-<div class="quiz-correct hidden">
-  Correct. The <code>--xml</code> flag produces an XML description of the input structure that matches your compiled executable, which is useful for tools and also for ensuring that you consult documentation that corresponds exactly to your build.
-</div>
+  <p>
+    Assuming `example-project-1.restart` contains positions, velocities, cell, and thermostat state, what will CP2K actually read from the restart file?
+  </p>
 
-<div class="quiz-wrong hidden">
-  Not quite. The point of <code>--xml</code> is not to run a physical simulation, but to extract a machine readable description of the input tree that belongs to your binary.
-</div>
+  <form class="quiz" data-answer="2">
 
-<label>
-  <input type="radio" name="cp2k-manual-xml" value="0">
-  It runs a default MD simulation that tests your cluster.
-</label>
+  <div class="quiz-correct hidden">
+    Correct. `RESTART_DEFAULT .TRUE.` activates all restartable quantities, and `RESTART_VEL .FALSE.` selectively disables velocities, so positions, cell, thermostat state and all other restart data are read, but velocities are not.
+  </div>
 
-<label>
-  <input type="radio" name="cp2k-manual-xml" value="1">
-  It compresses all your input files into a single archive.
-</label>
+  <div class="quiz-wrong hidden">
+    Not quite. `RESTART_DEFAULT` controls the global default, and explicit `RESTART_*` keywords refine that behavior. In this case, everything that can be restarted is read except the velocities, which are explicitly disabled with `RESTART_VEL .FALSE.`.
+  </div>
 
-<label>
-  <input type="radio" name="cp2k-manual-xml" value="2">
-  It automatically finds the best MPI and OpenMP settings for your system.
-</label>
+  <label>
+    <input type="radio" name="cp2k-ext-restart-basics" value="0">
+    **Only velocities** are read, because `RESTART_VEL .FALSE.` sets everything except velocities to false.
+  </label>
 
-<label>
-  <input type="radio" name="cp2k-manual-xml" value="3">
-  It generates a description of the full input structure that matches your exact executable, which can be used as a local input reference.
-</label>
+  <label>
+    <input type="radio" name="cp2k-ext-restart-basics" value="1">
+    **No data** is read, since `RESTART_VEL .FALSE.` overrides `RESTART_DEFAULT .TRUE.`.
+  </label>
 
-<button type="button" class="quiz-submit">
-  Check answer
-</button>
+  <label>
+    <input type="radio" name="cp2k-ext-restart-basics" value="2">
+    **All** restartable quantities, **except velocities**, are read.
+  </label>
+
+  <label>
+    <input type="radio" name="cp2k-ext-restart-basics" value="3">
+    **All** restartable quantities are read, because `RESTART_DEFAULT .TRUE.` overrides `RESTART_VEL .FALSE.`.
+  </label>
+
+  <button type="button" class="quiz-submit">
+    Check answer
+  </button>
 
   </form>
   <p class="quiz-feedback" aria-live="polite"></p>
 </div>
+
+
+### 9.2. The `.wfn` file
+
+This is a **binary wavefunction file** containing the electronic state:
+
+* Molecular orbital coefficients
+* Orbital occupations
+* Electronic density information
+
+It does **not** store coordinates, velocities, cell parameters, thermostat data, or MD history. 
+It is used to let CP2K restart an SCF cycle from an already converged electronic structure, instead of building the wavefunction from scratch.
+
+It should be requested through `SCF_GUESS RESTART` and the wavefunction file name can be defined via `WFN_RESTART_FILE_NAME`, for example:
+
+<pre class="code-block" data-lang="fortran">
+  <code>
+&DFT
+  WFN_RESTART_FILE_NAME example-RESTART.wfn
+  &SCF
+    SCF_GUESS RESTART
+  &END SCF
+&END DFT
+  </code>
+</pre>
+
+A `.wfn` file is **only valid** if the *basis set*, *pseudopotentials*, *number of atoms*, and *overall DFT setup* stay the same. It is perfect for restarting SCF with the same system, but will fail or cause instability if you change the functional, geometry, basis, or simulation cell.
+
+
+<div class="interactive-test" data-test-id="cp2k-wfn-validity">
+  <p>
+    You finished a DFT run using PBE, TZV2P basis sets, and GTH-PBE pseudopotentials,
+    producing the file `water-RESTART.wfn`.
+    In which scenario can this wavefunction file still be safely reused?
+  </p>
+
+  <form class="quiz" data-answer="2">
+
+  <div class="quiz-correct hidden">
+    Correct. Changing SCF convergence settings does not modify the underlying
+    electronic basis, so the `.wfn` file remains valid and can be reused.
+  </div>
+
+  <div class="quiz-wrong hidden">
+    Not quite. A `.wfn` file is only valid if the basis sets, pseudopotentials,
+    and number and types of atoms stay the same. Most other changes invalidate it,
+    even if CP2K does not immediately crash.
+  </div>
+
+  <label>
+    <input type="radio" name="cp2k-wfn-validity" value="0">
+    Switching the XC functional from PBE to SCAN.
+  </label>
+
+  <label>
+    <input type="radio" name="cp2k-wfn-validity" value="1">
+    Keeping PBE, but changing all oxygen atoms from TZV2P to TZVP basis sets.
+  </label>
+
+  <label>
+    <input type="radio" name="cp2k-wfn-validity" value="2">
+    Tightening SCF convergence settings (e.g. smaller `EPS_SCF`).
+  </label>
+
+  <label>
+    <input type="radio" name="cp2k-wfn-validity" value="3">
+    Adding D3 dispersion correction while keeping the same basis and pseudopotentials.
+  </label>
+
+  <button type="button" class="quiz-submit">
+    Check answer
+  </button>
+
+  </form>
+  <p class="quiz-feedback" aria-live="polite"></p>
+</div>
+
+
+
+---
+
+## 10. Practical use of CP2K documentation
+
+When using CP2K, a few good habits I would suggest are:
+
+* Keep a browser tab open with the [CP2K manual](https://manual.cp2k.org/).
+* For methods such as geometry optimization or MD, start from the method specific tutorials in the manual, which provide complete example inputs.
+* Use my [CP2K Input Generator](/_tools/cp2k-input-generator.html) to create initial inputs :)
+
+You can also generate an input reference that exactly matches your executable by running CP2K with special flags:
+
+<pre class="code-block" data-lang="bash">
+  <code>
+cp2k.psmp --xml
+  </code>
+</pre>
+
+This tells CP2K to print an <abbr title="eXtensible Markup Language">XML</abbr> representation of the full input tree and defaults (the entire keyword hierarchy).
 
 ---
 
@@ -793,7 +920,7 @@ In this tutorial we focused on the **workflow** of running CP2K:
 * How to perform basic success checks and where to look first when something fails.
 * How to connect your executable to matching documentation using the CP2K manual and `--xml` or related flags.
 
-Once this workflow is comfortable, you can move on to method specific tutorials, more advanced input features, and performance tuning. At that point CP2K becomes just one component in a larger toolchain: pre processing, simulation, and post processing all linked together by scripts and analysis codes.
+Once this workflow is comfortable, you can move on to more method specific workflows, more advanced input features, and performance tuning. At that point CP2K becomes just one component in a larger toolchain: pre processing, simulation, and post processing all linked together by scripts and analysis codes.
 
 ---
 
