@@ -1,8 +1,8 @@
 ---
 layout: default
-title: "How to run CP2K [WORK IN PROGRESS]"
+title: "How to run CP2K"
 tags: [cp2k, molecular dynamics, DFT, CP2K, tutorial]
-description: "Step by step tutorial on how to run CP2K: from executables and modules to job scripts, parallel settings and basic sanity checks, with interactive questions and example scripts."
+description: "Step-by-step tutorial on how to run CP2K: from executables and modules to job scripts, parallel settings and basic sanity checks, with interactive questions and examples."
 styles:
   - /css/tutorials/tutorial.css
 ---
@@ -148,11 +148,10 @@ The details depend on the build, but a common convention is:
 * `ssmp` pure <abbr title="Open Multi-Processing">OpenMP</abbr>
 * `psmp` MPI plus OpenMP hybrid
 
-CP2K’s [official benchmark suite](https://www.cp2k.org/performance) shows that the **hybrid `psmp` executable** (MPI plus OpenMP) is generally the fastest configuration when tuned for a given machine. The code scales primarily through MPI, but using only MPI ranks can lead to excessive memory use. The CP2K [MPI vs OpenMP FAQ](https://www.cp2k.org/faq:mpi_vs_openmp) recommends starting with **two OpenMP threads per MPI rank** and benchmarking to find the best ratio for your system.
+CP2K’s [official benchmark suite](https://www.cp2k.org/performance) shows that a well tuned **hybrid `psmp`** (MPI plus OpenMP) build often performs best in terms of speed an memory usage, but the optimal choice is system dependent and should be determined through benchmarking. In the case of `psmp`, the code scales primarily through MPI, but using only MPI ranks can lead to excessive memory use. A common starting point in CP2K [MPI vs OpenMP FAQ](https://www.cp2k.org/faq:mpi_vs_openmp) is to start with **two OpenMP threads per MPI rank** and benchmarking to find the best ratio for your system.
 
 
 On a modern cluster node, where you have (for example) 64 physical cores, sensible parallel layouts are:
-
 
 | Parallel layout                 | MPI ranks | OpenMP threads | Total cores used | Notes                                      |
 | ------------------------------- | --------- | -------------- | ---------------- | ------------------------------------------ |
@@ -343,7 +342,7 @@ A CP2K input file is written in Fortran-like namelist format, with sections star
   </code>
 </pre>
 
-For the generation of input files, I would like to guide you to my [CP2K Input Generator](/_tools/cp2k-input-generator.html), and recommend always cross-checking with the [official CP2K manual](https://manual.cp2k.org/trunk/).
+For the generation of input files, I would like to guide you to my [CP2K Input Generator](/tools/cp2k-input-generator/), and recommend always cross-checking with the [official CP2K manual](https://manual.cp2k.org/trunk/).
 
 
 <div class="interactive-test" data-test-id="cp2k-run-type">
@@ -594,7 +593,7 @@ A quick sanity check usually involves:
 
 <pre class="code-block" data-lang="text">
   <code>
-  **** **** ******  **  PROGRAM ENDED AT                 yyyy-dd-mm hh:mm:ss.sss
+  **** **** ******  **  PROGRAM ENDED AT                 YYYY-MM-DD hh:mm:ss.sss
  ***** ** ***  *** **   PROGRAM RAN ON                                  hostname
  **    ****   ******    PROGRAM RAN BY                                  username
  ***** **    ** ** **   PROGRAM PROCESS ID                     project_id_number
@@ -631,7 +630,7 @@ A quick sanity check usually involves:
 
 <ol start="4">
   <li><strong>Check for warnings</strong> and messages printed in ALL CAPS, such as missing files, basis issues, or SCF convergence problems.</li>
-  <li><strong>Verify no <span class="inline-code">[ABORT]</span> blocks appear</strong>, as these mean the run stopped prematurely. For example, if the SCF did not converge:</li>
+  <li><strong>Verify no <span class="inline-code">[ABORT]</span> blocks appear</strong>, as these mean the run stopped prematurely. <br>For example, if the SCF did not converge:</li>
 </ol>
 
 <pre class="code-block" data-lang="text">
@@ -649,7 +648,7 @@ A quick sanity check usually involves:
   </code>
 </pre>
 
-The [CP2K documentation](https://www.cp2k.org) explains the energy components and SCF behavior in further detail:
+The [CP2K documentation](https://www.cp2k.org) explains the energy components and SCF behavior in further detail.
 
 
 <div class="interactive-test" data-test-id="cp2k-output-check">
@@ -681,7 +680,7 @@ The [CP2K documentation](https://www.cp2k.org) explains the energy components an
 
 <label>
   <input type="radio" name="cp2k-output-check" value="2">
-  Improve SCF settings (e.g. smearing, mixing, smaller timestep, better initial guess) and rerun.
+  Improve SCF settings (e.g. smearing, mixing, better initial guess) and rerun.
 </label>
 
 <label>
@@ -704,14 +703,12 @@ The [CP2K documentation](https://www.cp2k.org) explains the energy components an
 
 Many realistic CP2K workflows *cannot* be completed in a single execution, either because they exceed the wall time limit, involve multiple simulation phases, or intentionally reuse previously converged electronic states. CP2K is designed for these situations and can write **restart files** that store the essential state of the calculation: **coordinates**, **velocities**, **wavefunctions**, **density matrices**, or even the **SCF history**.
 
-Restart capability is useful for:
+The restart capability is useful for:
 
 * **Recovering** from a scheduler timeout instead of discarding partial progress.
 * **Switching** from a cheaper “preconverged” calculation to a more accurate one (for example: LDA to PBE, smaller cutoff to larger cutoff, or pure DFT to hybrid DFT).
 * **Multi-stage workflows** such as equilibration, annealing, production MD, or metadynamics.
 * **Incremental geometry optimization**, where intermediate electronic states help subsequent steps converge faster.
-
-### What is in CP2K restart files?
 
 CP2K writes **two different kinds of restart files**, and they serve different purposes.
 
@@ -744,7 +741,7 @@ The `&EXT_RESTART` section has [many options](https://manual.cp2k.org/trunk/CP2K
 
 Setting these parameters can be a little bit tricky, however, so let's look at some practical examples.
 
-- By default, if `&EXT_RESTART` is not present, CP2K does **not** write or read any restart file.
+- By default, if `&EXT_RESTART` is not present, CP2K does **not** read any restart file.
 - If `&EXT_RESTART` is present with only `RESTART_FILE_NAME`, CP2K reads the restart file with **all available data**, because `RESTART_DEFAULT` is `.TRUE.` by default.
   - If you set `RESTART_DEFAULT .FALSE.`, no data is read.
 - If you explicitly set e.g. `RESTART_POS .TRUE.`, then **only this data** is read from the restart file.
@@ -756,15 +753,13 @@ Setting these parameters can be a little bit tricky, however, so let's look at s
     You run CP2K with the following restart settings:
   </p>
 
-<pre class="code-block" data-lang="fortran">
-  <code>
+```fortran
 &EXT_RESTART
   RESTART_FILE_NAME example-project-1.restart
   RESTART_DEFAULT .TRUE.
   RESTART_VEL .FALSE.
 &END EXT_RESTART
-  </code>
-</pre>
+```
 
   <p>
     Assuming `example-project-1.restart` contains positions, velocities, cell, and thermostat state, what will CP2K actually read from the restart file?
@@ -833,7 +828,7 @@ It should be requested through `SCF_GUESS RESTART` and the wavefunction file nam
   </code>
 </pre>
 
-A `.wfn` file is **only valid** if the *basis set*, *pseudopotentials*, *number of atoms*, and *overall DFT setup* stay the same. It is perfect for restarting SCF with the same system, but will fail or cause instability if you change the functional, geometry, basis, or simulation cell.
+A `.wfn` file is safe to reuse as an initial SCF guess as long as the basis sets, pseudopotentials and number and type of atoms are unchanged. Geometry and many DFT settings (such as adding dispersion or tightening SCF thresholds) can change; the wavefunction will just be iterated to the new self consistent solution.
 
 
 <div class="interactive-test" data-test-id="cp2k-wfn-validity">
@@ -873,7 +868,7 @@ A `.wfn` file is **only valid** if the *basis set*, *pseudopotentials*, *number 
 
   <label>
     <input type="radio" name="cp2k-wfn-validity" value="3">
-    Adding D3 dispersion correction while keeping the same basis and pseudopotentials.
+    Making the cell size larger, but adding new atoms to keep the density the same.
   </label>
 
   <button type="button" class="quiz-submit">
@@ -894,7 +889,7 @@ When using CP2K, a few good habits I would suggest are:
 
 * Keep a browser tab open with the [CP2K manual](https://manual.cp2k.org/).
 * For methods such as geometry optimization or MD, start from the method specific tutorials in the manual, which provide complete example inputs.
-* Use my [CP2K Input Generator](/_tools/cp2k-input-generator.html) to create initial inputs :)
+* Use my [CP2K Input Generator](/tools/cp2k-input-generator/) to create initial inputs :)
 
 You can also generate an input reference that exactly matches your executable by running CP2K with special flags:
 
