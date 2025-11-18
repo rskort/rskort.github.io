@@ -19,12 +19,13 @@ li {
 
 /* Math (MathJax or KaTeX) */
 mjx-container {
-  font-size: var(--font-size-6);
+  font-size: var(--font-size-math) !important;
   line-height: 1.5;
 }
 
 /* Inline code in text (kept light) */
 section code {
+  font-size: var(--font-size-code);
   font-family: "JetBrains Mono", "Fira Code", SFMono-Regular, Menlo, Monaco,
     Consolas, "Liberation Mono", "Courier New", monospace;
   padding: 0.1rem 0.25rem;
@@ -43,23 +44,13 @@ pre.code-block {
   background-color: var(--color-code-bg);          /* Slightly darker, same look */
   color: var(--color-code-text);
   overflow-x: auto;
-  font-size: var(--font-size-6);
+  font-size: var(--font-size-code);
   line-height: 1.6;
   border: 1px solid var(--color-code-border);          /* Thin border to separate from page */
   box-shadow: 0 3px 10px var(--color-shadow-code);
   font-family: "JetBrains Mono", "Fira Code", SFMono-Regular, Menlo, Monaco,
     Consolas, "Liberation Mono", "Courier New", monospace;
   position: relative;                 /* Needed for the language badge */
-}
-
-/* Inner code inherits the block style */
-section pre code,
-pre.code-block code {
-  background: none;
-  padding: 0;
-  font-size: inherit;
-  font-family: inherit;
-  white-space: pre;                   /* Keep spacing as typed */
 }
 
 /* Language pill in the top right of code blocks that use .code-block */
@@ -70,7 +61,7 @@ pre.code-block::before {
   right: 0.7rem;
   padding: 0.1rem 0.55rem;
   border-radius: 999px;
-  font-size: var(--font-size-6);
+  font-size: var(--font-size-code);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   background-color: var(--color-code-border);
@@ -81,6 +72,7 @@ pre.code-block::before {
 code.highlighter-rouge,
 .inline-code {
   font-family: monospace;
+  font-size: var(--font-size-code);
   padding: 0.1rem 0.25rem;
   border-radius: 0.2rem;
   background-color: var(--color-bg-soft);

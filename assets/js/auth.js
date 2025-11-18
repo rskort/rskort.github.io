@@ -28,7 +28,13 @@ let activeView = 'signin';
 let lastKnownUserId = null;
 
 const supabaseKey = typeof window !== 'undefined' ? window.SUPABASE_ANON_KEY : undefined;
-const isKeyMissing = !supabaseKey || PLACEHOLDER_PATTERN.test(String(supabaseKey).trim());
+const placeholderMatcher =
+  PLACEHOLDER_PATTERN && typeof PLACEHOLDER_PATTERN.test === 'function'
+    ? PLACEHOLDER_PATTERN
+    : null;
+const isKeyMissing =
+  !supabaseKey ||
+  (placeholderMatcher && placeholderMatcher.test(String(supabaseKey).trim()));
 const supabase = isKeyMissing ? null : createClient(SUPABASE_URL, supabaseKey);
 
 const setStatus = (message = '', variant = 'info') => {
