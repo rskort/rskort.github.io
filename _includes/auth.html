@@ -8,7 +8,7 @@
         Sign in to unlock upcoming features including tutorial progress, saved games, and personalized dashboards.
       </p>
 
-      <div class="auth-modal__switcher" role="tablist" aria-label="Authentication options">
+      <div class="auth-modal__switcher" id="auth-view-switcher" role="tablist" aria-label="Authentication options">
         <button class="auth-switch is-active" type="button" data-auth-view="signin">Sign in</button>
         <button class="auth-switch" type="button" data-auth-view="signup">Create account</button>
         <button class="auth-switch" type="button" data-auth-view="reset">Reset password</button>
@@ -57,8 +57,61 @@
         <button class="btn btn-secondary btn-full" type="submit">Send reset email</button>
       </form>
 
-      <div class="auth-modal__footer" id="auth-signout-wrapper" hidden>
-        <button class="btn btn-outline btn-full" id="auth-signout" type="button">Sign out</button>
+      <div class="auth-form" id="auth-account-view" data-auth-view-target="account">
+        <div class="auth-account__banner">
+          <div class="auth-account__identity">
+            <p class="auth-helper auth-helper--strong">You are signed in to R.S. Kort.</p>
+            <p class="auth-account__name" id="auth-account-name"></p>
+            <p class="auth-account__email" id="auth-account-email"></p>
+            <p class="auth-account__meta" id="auth-account-last-seen"></p>
+          </div>
+          <div class="auth-account__status">
+            <span class="auth-badge" id="auth-account-status">Status unknown</span>
+            <p class="auth-helper">
+              Keep your contact details current so we can reach you about resets and security notices.
+            </p>
+          </div>
+        </div>
+
+        <div class="auth-account__grid">
+          <div class="auth-panel">
+            <h3 class="auth-panel__title">Profile</h3>
+            <p class="auth-panel__hint">Update the name shown across tutorials, tools, and saved progress.</p>
+            <form class="auth-inline-form" id="auth-profile-form">
+              <label class="auth-label" for="profile-name">Display name</label>
+              <div class="auth-inline-group">
+                <input class="auth-input" type="text" id="profile-name" name="displayName" placeholder="How you want to be addressed" autocomplete="name" required>
+                <button class="btn btn-secondary" type="submit">Update name</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="auth-panel">
+            <h3 class="auth-panel__title">Email &amp; security</h3>
+            <form class="auth-inline-form" id="auth-email-form">
+              <label class="auth-label" for="update-email">Change email</label>
+              <div class="auth-inline-group">
+                <input class="auth-input" type="email" id="update-email" name="email" placeholder="new@email.com" autocomplete="email" required>
+                <button class="btn btn-secondary" type="submit">Send change link</button>
+              </div>
+              <p class="auth-panel__hint">We will email a confirmation link to complete the change.</p>
+            </form>
+
+            <form class="auth-inline-form" id="auth-password-form">
+              <label class="auth-label" for="update-password">New password</label>
+              <div class="auth-inline-group">
+                <input class="auth-input" type="password" id="update-password" name="password" placeholder="New secure password" minlength="8" autocomplete="new-password" required>
+                <button class="btn btn-secondary" type="submit">Update password</button>
+              </div>
+            </form>
+
+            <button class="btn btn-outline btn-full auth-inline-action" id="auth-reset-current" type="button">Email me a reset link</button>
+          </div>
+        </div>
+
+        <div class="auth-account__actions">
+          <button class="btn btn-outline btn-full" id="auth-signout" type="button">Sign out</button>
+        </div>
       </div>
     </div>
   </div>

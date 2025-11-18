@@ -10,10 +10,16 @@ const elements = {
   userButton: $('auth-user-button'),
   userName: $('auth-user-name'),
   modal: $('auth-modal'),
-  signOutWrapper: $('auth-signout-wrapper'),
   signOutButton: $('auth-signout'),
   status: $('auth-status'),
   keyHint: $('auth-key-hint'),
+  viewSwitcher: $('auth-view-switcher'),
+  accountName: $('auth-account-name'),
+  accountEmail: $('auth-account-email'),
+  accountView: $('auth-account-view'),
+  accountStatus: $('auth-account-status'),
+  accountLastSeen: $('auth-account-last-seen'),
+  resetCurrentButton: $('auth-reset-current'),
 };
 
 const viewButtons = Array.from(document.querySelectorAll('[data-auth-view]'));
@@ -22,10 +28,14 @@ const forms = {
   signin: $('auth-signin-form'),
   signup: $('auth-signup-form'),
   reset: $('auth-reset-form'),
+  profile: $('auth-profile-form'),
+  email: $('auth-email-form'),
+  password: $('auth-password-form'),
 };
 
 let activeView = 'signin';
 let lastKnownUserId = null;
+let currentUser = null;
 
 const supabaseKey = typeof window !== 'undefined' ? window.SUPABASE_ANON_KEY : undefined;
 const placeholderMatcher =
@@ -82,22 +92,90 @@ const toggleFormControls = (form, disabled) => {
   });
 };
 
+const formatDateTime = (value) => {
+  if (!value) return '—';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '—';
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(date);
+};
+
+const updateAccountStatus = (user) => {
+  if (!elements.accountStatus) return;
+  if (!user) {
+    elements.accountStatus.textContent = 'Not signed in';
+    elements.accountStatus.dataset.variant = 'muted';
+    return;
+  }
+  const verified = Boolean(user?.email_confirmed_at);
+  elements.accountStatus.textContent = verified ? 'Email verified' : 'Email pending verification';
+  elements.accountStatus.dataset.variant = verified ? 'positive' : 'warning';
+};
+
 const reflectSession = (user) => {
   const signedIn = Boolean(user);
+  currentUser = user || null;
   if (elements.openButton) {
     elements.openButton.hidden = signedIn;
   }
   if (elements.userButton) {
     elements.userButton.hidden = !signedIn;
   }
-  if (elements.signOutWrapper) {
-    elements.signOutWrapper.hidden = !signedIn;
-  }
   if (elements.signOutButton) {
     elements.signOutButton.disabled = !signedIn;
   }
   if (elements.userName) {
     elements.userName.textContent = signedIn ? getDisplayName(user) : 'Account';
+  }
+  if (elements.viewSwitcher) {
+    elements.viewSwitcher.hidden = signedIn;
+  }
+  if (signedIn) {
+    if (elements.accountName) {
+      elements.accountName.textContent = getDisplayName(user);
+    }
+    if (elements.accountEmail) {
+      elements.accountEmail.textContent = user?.email ?? '';
+    }
+    if (elements.accountLastSeen) {
+      elements.accountLastSeen.textContent = user?.last_sign_in_at
+        ? `Last active ${formatDateTime(user.last_sign_in_at)}`
+        : 'Last active: —';
+    }
+    const profileNameField = forms.profile?.elements?.displayName;
+    if (profileNameField) {
+      profileNameField.value = getDisplayName(user);
+    }
+    const changeEmailField = forms.email?.elements?.email;
+    if (changeEmailField && !changeEmailField.value) {
+      changeEmailField.placeholder = user?.email || 'new@email.com';
+    }
+    updateAccountStatus(user);
+    setActiveView('account');
+    setStatus(`Signed in as ${getDisplayName(user)}.`, 'positive');
+  } else {
+    if (elements.accountName) {
+      elements.accountName.textContent = '';
+    }
+    if (elements.accountEmail) {
+      elements.accountEmail.textContent = '';
+    }
+    if (elements.accountLastSeen) {
+      elements.accountLastSeen.textContent = '';
+    }
+    const profileNameField = forms.profile?.elements?.displayName;
+    if (profileNameField) {
+      profileNameField.value = '';
+    }
+    const changeEmailField = forms.email?.elements?.email;
+    if (changeEmailField) {
+      changeEmailField.value = '';
+      changeEmailField.placeholder = 'new@email.com';
+    }
+    updateAccountStatus(null);
+    setActiveView('signin');
   }
   if (signedIn) {
     lastKnownUserId = user?.id ?? 'local-user';
@@ -114,6 +192,17 @@ const getDisplayName = (user) => {
     return name;
   }
   return user?.email ?? 'Account';
+};
+
+const refreshUser = async () => {
+  if (!supabase) return null;
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    throw error;
+  }
+  const user = data.user ?? null;
+  reflectSession(user);
+  return user;
 };
 
 const handleForm = (form, handler) => {
@@ -233,6 +322,106 @@ handleForm(forms.reset, async ({ email }) => {
   }
   setStatus('A password reset email is on its way.', 'positive');
   forms.reset?.reset();
+});
+
+// Profile name update
+handleForm(forms.profile, async ({ displayName }) => {
+  if (!currentUser) {
+    setStatus('Sign in to manage your profile.', 'error');
+    return;
+  }
+  const fullName = (displayName || '').trim();
+  if (!fullName) {
+    setStatus('Please share the name you want us to use.', 'error');
+    return;
+  }
+  const currentName = getDisplayName(currentUser);
+  if (fullName === currentName) {
+    setStatus('That is already your display name.', 'error');
+    return;
+  }
+  setStatus('Updating your profile...', 'info');
+  const { error } = await supabase.auth.updateUser({
+    data: { full_name: fullName, name: fullName },
+  });
+  if (error) {
+    throw error;
+  }
+  setStatus('Name updated.', 'positive');
+  await refreshUser();
+});
+
+// Email change request
+handleForm(forms.email, async ({ email }) => {
+  if (!currentUser) {
+    setStatus('Sign in to update your contact email.', 'error');
+    return;
+  }
+  const newEmail = (email || '').trim();
+  if (!newEmail) {
+    setStatus('Enter the email you would like to use.', 'error');
+    return;
+  }
+  if (currentUser?.email && newEmail.toLowerCase() === currentUser.email.toLowerCase()) {
+    setStatus('You are already using that email address.', 'error');
+    return;
+  }
+  setStatus('Sending a confirmation to update your email...', 'info');
+  const { error } = await supabase.auth.updateUser(
+    { email: newEmail },
+    { emailRedirectTo: window.location.origin }
+  );
+  if (error) {
+    throw error;
+  }
+  setStatus(`We sent a confirmation to ${newEmail}. Use it to finish updating your account.`, 'positive');
+  forms.email?.reset();
+});
+
+// Password update
+handleForm(forms.password, async ({ password }) => {
+  if (!currentUser) {
+    setStatus('Sign in to change your password.', 'error');
+    return;
+  }
+  const newPassword = (password || '').trim();
+  if (!newPassword || newPassword.length < 8) {
+    setStatus('Choose a password with at least 8 characters.', 'error');
+    return;
+  }
+  setStatus('Updating your password...', 'info');
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  if (error) {
+    throw error;
+  }
+  setStatus('Password updated. Use it the next time you sign in.', 'positive');
+  forms.password?.reset();
+});
+
+// Send reset link to the current account email
+elements.resetCurrentButton?.addEventListener('click', async () => {
+  if (!supabase) {
+    setStatus('Add your Supabase anon key before continuing.', 'error');
+    return;
+  }
+  const email = currentUser?.email;
+  if (!email) {
+    setStatus('We could not find an email for your account.', 'error');
+    return;
+  }
+  try {
+    setStatus(`Sending a reset link to ${email}...`, 'info');
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin,
+    });
+    if (error) {
+      throw error;
+    }
+    setStatus(`A password reset email is on its way to ${email}.`, 'positive');
+  } catch (error) {
+    console.error(error);
+    setStatus(error.message || 'Unable to send the reset email.', 'error');
+  }
 });
 
 elements.signOutButton?.addEventListener('click', async () => {
