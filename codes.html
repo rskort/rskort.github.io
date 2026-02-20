@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rskort – Codes & Scripts</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Highlight.js for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <!-- MathJax for math rendering -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body>
+  <div class="site-wrapper">
+
+    <!-- Left navigation -->
+    <nav class="sidebar" aria-label="Site navigation">
+      <div class="site-title">rskort</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="codes.html" class="active">Codes</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main content -->
+    <main class="content">
+      <header class="page-header">
+        <h1>Codes & Scripts</h1>
+        <p class="subtitle">Reusable snippets and utilities to share.</p>
+      </header>
+
+      <!-- Code Section 1: Python List Comprehension Utilities -->
+      <div class="code-section">
+        <div class="code-header">
+          <h3>Flatten Nested Lists in Python</h3>
+        </div>
+        <p class="code-description">
+          A simple and efficient way to flatten nested lists using list comprehension. 
+          This example shows how to handle lists of arbitrary depth.
+        </p>
+        <div class="code-block-wrapper">
+          <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+          <pre><code class="language-python">def flatten(nested_list):
+    """Flatten a nested list of arbitrary depth."""
+    result = []
+    for item in nested_list:
+        if isinstance(item, list):
+            result.extend(flatten(item))
+        else:
+            result.append(item)
+    return result
+
+# Example usage
+nested = [[1, 2], [3, [4, 5]], 6]
+flat = flatten(nested)
+print(flat)  # Output: [1, 2, 3, 4, 5, 6]</code></pre>
+        </div>
+        <div class="code-footer">Language: Python</div>
+      </div>
+
+      <!-- Code Section 2: JavaScript Memoization -->
+      <div class="code-section">
+        <div class="code-header">
+          <h3>Function Memoization in JavaScript</h3>
+        </div>
+        <p class="code-description">
+          A decorator pattern for caching function results, useful for expensive computations.
+          This prevents redundant calculations by storing previously computed values.
+        </p>
+        <div class="code-block-wrapper">
+          <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+          <pre><code class="language-javascript">function memoize(fn) {
+  const cache = new Map();
+  return function(...args) {
+    const key = JSON.stringify(args);
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    const result = fn.apply(this, args);
+    cache.set(key, result);
+    return result;
+  };
+}
+
+// Example: memoized Fibonacci
+const fib = memoize(function(n) {
+  if (n <= 1) return n;
+  return fib(n - 1) + fib(n - 2);
+});
+
+console.log(fib(30));  // Fast computation</code></pre>
+        </div>
+        <div class="code-footer">Language: JavaScript</div>
+      </div>
+
+      <!-- Code Section 3: Python Data Processing -->
+      <div class="code-section">
+        <div class="code-header">
+          <h3>Safe Dictionary Access with Defaults</h3>
+        </div>
+        <p class="code-description">
+          A utility class for safely accessing nested dictionary values without raising KeyError exceptions.
+          Useful when working with unpredictable or partially structured data.
+        </p>
+        <div class="code-block-wrapper">
+          <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+          <pre><code class="language-python">class SafeDict:
+    """Access nested dictionary values safely."""
+    def __init__(self, data):
+        self.data = data
+    
+    def get_path(self, *keys, default=None):
+        """Get value from nested dict using dot notation."""
+        current = self.data
+        for key in keys:
+            if isinstance(current, dict):
+                current = current.get(key)
+            else:
+                return default
+            if current is None:
+                return default
+        return current
+
+# Example usage
+data = {'user': {'profile': {'name': 'Alice'}}}
+safe = SafeDict(data)
+name = safe.get_path('user', 'profile', 'name')  # 'Alice'
+email = safe.get_path('user', 'contact', 'email', default='N/A')  # 'N/A'</code></pre>
+        </div>
+        <div class="code-footer">Language: Python</div>
+      </div>
+
+      <!-- Code Section 4: Algorithm - Binary Search -->
+      <div class="code-section">
+        <div class="code-header">
+          <h3>Binary Search Implementation</h3>
+        </div>
+        <p class="code-description">
+          A classic binary search algorithm with $O(\log n)$ time complexity.
+          Requires a sorted array and efficiently finds target values.
+        </p>
+        <div class="code-block-wrapper">
+          <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+          <pre><code class="language-python">def binary_search(arr, target):
+    """
+    Binary search for target in sorted array.
+    Returns index if found, -1 otherwise.
+    """
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1
+
+# Example
+arr = [1, 3, 5, 7, 9, 11, 13]
+idx = binary_search(arr, 7)  # Returns 3</code></pre>
+        </div>
+        <div class="code-footer">Language: Python</div>
+      </div>
+
+      <!-- Code Section 5: String Utilities -->
+      <div class="code-section">
+        <div class="code-header">
+          <h3>Python String Manipulation Utilities</h3>
+        </div>
+        <p class="code-description">
+          Common string operations including slug generation and case conversion.
+          These utilities are helpful for text processing and URL generation.
+        </p>
+        <div class="code-block-wrapper">
+          <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+          <pre><code class="language-python">import re
+
+def slugify(text):
+    """Convert text to a URL-friendly slug."""
+    text = text.lower().strip()
+    text = re.sub(r'[^\w\s-]', '', text)
+    text = re.sub(r'[-\s]+', '-', text)
+    return text.strip('-')
+
+def camel_to_snake(name):
+    """Convert camelCase to snake_case."""
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+# Examples
+print(slugify("Hello World!"))  # hello-world
+print(camel_to_snake("myFunctionName"))  # my_function_name</code></pre>
+        </div>
+        <div class="code-footer">Language: Python</div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <footer>
+    &copy; 2026 rskort
+  </footer>
+
+  <script>
+    // Initialize syntax highlighting
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    });
+
+    // Copy to clipboard functionality
+    function copyToClipboard(button) {
+      const codeBlock = button.parentElement.querySelector('code');
+      const text = codeBlock.textContent;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        button.textContent = '✓ Copied';
+        button.classList.add('copied');
+        
+        setTimeout(() => {
+          button.textContent = 'Copy';
+          button.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+      });
+    }
+  </script>
+</body>
+</html>
