@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rskort – Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- MathJax for math rendering -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body>
+  <div class="site-wrapper">
+
+    <!-- Left navigation -->
+    <nav class="sidebar" aria-label="Site navigation">
+      <div class="site-title">rskort</div>
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main content -->
+    <main class="content">
+      <header class="page-header">
+        <h1>Welcome</h1>
+        <p class="subtitle">A clean, professional personal site.</p>
+      </header>
+
+      <section>
+        <h2>Introduction</h2>
+        <p>
+          This is a minimal, professional website. It is easy to extend and
+          navigate. Use the sidebar on the left to move between pages.
+        </p>
+      </section>
+
+      <section>
+        <h2>Mathematics</h2>
+        <p>
+          Math is rendered with
+          <a href="https://www.mathjax.org/" target="_blank" rel="noopener">MathJax</a>.
+          Inline math works like this: the quadratic formula is
+          $x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.
+        </p>
+        <p>Display equations are also supported:</p>
+        <div class="math-block">
+          $$
+            \int_{-\infty}^{\infty} e^{-x^2}\, dx = \sqrt{\pi}
+          $$
+        </div>
+        <p>Another example — Euler's identity:</p>
+        <div class="math-block">
+          $$
+            e^{i\pi} + 1 = 0
+          $$
+        </div>
+        <p>And the definition of the Fourier transform:</p>
+        <div class="math-block">
+          $$
+            \hat{f}(\xi) = \int_{-\infty}^{\infty} f(x)\, e^{-2\pi i x \xi}\, dx
+          $$
+        </div>
+      </section>
+
+      <section>
+        <h2>Topics</h2>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Mathematics</h3>
+            <p>Exploring analysis, algebra, and applied mathematics.</p>
+          </div>
+          <div class="card">
+            <h3>Programming</h3>
+            <p>Clean code, algorithms, and software craftsmanship.</p>
+          </div>
+          <div class="card">
+            <h3>Research</h3>
+            <p>Notes and summaries from papers and projects.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+  </div>
+
+  <footer>
+    &copy; 2026 rskort
+  </footer>
+</body>
+</html>
