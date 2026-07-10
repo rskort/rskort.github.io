@@ -9,7 +9,7 @@ permalink: /concepts/miller-indices/
 
 # From an FCC crystal to a surface
 
-An FCC surface is not a separate structure placed on top of the crystal. It is the two-dimensional pattern left behind when the three-dimensional crystal is cut along a chosen plane. Miller indices \((hkl)\) tell us the orientation of that cut.
+A crystal surface is not a separate structure placed on top of the bulk. It is the two-dimensional pattern left behind when the three-dimensional lattice is cut along a chosen plane. Miller indices tell us the orientation of that cut.
 
 ## First, picture the FCC unit cell
 
@@ -65,6 +65,18 @@ Select a plane below. The coloured sheet is the cut through the conventional FCC
 For a cubic lattice, the direction \([hkl]\) is normal to the plane \((hkl)\). Higher-index cuts such as (211) or (311) are tilted away from a low-index plane. At atomic scale, that tilt appears as narrow terraces separated by regular steps.
 
 Parentheses denote a plane, as in \((111)\); square brackets denote a direction, as in \([111]\); and braces such as \(\{111\}\) collect all symmetry-equivalent planes.
+
+## What changes for BCC and HCP?
+
+The intercept rule describes the plane orientation; the bulk basis determines which atoms that plane actually exposes. FCC and BCC share cubic axes but place atoms at face centres or the body centre, so the same (110) orientation produces different surface nets.
+
+HCP uses three equivalent basal axes separated by \(120^\circ\), plus the c axis. Its planes are commonly written with four Miller–Bravais indices \((hkil)\), where the third basal index is redundant:
+
+\[
+i=-(h+k).
+\]
+
+Thus (0001) is the basal plane, (10-10) and (11-20) are prism planes parallel to c, and a nonzero final index—such as in (10-11)—tilts the cut into a pyramidal plane.
 
 ## Why the termination matters
 

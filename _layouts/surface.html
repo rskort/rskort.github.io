@@ -20,6 +20,19 @@ layout: default
     </dl>
   </header>
 
+  <section class="cut-section" aria-labelledby="bulk-cut-heading">
+    <div class="section-heading"><div><p class="kicker">From bulk to facet</p><h2 id="bulk-cut-heading">How {{ surface.title }} is cut</h2></div></div>
+    <div class="cut-grid">
+      <figure class="cut-figure"><img src="{{ '/assets/surfaces/' | append: surface.id | append: '-cut.svg' | relative_url }}" alt="{{ surface.facet }} plane cutting through a {{ surface.lattice }} bulk unit cell"><figcaption>The coloured sheet is one translated member of the {{ surface.facet }} plane family; translating it along its normal gives an equivalent termination.</figcaption></figure>
+      <div class="cut-copy">
+        <p class="cut-index">{{ surface.facet }}</p>
+        <p>{{ surface.cut_description }}</p>
+        <dl><div><dt>Bulk lattice</dt><dd>{{ surface.lattice }}</dd></div><div><dt>Plane normal</dt><dd>{% if surface.crystal == 'hcp' %}reciprocal vector G{{ surface.facet }}{% else %}{{ surface.facet | remove: '(' | remove: ')' | prepend: '[' | append: ']' }}{% endif %}</dd></div><div><dt>What remains</dt><dd>{{ surface.surface_shape }}</dd></div></dl>
+        <p class="quiet">The plane is drawn through the centre so high-index cuts remain legible. Its orientation—not its absolute position inside one cell—is what the indices specify.</p>
+      </div>
+    </div>
+  </section>
+
   <section aria-labelledby="site-map-heading">
     <div class="section-heading">
       <div><p class="kicker">Surface geometry</p><h2 id="site-map-heading">Read the surface from above</h2></div>
@@ -32,6 +45,22 @@ layout: default
           <li value="{{ site_entry.marker }}"><div><strong>{{ site_entry.label }}</strong><span>{{ site_entry.coordination }}-fold</span></div><p>{{ site_entry.definition }}</p>{% if site_entry.ase_keyword %}<code>{{ site_entry.ase_keyword }}</code>{% endif %}</li>
         {% endfor %}
       </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="viewer-heading">
+    <div class="section-heading"><div><p class="kicker">Interactive model</p><h2 id="viewer-heading">Rotate the slab</h2></div><p class="quiet viewer-hint">Drag to rotate · scroll or pinch to zoom · hover a site for its name</p></div>
+    <div class="surface-viewer" data-geometry="{{ '/assets/surfaces/' | append: surface.id | append: '-viewer.json' | relative_url }}">
+      <div class="viewer-stage">
+        <canvas aria-label="Interactive three-dimensional model of {{ surface.title }} and its adsorption sites"></canvas>
+        <div class="viewer-loading">Building the model…</div>
+        <div class="viewer-tooltip" hidden></div>
+      </div>
+      <div class="viewer-toolbar">
+        <div class="viewer-views" aria-label="Preset views"><button type="button" data-view="reset">Perspective</button><button type="button" data-view="top">Top</button><button type="button" data-view="side">Side</button></div>
+        <div class="viewer-toggles"><label><input type="checkbox" data-toggle="sites" checked> Sites</label><label><input type="checkbox" data-toggle="bonds" checked> Bonds</label><label><input type="checkbox" data-toggle="cell" checked> Cell</label><label><input type="checkbox" data-toggle="deep" checked> Deeper layers</label></div>
+      </div>
+      <p class="viewer-status" aria-live="polite"></p>
     </div>
   </section>
 
@@ -68,4 +97,3 @@ layout: default
     {% if next_index <= last_index %}{% assign next = site.data.surfaces[next_index] %}<a class="next" href="{{ '/surface-sites/' | append: next.id | append: '.html' | relative_url }}"><small>Next surface</small><strong>{{ next.title }} →</strong></a>{% else %}<a class="next" href="{{ '/concepts/miller-indices/' | relative_url }}"><small>Understand the cut</small><strong>Miller planes →</strong></a>{% endif %}
   </nav>
 </article>
-

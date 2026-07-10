@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-"""Generate clear, deterministic SVG diagrams for the FCC surface atlas."""
+"""Generate reference diagrams and interactive geometry for the surface atlas."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import ceil
+import json
+from math import atan2, ceil, degrees
 from pathlib import Path
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
 import numpy as np
+import yaml
 from ase import Atoms
 from ase.build import bulk, surface
 from ase.build.tools import minimize_tilt
@@ -17,38 +20,43 @@ from ase.build.tools import minimize_tilt
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = ROOT / "assets" / "surfaces"
-A = 3.61
-MILLER = {
-    "fcc-100": (1, 0, 0),
-    "fcc-110": (1, 1, 0),
-    "fcc-111": (1, 1, 1),
-    "fcc-210": (2, 1, 0),
-    "fcc-211": (2, 1, 1),
-    "fcc-221": (2, 2, 1),
-    "fcc-310": (3, 1, 0),
-    "fcc-311": (3, 1, 1),
-    "fcc-331": (3, 3, 1),
-    "fcc-511": (5, 1, 1),
-}
-
-
 @dataclass(frozen=True)
 class VisualSpec:
+    crystal: str
+    miller: tuple[int, int, int]
     site_fractions: tuple[tuple[float, float], ...]
     profile_axis: int = 0
 
 
 SPECS = {
-    "fcc-100": VisualSpec(((0.50, 0.00), (0.25, 0.25), (0.50, 0.50))),
-    "fcc-110": VisualSpec(((0.25, 0.50), (0.50, 0.50), (0.25, 0.00), (0.50, 0.00))),
-    "fcc-111": VisualSpec(((0.167, 0.167), (0.417, 0.167), (0.333, 0.333), (0.50, 0.50))),
-    "fcc-210": VisualSpec(((0.25, 0.50), (0.50, 0.50), (0.75, 0.00))),
-    "fcc-211": VisualSpec(((0.34, 0.50), (0.00, 0.50), (0.66, 0.25))),
-    "fcc-221": VisualSpec(((0.20, 0.50), (0.45, 0.50), (0.72, 0.25)), profile_axis=1),
-    "fcc-310": VisualSpec(((0.35, 0.50), (0.52, 0.50), (0.80, 0.00))),
-    "fcc-311": VisualSpec(((0.34, 0.36), (0.59, 0.36), (0.82, 0.55))),
-    "fcc-331": VisualSpec(((0.38, 0.36), (0.50, 0.58), (0.72, 0.74)), profile_axis=1),
-    "fcc-511": VisualSpec(((0.42, 0.36), (0.56, 0.36), (0.09, 0.61), (0.82, 0.55))),
+    "fcc-100": VisualSpec("fcc", (1, 0, 0), ((0.50, 0.00), (0.25, 0.25), (0.50, 0.50))),
+    "fcc-110": VisualSpec("fcc", (1, 1, 0), ((0.25, 0.50), (0.50, 0.50), (0.25, 0.00), (0.50, 0.00))),
+    "fcc-111": VisualSpec("fcc", (1, 1, 1), ((0.167, 0.167), (0.417, 0.167), (0.333, 0.333), (0.50, 0.50))),
+    "fcc-210": VisualSpec("fcc", (2, 1, 0), ((0.25, 0.50), (0.50, 0.50), (0.75, 0.00))),
+    "fcc-211": VisualSpec("fcc", (2, 1, 1), ((0.34, 0.50), (0.00, 0.50), (0.66, 0.25))),
+    "fcc-221": VisualSpec("fcc", (2, 2, 1), ((0.20, 0.50), (0.45, 0.50), (0.72, 0.25)), profile_axis=1),
+    "fcc-310": VisualSpec("fcc", (3, 1, 0), ((0.35, 0.50), (0.52, 0.50), (0.80, 0.00))),
+    "fcc-311": VisualSpec("fcc", (3, 1, 1), ((0.34, 0.36), (0.59, 0.36), (0.82, 0.55))),
+    "fcc-331": VisualSpec("fcc", (3, 3, 1), ((0.38, 0.36), (0.50, 0.58), (0.72, 0.74)), profile_axis=1),
+    "fcc-511": VisualSpec("fcc", (5, 1, 1), ((0.42, 0.36), (0.56, 0.36), (0.09, 0.61), (0.82, 0.55))),
+    "bcc-100": VisualSpec("bcc", (1, 0, 0), ((0.50, 0.50), (0.50, 0.00), (0.00, 0.00))),
+    "bcc-110": VisualSpec("bcc", (1, 1, 0), ((0.50, 0.00), (0.25, 0.25), (0.50, 0.50), (0.00, 0.00))),
+    "bcc-111": VisualSpec("bcc", (1, 1, 1), ((0.333, 0.333), (0.583, 0.333), (0.50, 0.50))),
+    "bcc-210": VisualSpec("bcc", (2, 1, 0), ((0.20, 0.50), (0.45, 0.50), (0.75, 0.00))),
+    "bcc-211": VisualSpec("bcc", (2, 1, 1), ((0.20, 0.50), (0.50, 0.50), (0.72, 0.25))),
+    "bcc-310": VisualSpec("bcc", (3, 1, 0), ((0.22, 0.50), (0.46, 0.50), (0.78, 0.00))),
+    "hcp-0001": VisualSpec("hcp", (0, 0, 1), ((0.333, 0.333), (0.833, 0.333), (0.667, 0.667), (0.00, 0.00))),
+    "hcp-10m10": VisualSpec("hcp", (1, 0, 0), ((0.00, 0.50), (0.50, 0.50), (0.50, 0.00))),
+    "hcp-11m20": VisualSpec("hcp", (1, 1, 0), ((0.50, 0.00), (0.50, 0.50), (0.167, 0.50))),
+    "hcp-10m11": VisualSpec("hcp", (1, 0, 1), ((0.18, 0.50), (0.45, 0.50), (0.72, 0.25))),
+    "hcp-10m12": VisualSpec("hcp", (1, 0, 2), ((0.18, 0.50), (0.48, 0.50), (0.76, 0.25))),
+    "hcp-11m21": VisualSpec("hcp", (1, 1, 1), ((0.18, 0.50), (0.48, 0.50), (0.76, 0.25)), profile_axis=1),
+}
+
+CRYSTALS = {
+    "fcc": {"element": "Cu", "a": 3.61, "c": None, "nearest": 3.61 / np.sqrt(2)},
+    "bcc": {"element": "Fe", "a": 2.87, "c": None, "nearest": 2.87 * np.sqrt(3) / 2},
+    "hcp": {"element": "Mg", "a": 3.21, "c": 5.21, "nearest": 3.21},
 }
 
 LAYER_COLOURS = ("#176b72", "#91aaa6", "#d4dfda", "#e9efeb")
@@ -71,12 +79,25 @@ mpl.rcParams.update(
 )
 
 
-def unit_slab(miller: tuple[int, int, int]) -> Atoms:
-    crystal = bulk("Cu", "fcc", a=A, cubic=True)
-    slab = surface(crystal, miller, layers=10, vacuum=None, periodic=True)
+def unit_slab(spec: VisualSpec) -> Atoms:
+    crystal_data = CRYSTALS[spec.crystal]
+    kwargs = {"a": crystal_data["a"]}
+    if spec.crystal in {"fcc", "bcc"}:
+        kwargs["cubic"] = True
+    else:
+        kwargs["c"] = crystal_data["c"]
+    crystal = bulk(crystal_data["element"], spec.crystal, **kwargs)
+    slab = surface(crystal, spec.miller, layers=10, vacuum=None, periodic=True)
     # Choose an equivalent, reduced in-plane basis. This avoids extremely thin
     # parallelograms for facets such as (331) while preserving the same surface.
     minimize_tilt(slab)
+    va, vb = slab.cell[0, :2], slab.cell[1, :2]
+    polygon = np.array(((0.0, 0.0), va, va + vb, vb))
+    span = np.ptp(polygon, axis=0)
+    if span[1] > span[0] * 1.25:
+        diagonals = (va + vb, va - vb)
+        longest = max(diagonals, key=np.linalg.norm)
+        slab.rotate(-degrees(atan2(longest[1], longest[0])), "z", rotate_cell=True)
     return slab
 
 
@@ -96,7 +117,7 @@ def repeat_for_view(slab: Atoms) -> tuple[Atoms, np.ndarray]:
     return repeated, origin
 
 
-def draw_bonds(ax: plt.Axes, points: np.ndarray, cutoff: float = A / np.sqrt(2) * 1.08) -> None:
+def draw_bonds(ax: plt.Axes, points: np.ndarray, cutoff: float) -> None:
     if len(points) > 150:
         return
     for i, point in enumerate(points):
@@ -140,7 +161,7 @@ def draw_top(surface_id: str, slab: Atoms, spec: VisualSpec) -> None:
     layers = top_layers(atoms)
     fig, ax = plt.subplots(figsize=(9, 6))
     if layers:
-        draw_bonds(ax, atoms.positions[layers[0], :2])
+        draw_bonds(ax, atoms.positions[layers[0], :2], CRYSTALS[spec.crystal]["nearest"] * 1.08)
     for depth in range(len(layers) - 1, -1, -1):
         xy = atoms.positions[layers[depth], :2]
         ax.scatter(xy[:, 0], xy[:, 1], s=LAYER_SIZES[depth], c=LAYER_COLOURS[depth],
@@ -194,14 +215,157 @@ def draw_profile(surface_id: str, slab: Atoms, spec: VisualSpec) -> None:
     save(fig, OUTPUT_DIR / f"{surface_id}-profile.svg")
 
 
+def cut_polyhedron(spec: VisualSpec) -> tuple[np.ndarray, list[tuple[int, int]], np.ndarray, np.ndarray]:
+    """Return bulk-cell vertices, edges, representative atoms and a plane normal."""
+    if spec.crystal in {"fcc", "bcc"}:
+        vertices = np.array([(x, y, z) for z in (0.0, 1.0) for y in (0.0, 1.0) for x in (0.0, 1.0)])
+        edges = [(i, j) for i in range(8) for j in range(i + 1, 8)
+                 if np.count_nonzero(np.abs(vertices[i] - vertices[j]) > 0.1) == 1]
+        corners = vertices.copy()
+        if spec.crystal == "fcc":
+            faces = np.array(((0.5, 0.5, 0), (0.5, 0.5, 1), (0.5, 0, 0.5),
+                              (0.5, 1, 0.5), (0, 0.5, 0.5), (1, 0.5, 0.5)))
+            atoms = np.vstack((corners, faces))
+        else:
+            atoms = np.vstack((corners, np.array(((0.5, 0.5, 0.5),))))
+        normal = np.asarray(spec.miller, dtype=float)
+        return vertices, edges, atoms, normal
+
+    angles = np.linspace(0, 2 * np.pi, 6, endpoint=False)
+    basal = np.column_stack((0.58 * np.cos(angles), 0.58 * np.sin(angles)))
+    vertices = np.array([(x, y, z) for z in (0.0, 1.0) for x, y in basal])
+    edges = [(z * 6 + i, z * 6 + (i + 1) % 6) for z in range(2) for i in range(6)]
+    edges += [(i, i + 6) for i in range(6)]
+    middle = np.column_stack((0.34 * np.cos(angles[::2] + np.pi / 3),
+                              0.34 * np.sin(angles[::2] + np.pi / 3),
+                              np.full(3, 0.5)))
+    atoms = np.vstack((vertices, middle))
+    cell = np.array(((1.0, 0.0, 0.0), (-0.5, np.sqrt(3) / 2, 0.0),
+                     (0.0, 0.0, CRYSTALS["hcp"]["c"] / CRYSTALS["hcp"]["a"])))
+    normal = np.linalg.solve(cell, np.asarray(spec.miller, dtype=float))
+    return vertices, edges, atoms, normal
+
+
+def plane_intersections(vertices: np.ndarray, edges: list[tuple[int, int]], normal: np.ndarray,
+                        offset: float) -> np.ndarray:
+    values = vertices @ normal - offset
+    points: list[np.ndarray] = []
+    for i, j in edges:
+        p, q = vertices[i], vertices[j]
+        dp, dq = values[i], values[j]
+        if abs(dp) < 1e-9:
+            points.append(p)
+        if dp * dq < -1e-10:
+            points.append(p + (-dp / (dq - dp)) * (q - p))
+    unique: list[np.ndarray] = []
+    for point in points:
+        if not any(np.linalg.norm(point - known) < 1e-6 for known in unique):
+            unique.append(point)
+    polygon = np.asarray(unique)
+    centroid = polygon.mean(axis=0)
+    n = normal / np.linalg.norm(normal)
+    reference = np.array((0.0, 0.0, 1.0)) if abs(n[2]) < 0.9 else np.array((1.0, 0.0, 0.0))
+    u = np.cross(n, reference)
+    u /= np.linalg.norm(u)
+    v = np.cross(n, u)
+    angle = np.arctan2((polygon - centroid) @ v, (polygon - centroid) @ u)
+    return polygon[np.argsort(angle)]
+
+
+def project_bulk(points: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """A stable isometric projection used by every bulk-cut diagram."""
+    x, y, z = points[:, 0], points[:, 1], points[:, 2]
+    screen = np.column_stack(((x - y) * 0.86, z + (x + y) * 0.38))
+    return screen, x + y - 0.35 * z
+
+
+def draw_bulk_cut(surface_id: str, spec: VisualSpec) -> None:
+    vertices, edges, atoms, normal = cut_polyhedron(spec)
+    centre_offset = float(vertices.mean(axis=0) @ normal)
+    atomic_offsets = np.unique(np.round(atoms @ normal, 7))
+    offset = float(atomic_offsets[np.argmin(np.abs(atomic_offsets - centre_offset))])
+    plane = plane_intersections(vertices, edges, normal, offset)
+    projected_vertices, _ = project_bulk(vertices)
+    projected_plane, _ = project_bulk(plane)
+    projected_atoms, atom_depth = project_bulk(atoms)
+    fig, ax = plt.subplots(figsize=(8, 5.4))
+    ax.add_patch(Polygon(projected_plane, closed=True, facecolor="#d85f45", alpha=0.25,
+                         edgecolor="#d85f45", linewidth=2.0, zorder=3))
+    for i, j in edges:
+        ax.plot((projected_vertices[i, 0], projected_vertices[j, 0]),
+                (projected_vertices[i, 1], projected_vertices[j, 1]),
+                color="#8ca29e", lw=1.25, zorder=2)
+    order = np.argsort(atom_depth)
+    for index in order:
+        lies_in_plane = abs(float(atoms[index] @ normal) - offset) < 1e-6
+        ax.scatter(*projected_atoms[index], s=145, c="#176b72" if lies_in_plane else "#ffffff",
+                   edgecolors="#ffffff" if lies_in_plane else "#176b72",
+                   linewidths=1.6, zorder=4 + index / 100)
+    center = plane.mean(axis=0)
+    direction = normal / np.linalg.norm(normal)
+    arrow_points, _ = project_bulk(np.vstack((center, center + 0.55 * direction)))
+    ax.annotate("", xy=arrow_points[1], xytext=arrow_points[0],
+                arrowprops=dict(arrowstyle="-|>", color="#173033", lw=1.8), zorder=8)
+    ax.text(*arrow_points[1], "  normal", color="#173033", fontsize=9, weight="bold", va="center")
+    finish(ax)
+    save(fig, OUTPUT_DIR / f"{surface_id}-cut.svg")
+
+
+def write_viewer_geometry(surface_id: str, slab: Atoms, spec: VisualSpec, site_labels: list[str]) -> None:
+    atoms, origin = repeat_for_view(slab)
+    layers = top_layers(atoms, 6)
+    chosen = np.concatenate(layers)
+    positions = atoms.positions[chosen]
+    layer_for_atom: dict[int, int] = {}
+    for depth, indices in enumerate(layers):
+        layer_for_atom.update({int(index): depth for index in indices})
+    atom_entries = [
+        {"x": round(float(atoms.positions[index, 0]), 4),
+         "y": round(float(atoms.positions[index, 1]), 4),
+         "z": round(float(atoms.positions[index, 2]), 4),
+         "layer": layer_for_atom[int(index)]}
+        for index in chosen
+    ]
+    nearest = CRYSTALS[spec.crystal]["nearest"]
+    bonds: list[list[int]] = []
+    for i, point in enumerate(positions):
+        distances = np.linalg.norm(positions[i + 1:] - point, axis=1)
+        for relative in np.flatnonzero((distances > 0.1) & (distances < nearest * 1.12)):
+            bonds.append([i, i + 1 + int(relative)])
+    va, vb = slab.cell[0, :2], slab.cell[1, :2]
+    top = float(atoms.positions[:, 2].max())
+    sites = []
+    for marker, (u, v) in enumerate(spec.site_fractions, start=1):
+        point = origin + u * va + v * vb
+        label = site_labels[marker - 1] if marker <= len(site_labels) else f"Site {marker}"
+        sites.append({"marker": marker, "label": label, "x": round(float(point[0]), 4),
+                      "y": round(float(point[1]), 4), "z": round(top + nearest * 0.32, 4)})
+    cell_xy = [origin, origin + va, origin + va + vb, origin + vb]
+    payload = {
+        "surface": surface_id,
+        "crystal": spec.crystal.upper(),
+        "element": CRYSTALS[spec.crystal]["element"],
+        "atoms": atom_entries,
+        "bonds": bonds,
+        "sites": sites,
+        "cell": [[round(float(x), 4), round(float(y), 4), round(top + 0.05, 4)] for x, y in cell_xy],
+    }
+    path = OUTPUT_DIR / f"{surface_id}-viewer.json"
+    path.write_text(json.dumps(payload, separators=(",", ":")), encoding="utf-8")
+
+
 def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    for surface_id, miller in MILLER.items():
-        slab = unit_slab(miller)
-        draw_top(surface_id, slab, SPECS[surface_id])
-        draw_profile(surface_id, slab, SPECS[surface_id])
+    surface_data = yaml.safe_load((ROOT / "_data" / "surfaces.yml").read_text(encoding="utf-8"))
+    labels = {item["id"]: [site["label"] for site in item["sites"]] for item in surface_data}
+    for surface_id, spec in SPECS.items():
+        slab = unit_slab(spec)
+        draw_top(surface_id, slab, spec)
+        draw_profile(surface_id, slab, spec)
         draw_stacking(surface_id, slab)
-        print(f"Generated three figures for {surface_id}")
+        draw_bulk_cut(surface_id, spec)
+        write_viewer_geometry(surface_id, slab, spec, labels.get(surface_id, []))
+        print(f"Generated figures and 3D geometry for {surface_id}")
 
 
 if __name__ == "__main__":
