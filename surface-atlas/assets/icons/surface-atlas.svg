@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Surface Atlas">
+  <rect width="48" height="48" rx="12" fill="#f7f8f5"/>
+  <circle cx="15" cy="17" r="8" fill="#176b72"/>
+  <circle cx="33" cy="17" r="6" fill="#93b8b4"/>
+  <circle cx="24" cy="33" r="6" fill="#d0ded9"/>
+</svg>
