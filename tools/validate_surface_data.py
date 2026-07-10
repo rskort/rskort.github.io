@@ -13,7 +13,9 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "_data" / "surfaces.yml"
-PAGES_DIR = ROOT / "surface-sites"
+PUBLIC_DIR = ROOT / "surface-atlas"
+ASSETS_DIR = PUBLIC_DIR / "assets" / "surfaces"
+PAGES_DIR = PUBLIC_DIR / "surface-sites"
 
 REQUIRED_SURFACE_FIELDS = {
     "id", "crystal", "title", "lattice", "facet", "ase_builder", "surface_shape",
@@ -99,14 +101,14 @@ def validate() -> list[str]:
                 if not isinstance(url, str) or not url.startswith("/"):
                     errors.append(f"{surface_id}: figure {figure_type} must be a root-relative path")
                     continue
-                path = ROOT / url.lstrip("/")
+                path = PUBLIC_DIR / url.lstrip("/")
                 if not path.is_file():
                     errors.append(f"{surface_id}: figure does not exist: {url}")
 
-        cut_path = ROOT / "assets" / "surfaces" / f"{surface_id}-cut.svg"
+        cut_path = ASSETS_DIR / f"{surface_id}-cut.svg"
         if not cut_path.is_file():
             errors.append(f"{surface_id}: bulk-cut figure does not exist")
-        viewer_path = ROOT / "assets" / "surfaces" / f"{surface_id}-viewer.json"
+        viewer_path = ASSETS_DIR / f"{surface_id}-viewer.json"
         try:
             viewer = json.loads(viewer_path.read_text(encoding="utf-8"))
             for key in ("surface", "atoms", "bonds", "sites", "cell"):

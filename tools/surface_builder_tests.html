@@ -1,0 +1,65 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Surface builder browser tests</title>
+<link rel="stylesheet" href="../surface-atlas/assets/css/main.css">
+<body data-result="pending"><pre id="results">Waiting for browser tests…</pre>
+<div data-surface-builder style="max-width:900px;margin:2rem auto">
+  <form><label><input type="radio" name="lattice" value="fcc" checked>FCC</label><label><input type="radio" name="lattice" value="bcc">BCC</label><label><input type="radio" name="lattice" value="hcp">HCP</label><input name="h" value="1"><input name="k" value="1"><span data-hcp-index hidden><input name="i" readonly></span><input name="l" value="1"><input name="offset" type="range" min="0" max="1" step=".002" value=".5"><output data-offset-value></output><p data-builder-error hidden></p></form>
+  <span data-normalised-plane></span><span data-spacing></span><span data-cell></span><span data-atom-count></span><a data-catalogue-link hidden></a>
+  <div style="height:260px"><canvas data-bulk-cut-canvas style="width:100%;height:100%"></canvas></div>
+  <div class="surface-viewer"><div class="viewer-stage" style="height:400px"><canvas></canvas><div class="viewer-loading">Loading</div><div class="viewer-tooltip" hidden></div></div><div><button data-view="reset">Perspective</button><button data-view="top">Top</button><button data-view="side">Side</button><input type="checkbox" data-toggle="sites" checked><input type="checkbox" data-toggle="ontop" checked><input type="checkbox" data-toggle="bridge" checked><input type="checkbox" data-toggle="hollow" checked><input type="checkbox" data-toggle="bonds" checked><input type="checkbox" data-toggle="cell" checked><input type="checkbox" data-toggle="deep" checked></div><p class="viewer-status"></p></div>
+</div></body>
+<script src="../surface-atlas/assets/js/site.js"></script>
+<script src="../surface-atlas/assets/js/surface-builder.js"></script>
+<script>
+  (() => {
+    const output = document.querySelector("#results");
+    const messages = [];
+    const assert = (condition, message) => {
+      if (!condition) throw new Error(message);
+      messages.push(`PASS: ${message}`);
+    };
+    const build = (lattice, indices, offset = .5) => CrystalSurfaceBuilder.createSurfaceGeometry({lattice, indices, offset});
+    try {
+      assert(CrystalSurfaceBuilder.normaliseIndices([2, 2, 2]).join() === "1,1,1", "common factors reduce");
+      assert((() => { try { CrystalSurfaceBuilder.validateEditableIndices([0, 0, 0]); return false; } catch { return true; } })(), "all-zero indices are rejected");
+      assert((() => { try { CrystalSurfaceBuilder.validateEditableIndices([9, 0, 0]); return false; } catch { return true; } })(), "indices outside ±8 are rejected");
+      const fcc100 = build("fcc", [1, 0, 0]);
+      const fcc111 = build("fcc", [1, 1, 1]);
+      const bcc110 = build("bcc", [1, 1, 0]);
+      const hcp0001 = build("hcp", [0, 0, 1]);
+      const hcp1011 = build("hcp", [1, 0, 1]);
+      const negative = build("fcc", [1, -1, 0]);
+      const extremeFcc = build("fcc", [8, -7, 6]);
+      const extremeBcc = build("bcc", [8, 7, 1]);
+      const extremeHcp = build("hcp", [8, -7, 6]);
+      [fcc100, fcc111, bcc110, hcp0001, hcp1011, negative, extremeFcc, extremeBcc, extremeHcp].forEach((result, index) => {
+        assert(result.payload.atoms.length > 0 && result.payload.bonds.length > 0, `representative geometry ${index + 1} has atoms and bonds`);
+        assert(result.payload.cell.length === 4, `representative geometry ${index + 1} has a surface cell`);
+      });
+      assert(fcc100.payload.sites.some(site => site.kind === "hollow" && site.coordination === 4), "FCC(100) finds a fourfold hollow candidate");
+      assert(fcc111.payload.sites.some(site => site.kind === "hollow" && site.coordination === 3), "FCC(111) finds a threefold hollow candidate");
+      assert(hcp0001.metrics.normal[0] < 1e-8 && hcp0001.metrics.normal[1] < 1e-8, "HCP(0001) normal follows c");
+      assert(CrystalSurfaceBuilder.catalogueMatch("fcc", [0, 1, 1]) === "fcc-110", "cubic symmetry matches the catalogue");
+      assert(CrystalSurfaceBuilder.catalogueMatch("hcp", [1, 0, 1]) === "hcp-10m11", "HCP plane matches the catalogue");
+      const before = build("fcc", [1, 0, 0], .49).payload.atoms.filter(atom => atom.layer === 0).map(atom => atom.z).join();
+      const after = build("fcc", [1, 0, 0], .51).payload.atoms.filter(atom => atom.layer === 0).map(atom => atom.z).join();
+      assert(before !== after, "crossing an atomic layer changes the termination");
+      assert(document.querySelector(".viewer-status").textContent.includes("atoms"), "builder UI renders generated geometry");
+      assert(document.querySelector("[data-normalised-plane]").textContent === "FCC(1 1 1)", "builder UI displays the reduced plane");
+      assert(document.querySelector("[data-hcp-index]").hidden, "HCP-only index starts hidden for cubic lattices");
+      assert(location.search.includes("lattice=fcc") && location.search.includes("offset=0.500"), "builder UI stores state in the URL");
+      history.pushState(null, "", "?lattice=hcp&h=1&k=0&l=1&offset=0.700");
+      dispatchEvent(new PopStateEvent("popstate"));
+      assert(document.querySelector("[data-normalised-plane]").textContent === "HCP(1 0 -1 1)", "popstate restores HCP Miller–Bravais state");
+      assert(document.querySelector('[name="i"]').value === "-1", "HCP i index is derived automatically");
+      assert(!document.querySelector("[data-hcp-index]").hidden, "HCP-only index appears for HCP");
+      assert(document.querySelector("[data-offset-value]").textContent === "0.70", "query state restores the plane offset");
+      document.body.dataset.result = "passed";
+      output.textContent = messages.join("\n");
+    } catch (error) {
+      document.body.dataset.result = "failed";
+      output.textContent = `${messages.join("\n")}\nFAIL: ${error.stack || error.message}`;
+    }
+  })();
+</script>

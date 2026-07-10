@@ -7,7 +7,7 @@ layout: default
     <a class="concept-home" href="{{ '/concepts/' | relative_url }}">Concepts</a>
     <nav>
       {% for item in concepts %}
-        <a {% if item.url == page.url %}aria-current="page"{% endif %} href="{{ item.url | relative_url }}"><span>0{{ item.order }}</span>{{ item.short_title | default: item.title }}</a>
+        <a {% if item.url == page.url %}aria-current="page"{% endif %} href="{{ item.url }}"><span>0{{ item.order }}</span>{{ item.short_title | default: item.title }}</a>
       {% endfor %}
     </nav>
   </aside>
@@ -18,9 +18,8 @@ layout: default
       {% assign next_order = page.order | plus: 1 %}
       {% assign previous = concepts | where: "order", previous_order | first %}
       {% assign next = concepts | where: "order", next_order | first %}
-      {% if previous %}<a class="previous" href="{{ previous.url | relative_url }}"><small>Previous concept</small><strong>← {{ previous.short_title | default: previous.title }}</strong></a>{% else %}<a class="previous" href="{{ '/concepts/' | relative_url }}"><small>Back to</small><strong>← All concepts</strong></a>{% endif %}
-      {% if next %}<a class="next" href="{{ next.url | relative_url }}"><small>Next concept</small><strong>{{ next.short_title | default: next.title }} →</strong></a>{% else %}<a class="next" href="{{ '/surface-sites/' | relative_url }}"><small>Apply it</small><strong>Surface atlas →</strong></a>{% endif %}
+      {% if previous %}<a class="previous" href="{{ previous.url }}"><small>Previous concept</small><strong>← {{ previous.short_title | default: previous.title }}</strong></a>{% else %}<a class="previous" href="{{ '/concepts/' | relative_url }}"><small>Back to</small><strong>← All concepts</strong></a>{% endif %}
+      {% if next %}<a class="next" href="{{ next.url }}"><small>Next concept</small><strong>{{ next.short_title | default: next.title }} →</strong></a>{% else %}<a class="next" href="{{ '/surface-sites/' | relative_url }}"><small>Apply it</small><strong>Common surfaces →</strong></a>{% endif %}
     </nav>
   </article>
 </div>
-

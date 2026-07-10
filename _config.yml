@@ -1,10 +1,9 @@
-title: Surface Science Notes
-description: Visual notes on crystal surfaces, Miller planes, and adsorption sites.
+title: Surface Atlas
+description: An interactive visual guide to FCC, BCC, and HCP crystal surfaces, Miller indices, surface structures, and adsorption sites.
 url: "https://rskort.github.io"
-baseurl: ""
+baseurl: "/surface-atlas"
 markdown: kramdown
 permalink: pretty
 exclude:
   - tools
   - .venv
-

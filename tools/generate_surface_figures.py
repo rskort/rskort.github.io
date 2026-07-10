@@ -19,7 +19,7 @@ from ase.build.tools import minimize_tilt
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT_DIR = ROOT / "assets" / "surfaces"
+OUTPUT_DIR = ROOT / "surface-atlas" / "assets" / "surfaces"
 @dataclass(frozen=True)
 class VisualSpec:
     crystal: str
@@ -74,7 +74,7 @@ mpl.rcParams.update(
         "figure.facecolor": PAPER,
         "axes.facecolor": PAPER,
         "svg.fonttype": "none",
-        "svg.hashsalt": "surface-science-notes-v2",
+        "svg.hashsalt": "surface-atlas-v3",
     }
 )
 
@@ -199,6 +199,26 @@ def draw_profile(surface_id: str, slab: Atoms, spec: VisualSpec) -> None:
     horizontal = atoms.positions[:, :2] @ direction
     z = atoms.positions[:, 2]
     levels = sorted({round(float(value), 5) for value in z}, reverse=True)
+
+    # Show one visible registry cycle plus a little context. Low-index surfaces
+    # repeat quickly and should not need a deep, visually redundant slab;
+    # complex stepped facets retain up to six levels.
+    period_length = np.linalg.norm(slab.cell[spec.profile_axis, :2])
+    signatures: list[tuple[float, ...]] = []
+    for level in levels:
+        layer_x = horizontal[np.isclose(z, level, atol=1e-4)]
+        fractional = np.mod(layer_x, period_length) / period_length
+        signatures.append(tuple(sorted(np.round(fractional, 3))))
+    repeat_depth = next(
+        (depth for depth in range(1, min(7, len(signatures))) if signatures[depth] == signatures[0]),
+        None,
+    )
+    visible_count = min(len(levels), max(3, min(6, (repeat_depth + 1) if repeat_depth else 6)))
+    levels = levels[:visible_count]
+    visible = np.isin(np.round(z, 5), levels)
+    horizontal = horizontal[visible]
+    z = z[visible]
+
     fig, ax = plt.subplots(figsize=(8, 5))
     for atom_x, atom_z in zip(horizontal, z):
         depth = min(range(len(levels)), key=lambda i: abs(levels[i] - atom_z))

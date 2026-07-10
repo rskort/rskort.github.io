@@ -6,7 +6,7 @@ layout: default
 {% assign surface_index = nil %}
 {% for item in site.data.surfaces %}{% if item.id == surface.id %}{% assign surface_index = forloop.index0 %}{% endif %}{% endfor %}
 <article class="surface-page">
-  <a class="back-link" href="{{ '/surface-sites/' | relative_url }}">← All surfaces</a>
+  <a class="back-link" href="{{ '/surface-sites/' | relative_url }}">← Common surfaces</a>
   <header class="surface-header">
     <div>
       <p class="eyebrow">{{ surface.family }} · {{ surface.surface_shape }}</p>
@@ -68,7 +68,7 @@ layout: default
     <div class="section-heading"><div><p class="kicker">Below the top layer</p><h2 id="profile-heading">Why the sites are different</h2></div></div>
     <p>{{ surface.registry_note }}</p>
     <div class="profile-grid">
-      <figure><img src="{{ surface.figures.profile | relative_url }}" alt="Side profile of {{ surface.title }}"><figcaption>Side profile. The dashed line follows the macroscopic surface plane.</figcaption></figure>
+      <figure><img src="{{ surface.figures.profile | relative_url }}" alt="Side profile of {{ surface.title }} showing its first repeating atomic layers"><figcaption>Side profile showing one compact stacking repeat. The dashed line follows the macroscopic surface plane.</figcaption></figure>
       <figure><img src="{{ surface.figures.stacking | relative_url }}" alt="Layer registry of {{ surface.title }}"><figcaption>Layer registry viewed from above; opacity increases towards the surface.</figcaption></figure>
     </div>
   </section>
@@ -93,7 +93,7 @@ layout: default
     {% assign last_index = site.data.surfaces.size | minus: 1 %}
     {% assign previous_index = surface_index | minus: 1 %}
     {% assign next_index = surface_index | plus: 1 %}
-    {% if previous_index >= 0 %}{% assign previous = site.data.surfaces[previous_index] %}<a href="{{ '/surface-sites/' | append: previous.id | append: '.html' | relative_url }}"><small>Previous surface</small><strong>← {{ previous.title }}</strong></a>{% else %}<a href="{{ '/surface-sites/' | relative_url }}"><small>Browse</small><strong>← All surfaces</strong></a>{% endif %}
+    {% if previous_index >= 0 %}{% assign previous = site.data.surfaces[previous_index] %}<a href="{{ '/surface-sites/' | append: previous.id | append: '.html' | relative_url }}"><small>Previous surface</small><strong>← {{ previous.title }}</strong></a>{% else %}<a href="{{ '/surface-sites/' | relative_url }}"><small>Browse</small><strong>← Common surfaces</strong></a>{% endif %}
     {% if next_index <= last_index %}{% assign next = site.data.surfaces[next_index] %}<a class="next" href="{{ '/surface-sites/' | append: next.id | append: '.html' | relative_url }}"><small>Next surface</small><strong>{{ next.title }} →</strong></a>{% else %}<a class="next" href="{{ '/concepts/miller-indices/' | relative_url }}"><small>Understand the cut</small><strong>Miller planes →</strong></a>{% endif %}
   </nav>
 </article>
