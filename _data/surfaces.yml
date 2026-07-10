@@ -1,0 +1,131 @@
+- id: fcc-100
+  title: FCC(100)
+  lattice: Face-centred cubic (FCC)
+  facet: "(100)"
+  ase_builder: fcc100
+  surface_shape: Square
+  description: The FCC(100) face exposes a square net of equivalent surface atoms. Its most characteristic adsorption position is the fourfold hollow at the centre of a surface square.
+  math_summary: 'A convenient primitive surface cell uses \(\mathbf{a}_1 = a/\sqrt{2}(1,0)\) and \(\mathbf{a}_2 = a/\sqrt{2}(0,1)\).'
+  sites:
+    - label: ontop
+      marker: 1
+      definition: Directly above one surface atom.
+      coordination: 1
+      ase_keyword: ontop
+    - label: bridge
+      marker: 2
+      definition: Midway between two nearest-neighbour surface atoms.
+      coordination: 2
+      ase_keyword: bridge
+    - label: hollow
+      marker: 3
+      definition: At the centre of a square formed by four surface atoms.
+      coordination: 4
+      ase_keyword: hollow
+  ase_example: |
+    from ase.build import add_adsorbate, fcc100
+
+    slab = fcc100("Cu", size=(3, 3, 4), vacuum=10.0)
+    add_adsorbate(slab, "H", height=1.5, position="hollow")
+    slab.center(axis=2, vacuum=10.0)
+  common_mistakes:
+    - Calling the central hollow threefold; it is coordinated to four top-layer atoms.
+    - Using the conventional cubic lattice constant as the nearest-neighbour spacing; the surface spacing is \(a/\sqrt{2}\).
+    - Choosing too small a lateral cell and unintentionally creating strong adsorbate-image interactions.
+  figures:
+    top: /assets/surfaces/fcc-100-top.svg
+    xz: /assets/surfaces/fcc-100-xz.svg
+    yz: /assets/surfaces/fcc-100-yz.svg
+    stacking: /assets/surfaces/fcc-100-stacking.svg
+
+- id: fcc-111
+  title: FCC(111)
+  lattice: Face-centred cubic (FCC)
+  facet: "(111)"
+  ase_builder: fcc111
+  surface_shape: Triangular (hexagonal symmetry)
+  description: FCC(111) is the close-packed FCC face. Surface atoms form a triangular net, and each triangular opening is an FCC or HCP threefold hollow depending on the atoms underneath it.
+  math_summary: 'A convenient cell uses equal vectors \(\lvert\mathbf{a}_1\rvert=\lvert\mathbf{a}_2\rvert=a/\sqrt{2}\) with \(\mathbf{a}_1\cdot\mathbf{a}_2=\lvert\mathbf{a}_1\rvert\lvert\mathbf{a}_2\rvert\cos 60^\circ\).'
+  sites:
+    - label: ontop
+      marker: 1
+      definition: Directly above one top-layer atom.
+      coordination: 1
+      ase_keyword: ontop
+    - label: bridge
+      marker: 2
+      definition: Midway between nearest-neighbour top-layer atoms.
+      coordination: 2
+      ase_keyword: bridge
+    - label: fcc hollow
+      marker: 3
+      definition: Threefold hollow above a third-layer atom, continuing ABC stacking.
+      coordination: 3
+      ase_keyword: fcc
+    - label: hcp hollow
+      marker: 4
+      definition: Threefold hollow above a second-layer atom, corresponding locally to ABAB stacking.
+      coordination: 3
+      ase_keyword: hcp
+  ase_example: |
+    from ase.build import add_adsorbate, fcc111
+
+    slab = fcc111("Cu", size=(3, 3, 4), vacuum=10.0)
+    add_adsorbate(slab, "H", height=1.2, position="fcc")
+    slab.center(axis=2, vacuum=10.0)
+  common_mistakes:
+    - Treating FCC and HCP hollows as equivalent because their top views look alike.
+    - Identifying hollow type without checking the second and third layers.
+    - Describing the triangular surface net as a honeycomb lattice.
+  figures:
+    top: /assets/surfaces/fcc-111-top.svg
+    xz: /assets/surfaces/fcc-111-xz.svg
+    yz: /assets/surfaces/fcc-111-yz.svg
+    stacking: /assets/surfaces/fcc-111-stacking.svg
+
+- id: fcc-110
+  title: FCC(110)
+  lattice: Face-centred cubic (FCC)
+  facet: "(110)"
+  ase_builder: fcc110
+  surface_shape: Rectangular and anisotropic
+  description: FCC(110) exposes parallel close-packed rows separated by troughs. The two in-plane directions are inequivalent, so short and long bridge positions must be distinguished.
+  math_summary: 'A rectangular description uses in-plane lengths \(\lvert\mathbf{a}_1\rvert=a/\sqrt{2}\) along a close-packed row and \(\lvert\mathbf{a}_2\rvert=a\) across the rows.'
+  sites:
+    - label: ontop
+      marker: 1
+      definition: Directly above a surface-row atom.
+      coordination: 1
+      ase_keyword: ontop
+    - label: short bridge
+      marker: 2
+      definition: Between nearest neighbours along a close-packed row.
+      coordination: 2
+      ase_keyword: shortbridge
+    - label: long bridge
+      marker: 3
+      definition: Between atoms across adjacent rows in the long cell direction.
+      coordination: 2
+      ase_keyword: longbridge
+    - label: hollow / trough
+      marker: 4
+      definition: In the trough between rows, with coordination to several nearby surface atoms.
+      coordination: 4
+      ase_keyword: hollow
+  ase_example: |
+    from ase.build import add_adsorbate, fcc110
+
+    slab = fcc110("Cu", size=(3, 3, 4), vacuum=10.0)
+    # fcc110 exposes named high-symmetry sites through add_adsorbate.
+    add_adsorbate(slab, "H", height=1.2, position="hollow")
+    slab.center(axis=2, vacuum=10.0)
+  common_mistakes:
+    - Treating the rectangular net as isotropic; the row and cross-row directions differ.
+    - Using “bridge” without saying whether the short or long bridge is meant.
+    - Ignoring the trough geometry and subsurface neighbours when discussing coordination.
+  figures:
+    top: /assets/surfaces/fcc-110-top.svg
+    xz: /assets/surfaces/fcc-110-xz.svg
+    yz: /assets/surfaces/fcc-110-yz.svg
+    stacking: /assets/surfaces/fcc-110-stacking.svg
+
