@@ -18,8 +18,8 @@ REQUIRED_SURFACE_FIELDS = {
     "id", "title", "lattice", "facet", "ase_builder", "surface_shape",
     "description", "math_summary", "sites", "ase_example", "common_mistakes", "figures",
 }
-REQUIRED_SITE_FIELDS = {"label", "marker", "definition", "coordination", "ase_keyword"}
-REQUIRED_FIGURES = {"top", "xz", "yz", "stacking"}
+REQUIRED_SITE_FIELDS = {"label", "marker", "definition", "coordination"}
+REQUIRED_FIGURES = {"top", "profile", "stacking"}
 
 
 def page_surface_id(path: Path) -> str | None:

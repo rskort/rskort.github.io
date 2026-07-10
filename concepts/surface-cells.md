@@ -1,6 +1,9 @@
 ---
-layout: default
+layout: concept
 title: Surface cells
+short_title: Surface cells
+concept: true
+order: 2
 permalink: /concepts/surface-cells/
 ---
 
@@ -18,5 +21,9 @@ For a fractional in-plane coordinate \((u,v)\), the lateral position is
 
 Cell-vector conventions can differ between codes even when they describe the same surface. Compare the real-space vectors and atomic positions rather than relying only on a label such as \((2\times2)\).
 
-[Return to the surface atlas]({{ '/surface-sites/' | relative_url }}).
+## What changes when the cell grows?
+
+<div class="comparison"><div><strong>\((1\times1)\)</strong><span>The smallest chemical repeat; highest periodic adsorbate coverage.</span></div><div><strong>\((2\times2)\)</strong><span>Four primitive cells; adsorbate images are twice as far apart along both vectors.</span></div><div><strong>Rectangular cell</strong><span>Often convenient for visualization even when the primitive net is oblique.</span></div></div>
+
+The surface cell is an accounting choice, not a physical boundary. Atoms and bonds continue through every edge under periodic boundary conditions.
 

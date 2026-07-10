@@ -3,20 +3,21 @@ layout: default
 title: Home
 ---
 
-# Crystal surfaces, made legible
-
-This site collects compact, reproducible notes on crystal facets and adsorption sites. The first atlas focuses on the three low-index FCC surfaces, combining geometric explanations, numbered site maps, and working ASE examples.
-
-<div class="card-grid">
-  <div class="card">
-    <h2><a href="{{ '/surface-sites/' | relative_url }}">Surface site atlas</a></h2>
-    <p>Compare FCC(100), FCC(111), and FCC(110) using consistent top, side, and stacking views.</p>
+<section class="home-hero">
+  <div>
+    <p class="eyebrow">A visual guide to surface structure</p>
+    <h1>See what a crystal plane exposes.</h1>
+    <p class="lede">Explore how an FCC crystal is cut, which atomic patterns appear at the surface, and where adsorbates can bind.</p>
+    <div class="hero-actions">
+      <a class="button" href="{{ '/surface-sites/' | relative_url }}">Explore ten surfaces</a>
+      <a class="button secondary" href="{{ '/concepts/miller-indices/' | relative_url }}">How a surface is formed</a>
+    </div>
   </div>
-  <div class="card">
-    <h2><a href="{{ '/concepts/miller-indices/' | relative_url }}">Core concepts</a></h2>
-    <p>Review Miller indices, surface cells, adsorption sites, and slab construction with ASE.</p>
-  </div>
-</div>
+  <div class="lattice-motif" aria-label="A simple triangular arrangement of atoms"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</section>
 
-The figures are generated from Python rather than drawn by hand, so the visual language can be reused when stepped facets and other crystal lattices are added.
+<section class="home-sections" aria-label="Ways into the guide">
+  <a class="home-card" href="{{ '/surface-sites/' | relative_url }}"><small>Compare</small><h2>Surface atlas</h2><p>Move from close-packed low-index planes to stepped and open facets, with the same visual language on every page.</p></a>
+  <a class="home-card" href="{{ '/concepts/' | relative_url }}"><small>Understand</small><h2>Core concepts</h2><p>Follow the cut from bulk FCC to a two-dimensional surface cell, then place adsorption sites and build a slab.</p></a>
+</section>
 

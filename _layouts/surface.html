@@ -1,0 +1,71 @@
+---
+layout: default
+---
+{% assign matches = site.data.surfaces | where: "id", page.surface_id %}
+{% assign surface = matches | first %}
+{% assign surface_index = nil %}
+{% for item in site.data.surfaces %}{% if item.id == surface.id %}{% assign surface_index = forloop.index0 %}{% endif %}{% endfor %}
+<article class="surface-page">
+  <a class="back-link" href="{{ '/surface-sites/' | relative_url }}">← All surfaces</a>
+  <header class="surface-header">
+    <div>
+      <p class="eyebrow">{{ surface.family }} · {{ surface.surface_shape }}</p>
+      <h1>{{ surface.title }}</h1>
+      <p class="lede">{{ surface.description }}</p>
+    </div>
+    <dl class="surface-facts">
+      <div><dt>Plane</dt><dd>{{ surface.facet }}</dd></div>
+      <div><dt>Layer character</dt><dd>{{ surface.character }}</dd></div>
+      <div><dt>ASE</dt><dd><code>{{ surface.ase_builder }}</code></dd></div>
+    </dl>
+  </header>
+
+  <section aria-labelledby="site-map-heading">
+    <div class="section-heading">
+      <div><p class="kicker">Surface geometry</p><h2 id="site-map-heading">Read the surface from above</h2></div>
+      <div class="layer-key" aria-label="Layer colour key"><span class="layer-one"></span>surface <span class="layer-two"></span>second layer <span class="layer-three"></span>third layer</div>
+    </div>
+    <div class="surface-visual">
+      <figure class="hero-figure"><img src="{{ surface.figures.top | relative_url }}" alt="Top view of {{ surface.title }} with numbered adsorption sites"><figcaption>The outlined shape is one surface repeat cell. Arrows show its two in-plane vectors.</figcaption></figure>
+      <ol class="site-cards">
+        {% for site_entry in surface.sites %}
+          <li value="{{ site_entry.marker }}"><div><strong>{{ site_entry.label }}</strong><span>{{ site_entry.coordination }}-fold</span></div><p>{{ site_entry.definition }}</p>{% if site_entry.ase_keyword %}<code>{{ site_entry.ase_keyword }}</code>{% endif %}</li>
+        {% endfor %}
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="profile-heading">
+    <div class="section-heading"><div><p class="kicker">Below the top layer</p><h2 id="profile-heading">Why the sites are different</h2></div></div>
+    <p>{{ surface.registry_note }}</p>
+    <div class="profile-grid">
+      <figure><img src="{{ surface.figures.profile | relative_url }}" alt="Side profile of {{ surface.title }}"><figcaption>Side profile. The dashed line follows the macroscopic surface plane.</figcaption></figure>
+      <figure><img src="{{ surface.figures.stacking | relative_url }}" alt="Layer registry of {{ surface.title }}"><figcaption>Layer registry viewed from above; opacity increases towards the surface.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="two-column-section">
+    <div>
+      <p class="kicker">Cell</p>
+      <h2>Geometry at a glance</h2>
+      <p>{{ surface.math_summary }}</p>
+      <p class="quiet">A site name describes the ideal starting geometry. Relaxation can move an adsorbate away from it.</p>
+    </div>
+    <div>
+      <p class="kicker">Practical model</p>
+      <h2>Build it with ASE</h2>
+      <pre><code class="language-python">{{ surface.ase_example | escape }}</code></pre>
+    </div>
+  </section>
+
+  <details class="mistakes"><summary>Things that are easy to misread</summary><ul>{% for mistake in surface.common_mistakes %}<li>{{ mistake }}</li>{% endfor %}</ul></details>
+
+  <nav class="surface-switcher" aria-label="Browse surfaces">
+    {% assign last_index = site.data.surfaces.size | minus: 1 %}
+    {% assign previous_index = surface_index | minus: 1 %}
+    {% assign next_index = surface_index | plus: 1 %}
+    {% if previous_index >= 0 %}{% assign previous = site.data.surfaces[previous_index] %}<a href="{{ '/surface-sites/' | append: previous.id | append: '.html' | relative_url }}"><small>Previous surface</small><strong>← {{ previous.title }}</strong></a>{% else %}<a href="{{ '/surface-sites/' | relative_url }}"><small>Browse</small><strong>← All surfaces</strong></a>{% endif %}
+    {% if next_index <= last_index %}{% assign next = site.data.surfaces[next_index] %}<a class="next" href="{{ '/surface-sites/' | append: next.id | append: '.html' | relative_url }}"><small>Next surface</small><strong>{{ next.title }} →</strong></a>{% else %}<a class="next" href="{{ '/concepts/miller-indices/' | relative_url }}"><small>Understand the cut</small><strong>Miller planes →</strong></a>{% endif %}
+  </nav>
+</article>
+

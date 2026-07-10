@@ -1,6 +1,9 @@
 ---
-layout: default
+layout: concept
 title: Building surfaces with ASE
+short_title: Build a slab
+concept: true
+order: 4
 permalink: /concepts/ase-building/
 ---
 
@@ -22,4 +25,10 @@ Before a calculation, check the lattice constant, termination, cell vectors, lay
 
 The atlas pages provide facet-specific builders and site keywords. The figure generator in `tools/` uses the same ASE slab constructors.
 
-[Return to the surface atlas]({{ '/surface-sites/' | relative_url }}).
+## A useful pre-flight check
+
+1. View the slab from the side and confirm that the intended plane is horizontal.
+2. Count distinct z layers rather than assuming the builder's size convention.
+3. Check that the bottom and top terminations are the ones you expect.
+4. Increase the lateral cell, slab thickness, and vacuum separately until the quantity of interest is converged.
+5. Record the builder, lattice constant, size, and constraints with the result.

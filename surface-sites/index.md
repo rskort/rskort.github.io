@@ -7,40 +7,24 @@ permalink: /surface-sites/
 
 # Surface site atlas
 
-Crystal facets expose different two-dimensional arrangements of atoms. Those arrangements control which adsorption positions are available and how adsorbates interact with the substrate. This atlas uses one visual and data structure for every facet so that similarities and differences remain clear.
-
-## Low-index FCC surfaces
-
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Surface</th><th>Surface net</th><th>Characteristic sites</th><th>ASE builder</th></tr></thead>
-  <tbody>
-  {% for surface in site.data.surfaces %}
-    <tr>
-      <th><a href="{{ '/surface-sites/' | append: surface.id | append: '.html' | relative_url }}">{{ surface.title }}</a></th>
-      <td>{{ surface.surface_shape }}</td>
-      <td>{% for entry in surface.sites %}{{ entry.label }}{% unless forloop.last %}, {% endunless %}{% endfor %}</td>
-      <td><code>{{ surface.ase_builder }}</code></td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
+<div class="atlas-intro">
+  <div><p class="eyebrow">Nine views of the same bulk crystal</p><h1>Surface site atlas</h1><p class="lede">A different cut through FCC changes the density, symmetry, and local coordination of the exposed atoms. Start with the three simplest planes, then follow how terraces and steps emerge at higher indices.</p></div>
+  <p class="atlas-note">In every map, dark teal atoms belong to the outermost layer. Paler atoms sit below it. Orange numbers mark ideal adsorption positions, and the outlined polygon is one repeating surface cell.</p>
 </div>
 
-## What is an adsorption site?
+<div class="surface-group-heading"><h2>Low-index planes</h2><span>Flat, high-symmetry surfaces</span></div>
+<div class="surface-grid">
+{% for surface in site.data.surfaces %}{% if surface.group == 'low-index' %}
+  <a class="surface-card" href="{{ '/surface-sites/' | append: surface.id | append: '.html' | relative_url }}"><img src="{{ surface.figures.top | relative_url }}" alt="{{ surface.title }} atomic surface net"><div class="surface-card-body"><h3>{{ surface.title }} <span>→</span></h3><p>{{ surface.card_description }}</p><div class="site-tags">{% for entry in surface.sites %}<span>{{ entry.label }}</span>{% endfor %}</div></div></a>
+{% endif %}{% endfor %}
+</div>
 
-An adsorption site is a lateral position where an atom or molecule can bind to a surface. Names such as *ontop*, *bridge*, and *hollow* describe the nearby surface atoms. They are useful high-symmetry starting points, although an optimized adsorbate may move away from the ideal position.
+<div class="surface-group-heading"><h2>Stepped and open planes</h2><span>Terraces, ledges, and troughs</span></div>
+<div class="surface-grid">
+{% for surface in site.data.surfaces %}{% if surface.group == 'high-index' %}
+  <a class="surface-card" href="{{ '/surface-sites/' | append: surface.id | append: '.html' | relative_url }}"><img src="{{ surface.figures.top | relative_url }}" alt="{{ surface.title }} atomic surface net"><div class="surface-card-body"><h3>{{ surface.title }} <span>→</span></h3><p>{{ surface.card_description }}</p><div class="site-tags">{% for entry in surface.sites %}<span>{{ entry.label }}</span>{% endfor %}</div></div></a>
+{% endif %}{% endfor %}
+</div>
 
-## Reading the figures
-
-Each page shows an XY top view, two perpendicular side views, and a stacking view. The top three atomic layers use different grayscale tones and sizes. Numbered coloured markers identify sites; their detailed definitions appear in the legend below the figures. Side and stacking views reveal geometric distinctions that a top view can hide.
-
-## Background concepts
-
-<ul class="concept-links">
-  <li><a href="{{ '/concepts/miller-indices/' | relative_url }}">Miller indices</a></li>
-  <li><a href="{{ '/concepts/surface-cells/' | relative_url }}">Surface cells</a></li>
-  <li><a href="{{ '/concepts/adsorption-sites/' | relative_url }}">Adsorption sites</a></li>
-  <li><a href="{{ '/concepts/ase-building/' | relative_url }}">Building slabs with ASE</a></li>
-</ul>
+<p class="quiet" style="margin-top:2rem">New to the notation? Begin with <a href="{{ '/concepts/miller-indices/' | relative_url }}">how Miller planes cut an FCC crystal</a>.</p>
 

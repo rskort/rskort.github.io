@@ -1,0 +1,272 @@
+- id: fcc-100
+  title: FCC(100)
+  group: low-index
+  family: Low-index FCC
+  lattice: Face-centred cubic
+  facet: "(100)"
+  surface_shape: Square net
+  character: Flat · fourfold symmetry
+  ase_builder: fcc100
+  description: The (100) cut exposes a square array of equivalent atoms. Its open centre is the characteristic fourfold hollow, while the layer below sits underneath each bridge direction.
+  card_description: A square surface net with a distinctive fourfold hollow.
+  registry_note: Successive square layers alternate laterally between A and B positions. A second-layer atom sits below each fourfold hollow, adding subsurface coordination that a top-layer-only picture would miss.
+  math_summary: 'The nearest-neighbour surface spacing is \(a/\sqrt{2}\). A convenient primitive cell has two perpendicular vectors of that length.'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Directly above one outermost atom., ase_keyword: ontop}
+    - {label: bridge, marker: 2, coordination: 2, definition: Halfway between adjacent surface atoms., ase_keyword: bridge}
+    - {label: hollow, marker: 3, coordination: 4, definition: At the centre of a square of four surface atoms., ase_keyword: hollow}
+  ase_example: |
+    from ase.build import add_adsorbate, fcc100
+
+    slab = fcc100("Cu", size=(3, 3, 4), a=3.61, vacuum=10)
+    add_adsorbate(slab, "H", 1.5, position="hollow")
+  common_mistakes:
+    - Calling the central hollow threefold; four top-layer atoms surround it.
+    - Confusing the cubic lattice constant with the shorter surface nearest-neighbour spacing.
+  figures: {top: /assets/surfaces/fcc-100-top.svg, profile: /assets/surfaces/fcc-100-profile.svg, stacking: /assets/surfaces/fcc-100-stacking.svg}
+
+- id: fcc-110
+  title: FCC(110)
+  group: low-index
+  family: Low-index FCC
+  lattice: Face-centred cubic
+  facet: "(110)"
+  surface_shape: Rectangular rows
+  character: Flat · strongly anisotropic
+  ase_builder: fcc110
+  description: The (110) cut is the most open low-index FCC face. Close-packed atomic rows run in one direction, separated by troughs that make the two in-plane axes visibly inequivalent.
+  card_description: Dense atomic rows separated by open, directional troughs.
+  registry_note: The side profile reveals ridges and troughs even though the macroscopic plane is flat. Atoms below the trough change the coordination of sites that appear empty from above.
+  math_summary: 'A rectangular cell uses lengths \(a/\sqrt{2}\) along the close-packed rows and \(a\) across them.'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Directly above an atom on a close-packed row., ase_keyword: ontop}
+    - {label: short bridge, marker: 2, coordination: 2, definition: Between nearest neighbours along a row., ase_keyword: shortbridge}
+    - {label: long bridge, marker: 3, coordination: 2, definition: Between atoms across neighbouring rows., ase_keyword: longbridge}
+    - {label: trough hollow, marker: 4, coordination: 4, definition: In the channel between the raised rows., ase_keyword: hollow}
+  ase_example: |
+    from ase.build import add_adsorbate, fcc110
+
+    slab = fcc110("Cu", size=(3, 3, 4), a=3.61, vacuum=10)
+    add_adsorbate(slab, "H", 1.2, position="hollow")
+  common_mistakes:
+    - Using “bridge” without specifying whether it runs along or across a row.
+    - Treating the rectangular net as isotropic.
+  figures: {top: /assets/surfaces/fcc-110-top.svg, profile: /assets/surfaces/fcc-110-profile.svg, stacking: /assets/surfaces/fcc-110-stacking.svg}
+
+- id: fcc-111
+  title: FCC(111)
+  group: low-index
+  family: Low-index FCC
+  lattice: Face-centred cubic
+  facet: "(111)"
+  surface_shape: Triangular net
+  character: Flat · close packed
+  ase_builder: fcc111
+  description: The (111) plane is the close-packed FCC face. Every surface atom has six neighbours in a triangular net, and two visually similar threefold hollows are distinguished by the stacking below.
+  card_description: The close-packed triangular net with FCC and HCP hollows.
+  registry_note: FCC layers follow an ABC sequence. An HCP hollow lies above a second-layer atom; an FCC hollow lies above a third-layer atom and continues the ABC sequence.
+  math_summary: 'The two primitive vectors both have length \(a/\sqrt{2}\) and meet at \(60^\circ\). The interlayer spacing is \(a/\sqrt{3}\).'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Directly above one atom in the triangular net., ase_keyword: ontop}
+    - {label: bridge, marker: 2, coordination: 2, definition: Halfway along a nearest-neighbour bond., ase_keyword: bridge}
+    - {label: FCC hollow, marker: 3, coordination: 3, definition: Threefold opening above a third-layer atom., ase_keyword: fcc}
+    - {label: HCP hollow, marker: 4, coordination: 3, definition: Threefold opening above a second-layer atom., ase_keyword: hcp}
+  ase_example: |
+    from ase.build import add_adsorbate, fcc111
+
+    slab = fcc111("Cu", size=(3, 3, 4), a=3.61, vacuum=10)
+    add_adsorbate(slab, "H", 1.2, position="fcc")
+  common_mistakes:
+    - Calling the triangular atomic net a honeycomb lattice.
+    - Identifying FCC and HCP hollows without looking below the top layer.
+  figures: {top: /assets/surfaces/fcc-111-top.svg, profile: /assets/surfaces/fcc-111-profile.svg, stacking: /assets/surfaces/fcc-111-stacking.svg}
+
+- id: fcc-210
+  title: FCC(210)
+  group: high-index
+  family: Open FCC
+  lattice: Face-centred cubic
+  facet: "(210)"
+  surface_shape: Narrow terraces
+  character: Stepped · very open
+  ase_builder: surface
+  description: Tilting away from (100) towards (110) produces the open (210) surface. Its short terraces repeat rapidly, creating pronounced ledges and low-coordinate ridge atoms.
+  card_description: A strongly tilted (100)-like surface with closely spaced ledges.
+  registry_note: 'The profile makes the terrace-and-step interpretation explicit: the surface normal averages over a staircase of atomic ledges rather than passing through a single flat layer.'
+  math_summary: 'The normal is \([210]\). Its angle from [100] is \(\cos^{-1}(2/\sqrt{5})\approx26.6^\circ\), so the terrace period is short.'
+  sites:
+    - {label: ridge ontop, marker: 1, coordination: 1, definition: Above a low-coordinate atom at the upper ledge.}
+    - {label: step bridge, marker: 2, coordination: 2, definition: Between neighbouring atoms along the ledge.}
+    - {label: trough, marker: 3, coordination: 4, definition: In the open channel below the ridge.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    cu = bulk("Cu", "fcc", a=3.61, cubic=True)
+    slab = surface(cu, (2, 1, 0), layers=8, vacuum=10)
+  common_mistakes:
+    - Treating all visible rows as equally high; the side profile shows their step sequence.
+    - Assigning a low-index ASE site keyword to a high-index surface without checking coordinates.
+  figures: {top: /assets/surfaces/fcc-210-top.svg, profile: /assets/surfaces/fcc-210-profile.svg, stacking: /assets/surfaces/fcc-210-stacking.svg}
+
+- id: fcc-211
+  title: FCC(211)
+  group: high-index
+  family: Stepped FCC
+  lattice: Face-centred cubic
+  facet: "(211)"
+  surface_shape: (111) terraces
+  character: Stepped · kink-free
+  ase_builder: surface
+  description: FCC(211) is commonly read as narrow (111)-like terraces separated by monatomic (100)-type steps. Terrace and step atoms therefore offer clearly different local coordination.
+  card_description: Narrow close-packed terraces separated by straight monatomic steps.
+  registry_note: Rows at the upper ledge have fewer substrate neighbours than atoms inside a terrace. This under-coordination often makes the step edge more reactive than the terrace.
+  math_summary: 'The normal \([211]\) gives a regular staircase with straight step edges. The repeat cell contains both terrace and ledge environments.'
+  sites:
+    - {label: terrace hollow, marker: 1, coordination: 3, definition: A threefold position within the narrow close-packed terrace.}
+    - {label: step bridge, marker: 2, coordination: 2, definition: Between adjacent atoms along the upper ledge.}
+    - {label: step hollow, marker: 3, coordination: 3, definition: At the base of the step with neighbours at two heights.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    cu = bulk("Cu", "fcc", a=3.61, cubic=True)
+    slab = surface(cu, (2, 1, 1), layers=8, vacuum=10)
+  common_mistakes:
+    - Describing the entire facet as a flat (111) plane and omitting the steps.
+    - Comparing terrace and ledge sites using only their lateral coordination.
+  figures: {top: /assets/surfaces/fcc-211-top.svg, profile: /assets/surfaces/fcc-211-profile.svg, stacking: /assets/surfaces/fcc-211-stacking.svg}
+
+- id: fcc-221
+  title: FCC(221)
+  group: high-index
+  family: Stepped FCC
+  lattice: Face-centred cubic
+  facet: "(221)"
+  surface_shape: Close-packed ledges
+  character: Stepped · narrow terraces
+  ase_builder: surface
+  description: The (221) orientation lies near (111) but resolves into closely spaced ledges. The short repeat makes subsurface registry especially important when naming hollows.
+  card_description: A compact stepped net close in orientation to the (111) face.
+  registry_note: Several apparent openings overlap atoms in lower layers. Reading the pale registry together with the profile prevents an empty-looking top view from being mistaken for a simple hollow.
+  math_summary: 'The normal is \([221]\). Equal h and k indices preserve a mirror symmetry along the step direction.'
+  sites:
+    - {label: ledge ontop, marker: 1, coordination: 1, definition: Above an atom at the top of a closely spaced ledge.}
+    - {label: ledge bridge, marker: 2, coordination: 2, definition: Between neighbours running along the step.}
+    - {label: lower hollow, marker: 3, coordination: 3, definition: In the pocket immediately below the ledge.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    cu = bulk("Cu", "fcc", a=3.61, cubic=True)
+    slab = surface(cu, (2, 2, 1), layers=8, vacuum=10)
+  common_mistakes:
+    - Assuming every triangular opening has the same subsurface registry.
+    - Ignoring that the two sides of a step can expose different local environments.
+  figures: {top: /assets/surfaces/fcc-221-top.svg, profile: /assets/surfaces/fcc-221-profile.svg, stacking: /assets/surfaces/fcc-221-stacking.svg}
+
+- id: fcc-310
+  title: FCC(310)
+  group: high-index
+  family: Open FCC
+  lattice: Face-centred cubic
+  facet: "(310)"
+  surface_shape: Wide channels
+  character: Stepped · anisotropic
+  ase_builder: surface
+  description: FCC(310) is a gentler tilt from (100) than (210), so its (100)-like terraces are wider. Straight rows bound elongated channels across the surface.
+  card_description: Wider (100)-like terraces with long, directional channels.
+  registry_note: Comparing (210) and (310) shows how increasing the first index widens the terrace while retaining the same broad step direction.
+  math_summary: 'The angle between [310] and [100] is \(\cos^{-1}(3/\sqrt{10})\approx18.4^\circ\), smaller than for (210).'
+  sites:
+    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom away from the ledge.}
+    - {label: row bridge, marker: 2, coordination: 2, definition: Between atoms along a dense row.}
+    - {label: channel hollow, marker: 3, coordination: 4, definition: In the elongated opening between rows.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    cu = bulk("Cu", "fcc", a=3.61, cubic=True)
+    slab = surface(cu, (3, 1, 0), layers=8, vacuum=10)
+  common_mistakes:
+    - Interchanging the long and short in-plane directions.
+    - Using a square supercell notation for a fundamentally rectangular repeat.
+  figures: {top: /assets/surfaces/fcc-310-top.svg, profile: /assets/surfaces/fcc-310-profile.svg, stacking: /assets/surfaces/fcc-310-stacking.svg}
+
+- id: fcc-311
+  title: FCC(311)
+  group: high-index
+  family: Stepped FCC
+  lattice: Face-centred cubic
+  facet: "(311)"
+  surface_shape: (100) terraces
+  character: Stepped · compact
+  ase_builder: surface
+  description: The (311) surface combines short (100)-like terraces with close-packed step edges. Square-like terrace pockets sit next to lower-coordinate ledge atoms.
+  card_description: Short square terraces interrupted by close-packed step rows.
+  registry_note: The top view mixes square terrace motifs with step pockets. The side profile identifies which apparent neighbours actually lie one atomic level lower.
+  math_summary: 'The \([311]\) normal produces a periodic array of compact terraces; its two equal minor indices retain a mirror-related in-plane geometry.'
+  sites:
+    - {label: terrace hollow, marker: 1, coordination: 4, definition: A square-like pocket on the (100)-type terrace.}
+    - {label: step bridge, marker: 2, coordination: 2, definition: Between adjacent upper-step atoms.}
+    - {label: ledge hollow, marker: 3, coordination: 3, definition: A mixed-height pocket beside the step.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    cu = bulk("Cu", "fcc", a=3.61, cubic=True)
+    slab = surface(cu, (3, 1, 1), layers=8, vacuum=10)
+  common_mistakes:
+    - Calling the mixed-height ledge pocket a flat fourfold hollow.
+    - Comparing coverages without accounting for the larger high-index repeat cell.
+  figures: {top: /assets/surfaces/fcc-311-top.svg, profile: /assets/surfaces/fcc-311-profile.svg, stacking: /assets/surfaces/fcc-311-stacking.svg}
+
+- id: fcc-331
+  title: FCC(331)
+  group: high-index
+  family: Stepped FCC
+  lattice: Face-centred cubic
+  facet: "(331)"
+  surface_shape: (111)-like terraces
+  character: Stepped · close-packed rows
+  ase_builder: surface
+  description: 'FCC(331) is vicinal to (111): close-packed terrace motifs are interrupted at regular intervals by straight ledges, creating terrace and step hollows in one repeat.'
+  card_description: A vicinal (111) face with regular straight ledges.
+  registry_note: The triangular terrace pattern remains visible, but the ABC stacking is interrupted at each ledge. Hollow labels must therefore be tied to a specific local registry.
+  math_summary: 'The \([331]\) normal is about \(22^\circ\) from [111], giving a visibly stepped version of the close-packed face.'
+  sites:
+    - {label: terrace hollow, marker: 1, coordination: 3, definition: A threefold site within the (111)-like terrace.}
+    - {label: ledge bridge, marker: 2, coordination: 2, definition: Between neighbouring atoms at the step rim.}
+    - {label: step pocket, marker: 3, coordination: 3, definition: A mixed-layer hollow directly below the rim.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    cu = bulk("Cu", "fcc", a=3.61, cubic=True)
+    slab = surface(cu, (3, 3, 1), layers=8, vacuum=10)
+  common_mistakes:
+    - Carrying FCC/HCP labels across a step without rechecking the local stacking.
+    - Treating the macroscopic (331) plane as one geometrically flat atomic layer.
+  figures: {top: /assets/surfaces/fcc-331-top.svg, profile: /assets/surfaces/fcc-331-profile.svg, stacking: /assets/surfaces/fcc-331-stacking.svg}
+
+- id: fcc-511
+  title: FCC(511)
+  group: high-index
+  family: Stepped FCC
+  lattice: Face-centred cubic
+  facet: "(511)"
+  surface_shape: Wide (100) terraces
+  character: Stepped · separated ledges
+  ase_builder: surface
+  description: Increasing the leading index to five creates wider (100)-like terraces between the ledges. FCC(511) makes the distinction between terrace sites and step sites particularly easy to see.
+  card_description: Broad square terraces separated by regularly spaced ledges.
+  registry_note: Compared with (311), more terrace-like atoms fit between consecutive steps. This lets adsorption approach the (100) limit away from the ledge while remaining distinct at the edge.
+  math_summary: 'The \([511]\) normal is only \(15.8^\circ\) from [100], so (100)-like terrace behaviour dominates a larger fraction of the cell.'
+  sites:
+    - {label: terrace hollow, marker: 1, coordination: 4, definition: A fourfold-like site near the middle of the broad terrace.}
+    - {label: terrace bridge, marker: 2, coordination: 2, definition: Between two neighbours within the terrace.}
+    - {label: step bridge, marker: 3, coordination: 2, definition: Along the low-coordinate ledge row.}
+    - {label: step pocket, marker: 4, coordination: 3, definition: At the lower side of the step.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    cu = bulk("Cu", "fcc", a=3.61, cubic=True)
+    slab = surface(cu, (5, 1, 1), layers=10, vacuum=10)
+  common_mistakes:
+    - Averaging terrace and step adsorption into one site type.
+    - Using too few lateral repeats to separate adsorbates along the ledge.
+  figures: {top: /assets/surfaces/fcc-511-top.svg, profile: /assets/surfaces/fcc-511-profile.svg, stacking: /assets/surfaces/fcc-511-stacking.svg}
