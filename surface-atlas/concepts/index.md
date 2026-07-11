@@ -5,11 +5,17 @@ description: Learn Miller indices, crystal surface cells, adsorption sites, and 
 permalink: /surface-atlas/concepts/
 ---
 
-<header class="concept-index-header"><p class="eyebrow">From bulk crystal to adsorption model</p><h1>Four ideas, in order.</h1><p class="lede">Start with the plane that cuts the crystal. Then identify its repeating cell, name positions on that cell, and turn the geometry into a slab calculation.</p></header>
+{% assign concepts = site.pages | where: "concept", true | sort: "order" %}
+<header class="concept-index-header"><p class="eyebrow">From bulk crystal to adsorption model</p><h1>A surface model in six steps.</h1><p class="lede">Begin with the three-dimensional lattice, choose a crystallographic plane, find its two-dimensional repeat, understand its sites and stability, and finally build a calculation you can trust.</p></header>
+
+<div class="learning-path" aria-label="Concept learning path">
+  {% for item in concepts %}<span><b>0{{ item.order }}</b>{{ item.short_title | default: item.title }}</span>{% endfor %}
+</div>
 
 <div class="concept-grid">
-  <a class="concept-card" href="{{ '/concepts/miller-indices/' | relative_url }}"><span>01 · Orientation</span><h2>Miller planes</h2><p>Use axis intercepts to understand how a plane passes through cubic or hexagonal bulk cells.</p><b>→</b></a>
-  <a class="concept-card" href="{{ '/concepts/surface-cells/' | relative_url }}"><span>02 · Periodicity</span><h2>Surface cells</h2><p>Turn an infinite cut into two in-plane vectors and a repeatable computational model.</p><b>→</b></a>
-  <a class="concept-card" href="{{ '/concepts/adsorption-sites/' | relative_url }}"><span>03 · Local geometry</span><h2>Adsorption sites</h2><p>Distinguish ontop, bridge, hollow, step, and trough positions by their neighbours.</p><b>→</b></a>
-  <a class="concept-card" href="{{ '/concepts/ase-building/' | relative_url }}"><span>04 · Practice</span><h2>Build a slab</h2><p>Choose layers, vacuum, cell size, constraints, and an initial adsorbate position in ASE.</p><b>→</b></a>
+  {% for item in concepts %}
+    <a class="concept-card" href="{{ item.url }}"><span>0{{ item.order }} · {{ item.theme }}</span><h2>{{ item.short_title | default: item.title }}</h2><p>{{ item.card_description }}</p><b aria-hidden="true">→</b></a>
+  {% endfor %}
 </div>
+
+<aside class="concept-start"><div><p class="kicker">Already know the basics?</p><h2>Make the plane concrete.</h2><p>Enter any FCC, BCC, or HCP indices and compare the bulk cut, surface cell, exposed layers, and geometric adsorption-site candidates.</p></div><a class="button" href="{{ '/surface-builder/' | relative_url }}">Open the surface builder</a></aside>
