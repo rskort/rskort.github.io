@@ -260,10 +260,6 @@ pre code { background: transparent; color: inherit; padding: 0; }
 /* Concepts */
 .concept-index-header { max-width: 800px; margin-bottom: 3.5rem; }
 .concept-index-header h1 { margin-top: 0; }
-.learning-path { align-items: start; display: grid; gap: 0; grid-template-columns: repeat(6, 1fr); margin: -1rem 0 2rem; }
-.learning-path span { border-top: 2px solid #bfd2ce; color: var(--muted); display: grid; font-size: .68rem; gap: .2rem; padding: .65rem .35rem 0 0; position: relative; }
-.learning-path span::before { background: var(--accent); border: 3px solid var(--background); border-radius: 50%; content: ""; height: 10px; left: 0; position: absolute; top: -6px; width: 10px; }
-.learning-path b { color: var(--accent-dark); font-size: .68rem; }
 .concept-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .concept-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); color: inherit; min-height: 210px; padding: 1.5rem; position: relative; text-decoration: none; transition: box-shadow .2s ease, transform .2s ease; }
 .concept-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
@@ -271,26 +267,22 @@ pre code { background: transparent; color: inherit; padding: 0; }
 .concept-card h2 { margin: .5rem 0; }
 .concept-card p { color: var(--muted); font-size: .9rem; margin-bottom: 0; }
 .concept-card b { bottom: 1.2rem; color: var(--accent); position: absolute; right: 1.3rem; }
-.concept-start { align-items: center; background: var(--ink); border-radius: var(--radius); color: white; display: flex; gap: 2rem; justify-content: space-between; margin-top: 3rem; padding: 1.5rem 1.7rem; }
-.concept-start h2 { color: white; font-size: 1.45rem; margin: .15rem 0 .35rem; }
-.concept-start p { color: #cbd8d5; font-size: .88rem; margin: 0; }
-.concept-start .button { background: white; border-color: white; color: var(--accent-dark); flex: 0 0 auto; }
+.concept-builder-link { border-top: 1px solid var(--line); color: var(--muted); margin-top: 2.5rem; padding-top: 1.2rem; }
 .concept-layout { align-items: start; display: grid; gap: clamp(2rem, 7vw, 6rem); grid-template-columns: 210px minmax(0, 1fr); }
 .concept-sidebar { position: sticky; top: 6rem; }
 .concept-home { color: var(--ink); display: inline-block; font-size: .8rem; font-weight: 800; letter-spacing: .09em; margin-bottom: .75rem; text-decoration: none; text-transform: uppercase; }
 .concept-sidebar nav { border-left: 1px solid var(--line); display: grid; }
-.concept-sidebar nav a { color: var(--muted); display: grid; font-size: .85rem; gap: .7rem; grid-template-columns: 24px 1fr; margin-left: -1px; padding: .65rem .8rem; text-decoration: none; }
-.concept-sidebar nav a span { color: #9aa8a5; font-size: .68rem; font-weight: 720; padding-top: .13rem; }
+.concept-sidebar nav a { color: var(--muted); display: block; font-size: .85rem; margin-left: -1px; padding: .65rem .8rem; text-decoration: none; }
 .concept-sidebar nav a:hover, .concept-sidebar nav a[aria-current="page"] { border-left: 2px solid var(--accent); color: var(--accent-dark); }
 .concept-sidebar nav a[aria-current="page"] { background: linear-gradient(90deg, var(--accent-soft), transparent); font-weight: 700; }
 .concept-article { max-width: 820px; min-width: 0; }
 .concept-masthead { border-bottom: 1px solid var(--line); margin-bottom: 1.2rem; padding-bottom: 1.6rem; }
 .concept-masthead h1 { font-size: clamp(2.5rem, 5vw, 4.25rem); margin-top: 0; }
 .concept-masthead .lede { margin-bottom: 0; }
-.lesson-toc { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; display: grid; gap: .75rem; grid-template-columns: 110px 1fr; margin: 1.2rem 0 3rem; padding: .85rem 1rem; }
-.lesson-toc > strong { color: var(--accent-dark); font-size: .72rem; letter-spacing: .06em; padding-top: .16rem; text-transform: uppercase; }
-.lesson-toc ol { display: flex; flex-wrap: wrap; gap: .3rem 1rem; list-style: none; margin: 0; padding: 0; }
-.lesson-toc a { font-size: .78rem; text-decoration: none; }
+.page-contents { border-bottom: 1px solid var(--line); display: grid; gap: .75rem; grid-template-columns: 100px 1fr; margin: 0 0 3rem; padding: .7rem 0 1rem; }
+.page-contents > strong { color: var(--muted); font-size: .7rem; font-weight: 700; letter-spacing: .04em; padding-top: .18rem; text-transform: uppercase; }
+.page-contents ol { display: flex; flex-wrap: wrap; gap: .3rem 1.15rem; list-style: none; margin: 0; padding: 0; }
+.page-contents a { font-size: .8rem; text-decoration: none; }
 .concept-article h2 { scroll-margin-top: 6rem; }
 .concept-article h2:first-of-type { margin-top: 2.7rem; }
 .formula-strip { background: var(--accent-soft); border: 1px solid #c8ddda; border-radius: var(--radius); margin: 1.5rem 0 2rem; padding: .85rem 1.25rem; text-align: center; }
@@ -326,18 +318,14 @@ pre code { background: transparent; color: inherit; padding: 0; }
 .concept-callout strong { color: var(--ink); }
 .concept-callout p { color: var(--muted); font-size: .88rem; margin: .25rem 0 0; }
 .concept-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin: 2rem 0; }
-.lattice-cards { display: grid; gap: .8rem; grid-template-columns: repeat(3, 1fr); margin: 1.5rem 0 2.2rem; }
-.lattice-cards figure { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; margin: 0; overflow: hidden; }
-.lattice-cards svg { background: #edf2ee; display: block; width: 100%; }
-.lattice-cards figcaption { display: grid; padding: .75rem .9rem .9rem; }
-.lattice-cards figcaption span { color: var(--muted); font-size: .72rem; }
-.cell-wire { fill: none; stroke: #8ca29e; stroke-linejoin: round; stroke-width: 1.4; }
-.lattice-atoms circle { fill: white; r: 5px; stroke: var(--accent); stroke-width: 1.5; }
-.lattice-atoms .basis-atom { fill: #92b9b5; }
-.lattice-atoms .large { r: 7px; }
-.site-lesson-figure { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); margin: 2rem 0 2.5rem; overflow: hidden; }
-.site-lesson-figure svg { background: #edf2ee; display: block; width: 100%; }
-.site-lesson-figure figcaption { color: var(--muted); font-size: .78rem; padding: .65rem 1rem; }
+.structure-definitions { display: grid; gap: .8rem; grid-template-columns: repeat(3, 1fr); margin: 1.5rem 0 2.2rem; }
+.structure-definitions section { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; }
+.structure-definitions h3 { color: var(--accent-dark); margin: 0 0 .45rem; }
+.structure-definitions p { color: var(--muted); font-size: .8rem; margin: .35rem 0; }
+.structure-definitions code { display: block; font-size: .72rem; line-height: 1.7; overflow-wrap: anywhere; }
+.site-geometry-figure { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); margin: 2rem 0 2.5rem; overflow: hidden; }
+.site-geometry-figure svg { background: #edf2ee; display: block; width: 100%; }
+.site-geometry-figure figcaption { color: var(--muted); font-size: .78rem; padding: .65rem 1rem; }
 .site-net.bonds { fill: none; stroke: #bfd0cb; stroke-width: 5; }
 .site-net.atoms circle { fill: var(--accent); r: 24px; stroke: white; stroke-width: 4; }
 .site-net.markers circle { fill: var(--warm); r: 12px; stroke: white; stroke-width: 4; }
@@ -362,7 +350,6 @@ thead th { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
   .builder-controls .offset-selector { border-right: 0; border-top: 1px solid var(--line); grid-column: 1 / -1; }
   .builder-visuals { grid-template-columns: 1fr; }
   .live-cut-stage, .surface-builder-panel .viewer-stage { height: 500px; }
-  .learning-path span { font-size: .6rem; }
 }
 
 @media (max-width: 680px) {
@@ -376,14 +363,11 @@ thead th { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
   .credit-details { border-left: 2px solid #c8ddda; border-right: 0; padding: .15rem 0 .15rem .8rem; }
   .credit-details nav { justify-content: center; }
   .home-sections, .surface-grid, .profile-grid, .two-column-section, .concept-grid, .comparison { grid-template-columns: 1fr; }
-  .learning-path { display: none; }
-  .concept-start { align-items: flex-start; flex-direction: column; }
-  .lesson-toc { display: block; }
-  .lesson-toc ol { margin-top: .55rem; }
-  .lattice-cards { grid-template-columns: 1fr; }
-  .lattice-cards svg { max-height: 230px; }
-  .site-lesson-figure { overflow-x: auto; }
-  .site-lesson-figure svg { min-width: 620px; }
+  .page-contents { display: block; }
+  .page-contents ol { margin-top: .55rem; }
+  .structure-definitions { grid-template-columns: 1fr; }
+  .site-geometry-figure { overflow-x: auto; }
+  .site-geometry-figure svg { min-width: 620px; }
   .surface-header { margin-bottom: 3rem; }
   .section-heading { align-items: start; flex-direction: column; }
   .layer-key { justify-content: flex-start; }
@@ -406,7 +390,6 @@ thead th { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
   .concept-home { display: none; }
   .concept-sidebar nav { border: 0; display: flex; min-width: max-content; }
   .concept-sidebar nav a { border: 1px solid var(--line); border-radius: 999px; display: block; margin: 0 .35rem 0 0; padding: .38rem .7rem; }
-  .concept-sidebar nav a span { display: none; }
   .concept-sidebar nav a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: white; }
   .plane-stage { min-height: 300px; }
   .surface-switcher, .page-switcher { gap: .5rem; }

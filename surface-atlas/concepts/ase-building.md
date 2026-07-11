@@ -4,7 +4,7 @@ title: Building surfaces with ASE
 short_title: Build a slab
 heading: Turn the geometry into a slab model
 theme: Practice
-card_description: Build, inspect, constrain, and converge a periodic surface model with ASE without hiding important choices in defaults.
+card_description: Build, inspect, constrain, and converge a periodic surface model with ASE.
 intro: A slab calculation replaces a semi-infinite solid with a finite stack of atomic layers, repeated laterally and separated from its periodic image by vacuum.
 description: Build reliable crystal surface slabs with ASE using suitable layers, vacuum, supercells, constraints, and adsorbate positions.
 concept: true

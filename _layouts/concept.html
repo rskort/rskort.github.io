@@ -7,19 +7,19 @@ layout: default
     <a class="concept-home" href="{{ '/concepts/' | relative_url }}">Concepts</a>
     <nav>
       {% for item in concepts %}
-        <a {% if item.url == page.url %}aria-current="page"{% endif %} href="{{ item.url }}"><span>0{{ item.order }}</span>{{ item.short_title | default: item.title }}</a>
+        <a {% if item.url == page.url %}aria-current="page"{% endif %} href="{{ item.url }}">{{ item.short_title | default: item.title }}</a>
       {% endfor %}
     </nav>
   </aside>
   <article class="concept-article">
     <header class="concept-masthead">
-      <p class="eyebrow">Concept {{ page.order }} of {{ concepts.size }} · {{ page.theme }}</p>
+      <p class="eyebrow">{{ page.theme }}</p>
       <h1>{{ page.heading | default: page.title }}</h1>
       <p class="lede">{{ page.intro }}</p>
     </header>
     {% if page.sections %}
-      <nav class="lesson-toc" aria-label="On this page">
-        <strong>In this lesson</strong>
+      <nav class="page-contents" aria-label="On this page">
+        <strong>On this page</strong>
         <ol>{% for section in page.sections %}<li><a href="#{{ section.id }}">{{ section.label }}</a></li>{% endfor %}</ol>
       </nav>
     {% endif %}

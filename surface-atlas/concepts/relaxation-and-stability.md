@@ -2,9 +2,9 @@
 layout: concept
 title: Surface relaxation and stability
 short_title: Stability
-heading: Ideal cuts are only the starting point
+heading: Relaxation, reconstruction, and stability
 theme: Energetics
-card_description: Connect broken bulk coordination to relaxation, reconstruction, termination, surface energy, and real adsorption minima.
+card_description: Relaxation, reconstruction, termination, surface energy, and adsorption minima.
 intro: The atlas shows ideal, unreconstructed terminations because they make geometry legible. Real surfaces move, exchange atoms, reconstruct, and respond to their chemical environment.
 description: Understand surface relaxation, reconstruction, termination, surface energy, polarity, and the limits of ideal adsorption-site models.
 concept: true
@@ -33,13 +33,13 @@ For a symmetric elemental slab with two equivalent faces, a common definition is
 
 Here \(A\) is the area of one face. The factor of two is valid only when the two surfaces are equivalent. For multicomponent, polar, asymmetric, or adsorbate-covered slabs, chemical potentials and face-specific terms may be required.
 
-Lower-index close-packed facets often have lower surface energy because they break fewer or weaker bonds per unit area, but this is a useful trend—not a universal proof. Temperature, pressure, adsorbates, magnetism, and composition can change which facet or termination is stable.
+Lower-index close-packed facets often have lower surface energy because they break fewer or weaker bonds per unit area. This correlation is not universal. Temperature, pressure, adsorbates, magnetism, and composition can change which facet or termination is stable.
 
 <aside class="concept-callout warning"><strong>Geometry is not a stability prediction.</strong><p>The builder's sites are geometric starting points. It does not calculate surface energies, phonons, reconstructions, or adsorption free energies.</p></aside>
 
 ## From named site to energy landscape {#adsorption-landscape}
 
-An ontop, bridge, or hollow label defines an initial local geometry. During optimization an adsorbate may move to another site, tilt, dissociate, penetrate a subsurface pocket, or induce a reconstruction. A meaningful comparison therefore uses the same computational settings and relaxes several plausible starting structures.
+An ontop, bridge, or hollow label defines an initial local geometry. During optimization an adsorbate may move to another site, tilt, dissociate, penetrate a subsurface pocket, or induce a reconstruction. Compare several plausible starting structures using the same computational settings.
 
 For adsorption energy, state the sign convention. One widely used choice is
 
@@ -57,4 +57,4 @@ Report enough information to distinguish the calculation from every other slab w
 - adsorbate coverage, initial site, and final relaxed geometry;
 - electronic-structure settings and the convergence tests relevant to the quantity reported.
 
-The ideal atlas view remains valuable: it is the common geometric reference from which real structural changes can be described precisely.
+The atlas shows the ideal reference geometry. Report relaxation and reconstruction relative to that structure.

@@ -4,7 +4,7 @@ title: Bulk crystal lattices
 short_title: Bulk lattices
 heading: Start with the bulk lattice
 theme: Structure
-card_description: See how FCC, BCC, and HCP translation vectors and atomic bases determine what a cut can expose.
+card_description: FCC, BCC, and HCP translation vectors, atomic bases, coordination, and layer stacking.
 intro: A surface inherits its geometry from the infinite crystal beneath it. Before choosing a plane, separate the lattice that repeats from the atomic basis carried by every lattice point.
 description: Visual introduction to FCC, BCC, and HCP bulk crystal lattices, conventional and primitive cells, coordination, and close packing.
 concept: true
@@ -22,10 +22,10 @@ A **Bravais lattice** is the set of positions produced by integer combinations o
 
 The familiar cubic boxes used for FCC and BCC are conventional cells: they make the symmetry obvious, but they are not the smallest possible repeat. Counting shared atoms gives four atoms per conventional FCC cell and two per conventional BCC cell. The primitive cell of either lattice contains one lattice point.
 
-<div class="lattice-cards">
-  <figure><svg viewBox="0 0 180 145" role="img" aria-label="FCC conventional cell with corner and face-centred atoms"><path class="cell-wire" d="M34 46 98 12 153 43 90 78Zm0 0v63l56 27 63-34V43M90 78v58M34 109l64-34 55 27M98 12v63"/><g class="lattice-atoms"><circle cx="34" cy="46"/><circle cx="98" cy="12"/><circle cx="153" cy="43"/><circle cx="90" cy="78"/><circle cx="34" cy="109"/><circle cx="90" cy="136"/><circle cx="153" cy="102"/><circle cx="98" cy="75" class="basis-atom"/><circle cx="62" cy="94" class="basis-atom"/><circle cx="122" cy="90" class="basis-atom"/></g></svg><figcaption><strong>FCC</strong><span>Atoms at corners and face centres</span></figcaption></figure>
-  <figure><svg viewBox="0 0 180 145" role="img" aria-label="BCC conventional cell with a body-centred atom"><path class="cell-wire" d="M34 46 98 12 153 43 90 78Zm0 0v63l56 27 63-34V43M90 78v58M34 109l64-34 55 27M98 12v63"/><g class="lattice-atoms"><circle cx="34" cy="46"/><circle cx="98" cy="12"/><circle cx="153" cy="43"/><circle cx="90" cy="78"/><circle cx="34" cy="109"/><circle cx="90" cy="136"/><circle cx="153" cy="102"/><circle cx="94" cy="75" class="basis-atom large"/></g></svg><figcaption><strong>BCC</strong><span>One atom at the body centre</span></figcaption></figure>
-  <figure><svg viewBox="0 0 180 145" role="img" aria-label="HCP hexagonal cell with alternating close-packed layers"><path class="cell-wire" d="M31 40 62 20 119 20 150 40 119 60 62 60Zm0 0v64l31 20h57l31-20V40M62 60v64M119 60v64M31 104l31-20h57l31 20"/><g class="lattice-atoms"><circle cx="31" cy="40"/><circle cx="62" cy="20"/><circle cx="119" cy="20"/><circle cx="150" cy="40"/><circle cx="119" cy="60"/><circle cx="62" cy="60"/><circle cx="90" cy="77" class="basis-atom large"/><circle cx="62" cy="124"/><circle cx="119" cy="124"/></g></svg><figcaption><strong>HCP</strong><span>AB-stacked hexagonal layers</span></figcaption></figure>
+<div class="structure-definitions">
+  <section><h3>FCC</h3><p>Conventional cubic fractional positions:</p><code>(0,0,0) · (0,½,½) · (½,0,½) · (½,½,0)</code><p>Translations reproduce the corner and face-centred positions of neighbouring cells.</p></section>
+  <section><h3>BCC</h3><p>Conventional cubic fractional positions:</p><code>(0,0,0) · (½,½,½)</code><p>The second position is the body-centred lattice point.</p></section>
+  <section><h3>HCP</h3><p>One common hexagonal fractional convention:</p><code>(0,0,0) · (⅔,⅓,½)</code><p>The two-position basis gives ABAB stacking along the c axis.</p></section>
 </div>
 
 ## Three common elemental structures {#compare-lattices}

@@ -81,7 +81,7 @@ For cubic crystals with lattice constant \(a\), adjacent members of the plane fa
 
 <div class="formula-strip">\[d_{hkl}=\frac{a}{\sqrt{h^2+k^2+l^2}}.\]</div>
 
-Multiples such as (222) have the same orientation as (111), but conventionally refer to a different reciprocal-lattice order. When selecting a surface orientation, indices are normally reduced to the smallest integer triplet.
+Proportional triplets have the same plane normal. Because the builder represents surface orientation, it reduces a triplet such as (222) to (111). Crystallographic indexing of plane families and diffraction orders requires the full lattice context.
 
 ## What changes for BCC and HCP? {#cubic-and-hcp}
 
@@ -99,5 +99,5 @@ Thus (0001) is the basal plane, (10-10) and (11-20) are prism planes parallel to
 
 Indices specify orientation, not every detail of a slab. A material can have multiple chemical terminations, reconstructions, or registries for the same \((hkl)\). Always report the composition, termination, cell, and slab thickness alongside the facet.
 
-<aside class="concept-callout"><strong>A useful mental model</strong><p>The indices rotate the knife; the offset decides where the knife passes; the lattice and basis decide which atomic layers remain.</p></aside>
+<aside class="concept-callout"><strong>Orientation and offset are separate.</strong><p>The indices set the plane normal. Translating the plane along that normal changes the termination. The lattice and basis determine which atomic layers occur at each offset.</p></aside>
 
