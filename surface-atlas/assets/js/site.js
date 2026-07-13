@@ -88,7 +88,11 @@
         this.yaw = 0;
       }
       if (options.zoom) this.zoom = options.zoom;
-      const siteDescription = data.candidateSites ? "geometric candidates" : "ideal sites";
+      const siteDescription = data.candidateSites
+        ? "geometric candidates"
+        : data.siteDisplay?.mode === "uniform-guide-plane"
+          ? "lateral sites · shared schematic height"
+          : "ideal sites";
       if (this.status) {
         this.status.textContent = `${data.element} slab · ${data.atoms.length} atoms · ${data.sites.length} ${siteDescription}`;
       }
@@ -270,7 +274,10 @@
           ctx.beginPath();
           ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
           const siteColours = {ontop: "#d85f45", bridge: "#c98a32", hollow: "#8b6aa8"};
-          ctx.fillStyle = siteColours[site.kind] || "#d85f45";
+          // The builder has an explicit type legend. Catalogue markers instead
+          // use one colour because their number maps to the site explanation;
+          // colour must not suggest energy, height, or another hidden ordering.
+          ctx.fillStyle = isCandidate ? (siteColours[site.kind] || "#d85f45") : "#a96824";
           ctx.fill();
           ctx.strokeStyle = "#ffffff";
           ctx.lineWidth = isCandidate ? 1.7 : 2.2;

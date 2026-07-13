@@ -31,10 +31,10 @@ z
    <g id="line2d_1">
     <path d="M 5.76 24.877241
 L 452.16 24.877241
-" clip-path="url(#p948fd671a4)" style="fill: none; stroke-dasharray: 6,6; stroke-dashoffset: 0; stroke: #d85f45; stroke-width: 1.5"/>
+" clip-path="url(#p948fd671a4)" style="fill: none; stroke-dasharray: 6,6; stroke-dashoffset: 0; stroke: #a96824; stroke-width: 1.5"/>
    </g>
    <g id="text_1">
-    <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #d85f45" x="59.552025" y="16.036082" transform="rotate(-0 59.552025 16.036082)">macroscopic surface plane</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #a96824" x="59.552025" y="16.036082" transform="rotate(-0 59.552025 16.036082)">macroscopic surface plane</text>
    </g>
    <g id="PathCollection_1">
     <defs>

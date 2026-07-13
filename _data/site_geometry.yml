@@ -14,7 +14,7 @@ fcc-100:
     formula: s = s₁
     method: Projection of the L1 atom at (1/2, 0).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, 0)
@@ -26,7 +26,7 @@ fcc-100:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/2, 0) and L1 (0, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, 0)
@@ -40,7 +40,7 @@ fcc-100:
     formula: s = (Σᵢ sᵢ) / 4
     method: 'Least-squares centroid of the 4-atom projected shell: L1 (1/2, 0), L1 (0, 1/2), L1 (1/2, 1), L1 (1, 1/2).'
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, 0)
@@ -66,7 +66,7 @@ fcc-110:
     formula: s = s₁
     method: Projection of the L1 atom at (1/4, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/4, 1/2)
@@ -78,7 +78,7 @@ fcc-110:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/4, 1/2) and L1 (3/4, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/4, 1/2)
@@ -92,7 +92,7 @@ fcc-110:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/4, -1/2) and L1 (1/4, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/4, -1/2)
@@ -107,7 +107,7 @@ fcc-110:
     method: 'Least-squares centroid of the 4-atom projected shell: L1 (1/4, -1/2), L1 (3/4, -1/2), L1 (1/4, 1/2), L1 (3/4,
       1/2).'
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/4, -1/2)
@@ -133,7 +133,7 @@ fcc-111:
     formula: s = s₁
     method: Projection of the L1 atom at (0, 0).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0, 0)
@@ -145,7 +145,7 @@ fcc-111:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (0, 0) and L1 (1/2, 0).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0, 0)
@@ -159,7 +159,7 @@ fcc-111:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (0, 0), L1 (1/2, 0), L1 (0, 1/2).'
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0, 0)
@@ -175,7 +175,7 @@ fcc-111:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (1/2, 0), L1 (0, 1/2), L1 (1/2, 1/2).'
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, 0)
@@ -199,7 +199,7 @@ fcc-210:
     formula: s = s₁
     method: Projection of the L1 atom at (1/5, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/5, 1/2)
@@ -211,7 +211,7 @@ fcc-210:
     formula: s = s₁
     method: Projection of the L2 atom at (2/5, 0).
     reference_offset: -0.80722
-    height_reference: local shell Δz = -0.807 Å from L1
+    height_reference: 'support shell: mean Δz = -0.807 Å from L1'
     supports:
     - layer: 2
       coordinate: (2/5, 0)
@@ -223,7 +223,7 @@ fcc-210:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/5, 1/2) and L1 (1/5, 3/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/5, 1/2)
@@ -237,7 +237,7 @@ fcc-210:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (7/10, 0) and L3 (3/5, 1/2).
     reference_offset: -0.8072205
-    height_reference: local shell Δz = -0.807 Å from L1
+    height_reference: 'support shell: mean Δz = -0.807 Å from L1'
     supports:
     - layer: 1
       coordinate: (7/10, 0)
@@ -251,7 +251,7 @@ fcc-210:
     formula: s = (Σᵢ sᵢ) / 4
     method: 'Least-squares centroid of the 4-atom projected shell: L1 (7/10, 0), L1 (7/10, 1), L2 (2/5, 0), L2 (2/5, 1).'
     reference_offset: -0.40361
-    height_reference: local shell Δz = -0.404 Å from L1
+    height_reference: 'support shell: mean Δz = -0.404 Å from L1'
     supports:
     - layer: 1
       coordinate: (7/10, 0)
@@ -277,7 +277,7 @@ fcc-211:
     formula: s = s₁
     method: Projection of the L3 atom at (2/3, 1/4).
     reference_offset: -1.473776
-    height_reference: local shell Δz = -1.474 Å from L1
+    height_reference: 'support shell: mean Δz = -1.474 Å from L1'
     supports:
     - layer: 3
       coordinate: (2/3, 1/4)
@@ -289,7 +289,7 @@ fcc-211:
     formula: s = s₁
     method: Projection of the L1 atom at (1/3, 1/4).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/3, 1/4)
@@ -301,7 +301,7 @@ fcc-211:
     formula: s = s₁
     method: Projection of the L2 atom at (0, 0).
     reference_offset: -0.736888
-    height_reference: local shell Δz = -0.737 Å from L1
+    height_reference: 'support shell: mean Δz = -0.737 Å from L1'
     supports:
     - layer: 2
       coordinate: (0, 0)
@@ -313,7 +313,7 @@ fcc-211:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L2 (0, 0) and L2 (0, -1/2).
     reference_offset: -0.736888
-    height_reference: local shell Δz = -0.737 Å from L1
+    height_reference: 'support shell: mean Δz = -0.737 Å from L1'
     supports:
     - layer: 2
       coordinate: (0, 0)
@@ -327,7 +327,7 @@ fcc-211:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/3, 1/4) and L1 (1/3, -1/4).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/3, 1/4)
@@ -341,7 +341,7 @@ fcc-211:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (4/3, 3/4) and L2 (1, 1/2).
     reference_offset: -0.368444
-    height_reference: local shell Δz = -0.368 Å from L1
+    height_reference: 'support shell: mean Δz = -0.368 Å from L1'
     supports:
     - layer: 1
       coordinate: (4/3, 3/4)
@@ -355,7 +355,7 @@ fcc-211:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L2 (0, 0), L2 (0, 1), L2 (1, 1/2).'
     reference_offset: -0.736888
-    height_reference: local shell Δz = -0.737 Å from L1
+    height_reference: 'support shell: mean Δz = -0.737 Å from L1'
     supports:
     - layer: 2
       coordinate: (0, 0)
@@ -371,7 +371,7 @@ fcc-211:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (-2/3, 3/4), L2 (0, 1), L3 (-1/3, 1/4).'
     reference_offset: -0.736888
-    height_reference: local shell Δz = -0.737 Å from L1
+    height_reference: 'support shell: mean Δz = -0.737 Å from L1'
     supports:
     - layer: 1
       coordinate: (-2/3, 3/4)
@@ -395,7 +395,7 @@ fcc-221:
     formula: s = s₁
     method: Projection of the L1 atom at (7/18, 5/18).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (7/18, 5/18)
@@ -407,7 +407,7 @@ fcc-221:
     formula: s = s₁
     method: Projection of the L2 atom at (0, 0).
     reference_offset: -0.601667
-    height_reference: local shell Δz = -0.602 Å from L1
+    height_reference: 'support shell: mean Δz = -0.602 Å from L1'
     supports:
     - layer: 2
       coordinate: (0, 0)
@@ -419,7 +419,7 @@ fcc-221:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (-1/9, -13/18) and L1 (-11/18, -13/18).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (-1/9, -13/18)
@@ -433,7 +433,7 @@ fcc-221:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L2 (-1/2, 0) and L2 (-1, 0).
     reference_offset: -0.601667
-    height_reference: local shell Δz = -0.602 Å from L1
+    height_reference: 'support shell: mean Δz = -0.602 Å from L1'
     supports:
     - layer: 2
       coordinate: (-1/2, 0)
@@ -447,7 +447,7 @@ fcc-221:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (8/9, 23/18) and L2 (1/2, 1).
     reference_offset: -0.3008335
-    height_reference: local shell Δz = -0.301 Å from L1
+    height_reference: 'support shell: mean Δz = -0.301 Å from L1'
     supports:
     - layer: 1
       coordinate: (8/9, 23/18)
@@ -461,7 +461,7 @@ fcc-221:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L3 (-7/18, 13/18), L3 (11/18, 13/18), L3 (11/18, 31/18).'
     reference_offset: -1.203334
-    height_reference: local shell Δz = -1.203 Å from L1
+    height_reference: 'support shell: mean Δz = -1.203 Å from L1'
     supports:
     - layer: 3
       coordinate: (-7/18, 13/18)
@@ -477,7 +477,7 @@ fcc-221:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (8/9, 23/18), L2 (1, 1), L3 (11/18, 13/18).'
     reference_offset: -0.601667
-    height_reference: local shell Δz = -0.602 Å from L1
+    height_reference: 'support shell: mean Δz = -0.602 Å from L1'
     supports:
     - layer: 1
       coordinate: (8/9, 23/18)
@@ -501,7 +501,7 @@ fcc-310:
     formula: s = s₁
     method: Projection of the L2 atom at (3/10, 0).
     reference_offset: -0.570791
-    height_reference: local shell Δz = -0.571 Å from L1
+    height_reference: 'support shell: mean Δz = -0.571 Å from L1'
     supports:
     - layer: 2
       coordinate: (3/10, 0)
@@ -513,7 +513,7 @@ fcc-310:
     formula: s = s₁
     method: Projection of the L1 atom at (3/20, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/20, 1/2)
@@ -525,7 +525,7 @@ fcc-310:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (3/20, 1/2) and L1 (3/20, 3/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/20, 1/2)
@@ -539,7 +539,7 @@ fcc-310:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L2 (3/10, 0) and L2 (3/10, -1).
     reference_offset: -0.570791
-    height_reference: local shell Δz = -0.571 Å from L1
+    height_reference: 'support shell: mean Δz = -0.571 Å from L1'
     supports:
     - layer: 2
       coordinate: (3/10, 0)
@@ -553,7 +553,7 @@ fcc-310:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (3/20, 1/2) and L2 (3/10, 0).
     reference_offset: -0.2853955
-    height_reference: local shell Δz = -0.285 Å from L1
+    height_reference: 'support shell: mean Δz = -0.285 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/20, 1/2)
@@ -567,7 +567,7 @@ fcc-310:
     formula: s = (Σᵢ sᵢ) / 4
     method: 'Least-squares centroid of the 4-atom projected shell: L2 (3/10, 0), L2 (3/10, -1), L2 (-1/5, 0), L2 (-1/5, -1).'
     reference_offset: -0.570791
-    height_reference: local shell Δz = -0.571 Å from L1
+    height_reference: 'support shell: mean Δz = -0.571 Å from L1'
     supports:
     - layer: 2
       coordinate: (3/10, 0)
@@ -586,7 +586,7 @@ fcc-310:
     method: 'Least-squares centroid of the 4-atom projected shell: L1 (3/20, 1/2), L1 (13/20, 1/2), L2 (3/10, 0), L2 (3/10,
       1).'
     reference_offset: -0.2853955
-    height_reference: local shell Δz = -0.285 Å from L1
+    height_reference: 'support shell: mean Δz = -0.285 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/20, 1/2)
@@ -604,7 +604,7 @@ fcc-310:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (3/20, 3/2), L2 (3/10, 1), L3 (9/20, 3/2).'
     reference_offset: -0.570791
-    height_reference: local shell Δz = -0.571 Å from L1
+    height_reference: 'support shell: mean Δz = -0.571 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/20, 3/2)
@@ -628,7 +628,7 @@ fcc-311:
     formula: s = s₁
     method: Projection of the L3 atom at (1/11, 21/22).
     reference_offset: -2.176912
-    height_reference: local shell Δz = -2.177 Å from L1
+    height_reference: 'support shell: mean Δz = -2.177 Å from L1'
     supports:
     - layer: 3
       coordinate: (1/11, 21/22)
@@ -640,7 +640,7 @@ fcc-311:
     formula: s = s₁
     method: Projection of the L1 atom at (1/22, 5/22).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/22, 5/22)
@@ -652,7 +652,7 @@ fcc-311:
     formula: s = s₁
     method: Projection of the L2 atom at (7/22, 1/11).
     reference_offset: -1.088456
-    height_reference: local shell Δz = -1.088 Å from L1
+    height_reference: 'support shell: mean Δz = -1.088 Å from L1'
     supports:
     - layer: 2
       coordinate: (7/22, 1/11)
@@ -664,7 +664,7 @@ fcc-311:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L2 (9/11, -9/22) and L2 (9/11, 1/11).
     reference_offset: -1.088456
-    height_reference: local shell Δz = -1.088 Å from L1
+    height_reference: 'support shell: mean Δz = -1.088 Å from L1'
     supports:
     - layer: 2
       coordinate: (9/11, -9/22)
@@ -678,7 +678,7 @@ fcc-311:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (-5/11, 8/11) and L1 (-5/11, 27/22).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (-5/11, 8/11)
@@ -692,7 +692,7 @@ fcc-311:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (6/11, 5/22) and L2 (7/22, 1/11).
     reference_offset: -0.544228
-    height_reference: local shell Δz = -0.544 Å from L1
+    height_reference: 'support shell: mean Δz = -0.544 Å from L1'
     supports:
     - layer: 1
       coordinate: (6/11, 5/22)
@@ -707,7 +707,7 @@ fcc-311:
     method: 'Least-squares centroid of the 4-atom projected shell: L2 (7/22, 1/11), L2 (7/22, -9/22), L2 (9/11, -9/22), L2
       (9/11, 1/11).'
     reference_offset: -1.088456
-    height_reference: local shell Δz = -1.088 Å from L1
+    height_reference: 'support shell: mean Δz = -1.088 Å from L1'
     supports:
     - layer: 2
       coordinate: (7/22, 1/11)
@@ -725,7 +725,7 @@ fcc-311:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (6/11, -3/11), L2 (7/22, -9/22), L3 (13/22, -6/11).'
     reference_offset: -1.088456
-    height_reference: local shell Δz = -1.088 Å from L1
+    height_reference: 'support shell: mean Δz = -1.088 Å from L1'
     supports:
     - layer: 1
       coordinate: (6/11, -3/11)
@@ -749,7 +749,7 @@ fcc-331:
     formula: s = s₁
     method: Projection of the L3 atom at (15/38, 11/38).
     reference_offset: -1.656381
-    height_reference: local shell Δz = -1.656 Å from L1
+    height_reference: 'support shell: mean Δz = -1.656 Å from L1'
     supports:
     - layer: 3
       coordinate: (15/38, 11/38)
@@ -761,7 +761,7 @@ fcc-331:
     formula: s = s₁
     method: Projection of the L1 atom at (3/38, 3/19).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/38, 3/19)
@@ -773,7 +773,7 @@ fcc-331:
     formula: s = s₁
     method: Projection of the L2 atom at (9/38, 9/19).
     reference_offset: -0.828191
-    height_reference: local shell Δz = -0.828 Å from L1
+    height_reference: 'support shell: mean Δz = -0.828 Å from L1'
     supports:
     - layer: 2
       coordinate: (9/38, 9/19)
@@ -785,7 +785,7 @@ fcc-331:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L2 (-5/19, 9/19) and L2 (-29/38, 9/19).
     reference_offset: -0.828191
-    height_reference: local shell Δz = -0.828 Å from L1
+    height_reference: 'support shell: mean Δz = -0.828 Å from L1'
     supports:
     - layer: 2
       coordinate: (-5/19, 9/19)
@@ -799,7 +799,7 @@ fcc-331:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (3/38, 3/19) and L1 (-8/19, 3/19).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/38, 3/19)
@@ -813,7 +813,7 @@ fcc-331:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (3/38, 25/38) and L2 (9/38, 9/19).
     reference_offset: -0.4140955
-    height_reference: local shell Δz = -0.414 Å from L1
+    height_reference: 'support shell: mean Δz = -0.414 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/38, 25/38)
@@ -827,7 +827,7 @@ fcc-331:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L2 (9/38, 9/19), L2 (14/19, 37/38), L2 (-5/19, 37/38).'
     reference_offset: -0.828191
-    height_reference: local shell Δz = -0.828 Å from L1
+    height_reference: 'support shell: mean Δz = -0.828 Å from L1'
     supports:
     - layer: 2
       coordinate: (9/38, 9/19)
@@ -843,7 +843,7 @@ fcc-331:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (3/38, 3/19), L2 (9/38, -1/38), L3 (15/38, 11/38).'
     reference_offset: -0.82819067
-    height_reference: local shell Δz = -0.828 Å from L1
+    height_reference: 'support shell: mean Δz = -0.828 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/38, 3/19)
@@ -867,7 +867,7 @@ fcc-511:
     formula: s = s₁
     method: Projection of the L3 atom at (0.2037, 4/27).
     reference_offset: -1.389489
-    height_reference: local shell Δz = -1.389 Å from L1
+    height_reference: 'support shell: mean Δz = -1.389 Å from L1'
     supports:
     - layer: 3
       coordinate: (0.2037, 4/27)
@@ -879,7 +879,7 @@ fcc-511:
     formula: s = s₁
     method: Projection of the L1 atom at (1/3, 1/3).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/3, 1/3)
@@ -891,7 +891,7 @@ fcc-511:
     formula: s = s₁
     method: Projection of the L2 atom at (0.0185, 0.2407).
     reference_offset: -0.694744
-    height_reference: local shell Δz = -0.695 Å from L1
+    height_reference: 'support shell: mean Δz = -0.695 Å from L1'
     supports:
     - layer: 2
       coordinate: (0.0185, 0.2407)
@@ -903,7 +903,7 @@ fcc-511:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L2 (0.0185, 0.2407) and L2 (0.0185, 20/27).
     reference_offset: -0.694744
-    height_reference: local shell Δz = -0.695 Å from L1
+    height_reference: 'support shell: mean Δz = -0.695 Å from L1'
     supports:
     - layer: 2
       coordinate: (0.0185, 0.2407)
@@ -917,7 +917,7 @@ fcc-511:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (5/6, 1/3) and L1 (5/6, -1/6).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (5/6, 1/3)
@@ -931,7 +931,7 @@ fcc-511:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/3, -2/3) and L2 (14/27, -0.7593).
     reference_offset: -0.347372
-    height_reference: local shell Δz = -0.347 Å from L1
+    height_reference: 'support shell: mean Δz = -0.347 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/3, -2/3)
@@ -946,7 +946,7 @@ fcc-511:
     method: 'Least-squares centroid of the 4-atom projected shell: L2 (0.0185, 0.2407), L2 (0.0185, 20/27), L2 (14/27, 0.2407),
       L2 (14/27, -7/27).'
     reference_offset: -0.694744
-    height_reference: local shell Δz = -0.695 Å from L1
+    height_reference: 'support shell: mean Δz = -0.695 Å from L1'
     supports:
     - layer: 2
       coordinate: (0.0185, 0.2407)
@@ -964,7 +964,7 @@ fcc-511:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (5/6, 1/3), L2 (14/27, 0.2407), L3 (19/27, -0.3519).'
     reference_offset: -0.69474433
-    height_reference: local shell Δz = -0.695 Å from L1
+    height_reference: 'support shell: mean Δz = -0.695 Å from L1'
     supports:
     - layer: 1
       coordinate: (5/6, 1/3)
@@ -988,7 +988,7 @@ bcc-100:
     formula: s = s₁
     method: Projection of the L1 atom at (1/2, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, 1/2)
@@ -1000,7 +1000,7 @@ bcc-100:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/2, -1/2) and L1 (1/2, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, -1/2)
@@ -1015,7 +1015,7 @@ bcc-100:
     method: 'Least-squares centroid of the 4-atom projected shell: L1 (-1/2, -1/2), L1 (1/2, -1/2), L1 (-1/2, 1/2), L1 (1/2,
       1/2).'
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (-1/2, -1/2)
@@ -1041,7 +1041,7 @@ bcc-110:
     formula: s = s₁
     method: Projection of the L1 atom at (1/2, 0).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, 0)
@@ -1053,7 +1053,7 @@ bcc-110:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/2, 0) and L1 (0, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, 0)
@@ -1067,7 +1067,7 @@ bcc-110:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/2, 0) and L1 (1/2, 1).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, 0)
@@ -1081,7 +1081,7 @@ bcc-110:
     formula: exact ASE affine transform
     method: ASE bcc110 hollow (3/8, 1/4), transformed from its primitive oblique cell into this rectangular cell.
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports: []
 bcc-111:
   cell:
@@ -1099,7 +1099,7 @@ bcc-111:
     formula: s = s₁
     method: Projection of the L1 atom at (1/3, 1/3).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/3, 1/3)
@@ -1111,7 +1111,7 @@ bcc-111:
     formula: s = s₁
     method: Projection of the L2 atom at (0, 0).
     reference_offset: -0.828498
-    height_reference: local shell Δz = -0.828 Å from L1
+    height_reference: 'support shell: mean Δz = -0.828 Å from L1'
     supports:
     - layer: 2
       coordinate: (0, 0)
@@ -1123,7 +1123,7 @@ bcc-111:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/3, 1/3) and L2 (0, 0).
     reference_offset: -0.414249
-    height_reference: local shell Δz = -0.414 Å from L1
+    height_reference: 'support shell: mean Δz = -0.414 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/3, 1/3)
@@ -1137,7 +1137,7 @@ bcc-111:
     formula: exact ASE affine transform
     method: Current ASE bcc111 hollow offset (1/3, 1/3) added to the outermost atom at (1/3, 1/3).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports: []
 bcc-210:
   cell:
@@ -1155,7 +1155,7 @@ bcc-210:
     formula: s = s₁
     method: Projection of the L1 atom at (7/10, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (7/10, 1/2)
@@ -1167,7 +1167,7 @@ bcc-210:
     formula: s = s₁
     method: Projection of the L2 atom at (2/5, 0).
     reference_offset: -0.641752
-    height_reference: local shell Δz = -0.642 Å from L1
+    height_reference: 'support shell: mean Δz = -0.642 Å from L1'
     supports:
     - layer: 2
       coordinate: (2/5, 0)
@@ -1179,7 +1179,7 @@ bcc-210:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (17/10, 1/2) and L1 (17/10, -1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (17/10, 1/2)
@@ -1193,7 +1193,7 @@ bcc-210:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (17/10, -1/2) and L2 (7/5, -1).
     reference_offset: -0.320876
-    height_reference: local shell Δz = -0.321 Å from L1
+    height_reference: 'support shell: mean Δz = -0.321 Å from L1'
     supports:
     - layer: 1
       coordinate: (17/10, -1/2)
@@ -1208,7 +1208,7 @@ bcc-210:
     method: 'Least-squares centroid of the 4-atom projected shell: L1 (-3/10, 1/2), L1 (-3/10, -1/2), L2 (-3/5, 0), L2 (-3/5,
       -1).'
     reference_offset: -0.320876
-    height_reference: local shell Δz = -0.321 Å from L1
+    height_reference: 'support shell: mean Δz = -0.321 Å from L1'
     supports:
     - layer: 1
       coordinate: (-3/10, 1/2)
@@ -1234,7 +1234,7 @@ bcc-211:
     formula: s = s₁
     method: Projection of the L3 atom at (1/6, 1/2).
     reference_offset: -2.343345
-    height_reference: local shell Δz = -2.343 Å from L1
+    height_reference: 'support shell: mean Δz = -2.343 Å from L1'
     supports:
     - layer: 3
       coordinate: (1/6, 1/2)
@@ -1246,7 +1246,7 @@ bcc-211:
     formula: s = s₁
     method: Projection of the L1 atom at (0, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0, 1/2)
@@ -1258,7 +1258,7 @@ bcc-211:
     formula: s = s₁
     method: Projection of the L2 atom at (1/3, 0).
     reference_offset: -1.171672
-    height_reference: local shell Δz = -1.172 Å from L1
+    height_reference: 'support shell: mean Δz = -1.172 Å from L1'
     supports:
     - layer: 2
       coordinate: (1/3, 0)
@@ -1270,7 +1270,7 @@ bcc-211:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L2 (5/6, 0) and L2 (4/3, 0).
     reference_offset: -1.171672
-    height_reference: local shell Δz = -1.172 Å from L1
+    height_reference: 'support shell: mean Δz = -1.172 Å from L1'
     supports:
     - layer: 2
       coordinate: (5/6, 0)
@@ -1284,7 +1284,7 @@ bcc-211:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (-1/2, 1/2) and L1 (-1, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (-1/2, 1/2)
@@ -1298,7 +1298,7 @@ bcc-211:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (-1/2, 1/2) and L2 (-2/3, 0).
     reference_offset: -0.585836
-    height_reference: local shell Δz = -0.586 Å from L1
+    height_reference: 'support shell: mean Δz = -0.586 Å from L1'
     supports:
     - layer: 1
       coordinate: (-1/2, 1/2)
@@ -1312,7 +1312,7 @@ bcc-211:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (0, 1/2), L2 (-1/6, 0), L3 (-1/3, 1/2).'
     reference_offset: -1.17167233
-    height_reference: local shell Δz = -1.172 Å from L1
+    height_reference: 'support shell: mean Δz = -1.172 Å from L1'
     supports:
     - layer: 1
       coordinate: (0, 1/2)
@@ -1336,7 +1336,7 @@ bcc-310:
     formula: s = s₁
     method: Projection of the L3 atom at (2/5, 1/2).
     reference_offset: -1.815147
-    height_reference: local shell Δz = -1.815 Å from L1
+    height_reference: 'support shell: mean Δz = -1.815 Å from L1'
     supports:
     - layer: 3
       coordinate: (2/5, 1/2)
@@ -1348,7 +1348,7 @@ bcc-310:
     formula: s = s₁
     method: Projection of the L1 atom at (3/10, 0).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/10, 0)
@@ -1360,7 +1360,7 @@ bcc-310:
     formula: s = s₁
     method: Projection of the L2 atom at (1/10, 1/2).
     reference_offset: -0.907573
-    height_reference: local shell Δz = -0.908 Å from L1
+    height_reference: 'support shell: mean Δz = -0.908 Å from L1'
     supports:
     - layer: 2
       coordinate: (1/10, 1/2)
@@ -1372,7 +1372,7 @@ bcc-310:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (3/10, 0) and L1 (3/10, -1).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/10, 0)
@@ -1386,7 +1386,7 @@ bcc-310:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L2 (1/10, 1/2) and L2 (1/10, -1/2).
     reference_offset: -0.907573
-    height_reference: local shell Δz = -0.908 Å from L1
+    height_reference: 'support shell: mean Δz = -0.908 Å from L1'
     supports:
     - layer: 2
       coordinate: (1/10, 1/2)
@@ -1400,7 +1400,7 @@ bcc-310:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (3/10, -1) and L2 (1/10, -1/2).
     reference_offset: -0.4537865
-    height_reference: local shell Δz = -0.454 Å from L1
+    height_reference: 'support shell: mean Δz = -0.454 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/10, -1)
@@ -1414,7 +1414,7 @@ bcc-310:
     formula: s = (Σᵢ sᵢ) / 4
     method: 'Least-squares centroid of the 4-atom projected shell: L1 (3/10, 0), L1 (3/10, -1), L2 (3/5, 0), L2 (3/5, -1).'
     reference_offset: -0.4537865
-    height_reference: local shell Δz = -0.454 Å from L1
+    height_reference: 'support shell: mean Δz = -0.454 Å from L1'
     supports:
     - layer: 1
       coordinate: (3/10, 0)
@@ -1440,7 +1440,7 @@ hcp-0001:
     formula: s = s₁
     method: Projection of the L1 atom at (1/3, 1/3).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/3, 1/3)
@@ -1452,7 +1452,7 @@ hcp-0001:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/3, 1/3) and L1 (4/3, 1/3).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/3, 1/3)
@@ -1466,7 +1466,7 @@ hcp-0001:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (1/3, 1/3), L1 (4/3, 1/3), L1 (1/3, 4/3).'
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/3, 1/3)
@@ -1482,7 +1482,7 @@ hcp-0001:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (4/3, 1/3), L1 (1/3, 4/3), L1 (4/3, 4/3).'
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (4/3, 1/3)
@@ -1506,7 +1506,7 @@ hcp-10m10:
     formula: s = s₁
     method: Projection of the L1 atom at (0, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0, 1/2)
@@ -1518,7 +1518,7 @@ hcp-10m10:
     formula: s = s₁
     method: Projection of the L2 atom at (1/2, 0).
     reference_offset: -0.926647
-    height_reference: local shell Δz = -0.927 Å from L1
+    height_reference: 'support shell: mean Δz = -0.927 Å from L1'
     supports:
     - layer: 2
       coordinate: (1/2, 0)
@@ -1530,7 +1530,7 @@ hcp-10m10:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (0, 1/2) and L1 (-1, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0, 1/2)
@@ -1544,7 +1544,7 @@ hcp-10m10:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (0, 1/2) and L1 (0, 3/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0, 1/2)
@@ -1558,7 +1558,7 @@ hcp-10m10:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (0, 1/2) and L2 (1/2, 0).
     reference_offset: -0.4633235
-    height_reference: local shell Δz = -0.463 Å from L1
+    height_reference: 'support shell: mean Δz = -0.463 Å from L1'
     supports:
     - layer: 1
       coordinate: (0, 1/2)
@@ -1580,7 +1580,7 @@ hcp-11m20:
     formula: s = s₁
     method: Projection of the L1 atom at (1/2, 0).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, 0)
@@ -1592,7 +1592,7 @@ hcp-11m20:
     formula: s = s₁
     method: Projection of the L2 atom at (0, 0).
     reference_offset: -1.605
-    height_reference: local shell Δz = -1.605 Å from L1
+    height_reference: 'support shell: mean Δz = -1.605 Å from L1'
     supports:
     - layer: 2
       coordinate: (0, 0)
@@ -1604,7 +1604,7 @@ hcp-11m20:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/2, 0) and L1 (1/2, 1).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, 0)
@@ -1618,7 +1618,7 @@ hcp-11m20:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (5/6, -1/2) and L1 (1/2, -1).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (5/6, -1/2)
@@ -1632,7 +1632,7 @@ hcp-11m20:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (1/2, -1) and L2 (1/3, -1/2).
     reference_offset: -0.8025
-    height_reference: local shell Δz = -0.803 Å from L1
+    height_reference: 'support shell: mean Δz = -0.803 Å from L1'
     supports:
     - layer: 1
       coordinate: (1/2, -1)
@@ -1646,7 +1646,7 @@ hcp-11m20:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (-1/2, 0), L2 (0, 0), L3 (-1/6, 1/2).'
     reference_offset: -1.605
-    height_reference: local shell Δz = -1.605 Å from L1
+    height_reference: 'support shell: mean Δz = -1.605 Å from L1'
     supports:
     - layer: 1
       coordinate: (-1/2, 0)
@@ -1670,7 +1670,7 @@ hcp-10m11:
     formula: s = s₁
     method: Projection of the L1 atom at (0.6792, 0.1604).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0.6792, 0.1604)
@@ -1682,7 +1682,7 @@ hcp-10m11:
     formula: s = s₁
     method: Projection of the L2 atom at (0.9945, 0.5027).
     reference_offset: -2.043867
-    height_reference: local shell Δz = -2.044 Å from L1
+    height_reference: 'support shell: mean Δz = -2.044 Å from L1'
     supports:
     - layer: 2
       coordinate: (0.9945, 0.5027)
@@ -1694,7 +1694,7 @@ hcp-10m11:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (0.6792, 0.1604) and L1 (0.6792, -0.8396).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0.6792, 0.1604)
@@ -1708,7 +1708,7 @@ hcp-10m11:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (0.6792, 0.1604) and L2 (0.9945, -0.4973).
     reference_offset: -1.0219335
-    height_reference: local shell Δz = -1.022 Å from L1
+    height_reference: 'support shell: mean Δz = -1.022 Å from L1'
     supports:
     - layer: 1
       coordinate: (0.6792, 0.1604)
@@ -1722,7 +1722,7 @@ hcp-10m11:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L3 (0.4576, 0.7712), L3 (0.4576, 1.7712), L3 (1.4576, 0.7712).'
     reference_offset: -2.45264
-    height_reference: local shell Δz = -2.453 Å from L1
+    height_reference: 'support shell: mean Δz = -2.453 Å from L1'
     supports:
     - layer: 3
       coordinate: (0.4576, 0.7712)
@@ -1746,7 +1746,7 @@ hcp-10m12:
     formula: s = s₁
     method: Projection of the L3 atom at (0.7186, 0).
     reference_offset: -1.900852
-    height_reference: local shell Δz = -1.901 Å from L1
+    height_reference: 'support shell: mean Δz = -1.901 Å from L1'
     supports:
     - layer: 3
       coordinate: (0.7186, 0)
@@ -1758,7 +1758,7 @@ hcp-10m12:
     formula: s = s₁
     method: Projection of the L1 atom at (0.9848, 1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0.9848, 1/2)
@@ -1770,7 +1770,7 @@ hcp-10m12:
     formula: s = s₁
     method: Projection of the L2 atom at (0.396, 1/2).
     reference_offset: -0.633618
-    height_reference: local shell Δz = -0.634 Å from L1
+    height_reference: 'support shell: mean Δz = -0.634 Å from L1'
     supports:
     - layer: 2
       coordinate: (0.396, 1/2)
@@ -1782,7 +1782,7 @@ hcp-10m12:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L2 (0.396, 1/2) and L2 (0.396, 3/2).
     reference_offset: -0.633618
-    height_reference: local shell Δz = -0.634 Å from L1
+    height_reference: 'support shell: mean Δz = -0.634 Å from L1'
     supports:
     - layer: 2
       coordinate: (0.396, 1/2)
@@ -1796,7 +1796,7 @@ hcp-10m12:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (0.9848, 1/2) and L1 (0.9848, -1/2).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0.9848, 1/2)
@@ -1810,7 +1810,7 @@ hcp-10m12:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (0.9848, 3/2) and L2 (1.396, 3/2).
     reference_offset: -0.316809
-    height_reference: local shell Δz = -0.317 Å from L1
+    height_reference: 'support shell: mean Δz = -0.317 Å from L1'
     supports:
     - layer: 1
       coordinate: (0.9848, 3/2)
@@ -1824,7 +1824,7 @@ hcp-10m12:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (1.9848, 1/2), L2 (1.396, 1/2), L3 (1.7186, 1).'
     reference_offset: -0.84482333
-    height_reference: local shell Δz = -0.845 Å from L1
+    height_reference: 'support shell: mean Δz = -0.845 Å from L1'
     supports:
     - layer: 1
       coordinate: (1.9848, 1/2)
@@ -1848,7 +1848,7 @@ hcp-11m21:
     formula: s = s₁
     method: Projection of the L1 atom at (0.995, 0.3234).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0.995, 0.3234)
@@ -1860,7 +1860,7 @@ hcp-11m21:
     formula: s = s₁
     method: Projection of the L3 atom at (0.4517, 0.2367).
     reference_offset: -1.533866
-    height_reference: local shell Δz = -1.534 Å from L1
+    height_reference: 'support shell: mean Δz = -1.534 Å from L1'
     supports:
     - layer: 3
       coordinate: (0.4517, 0.2367)
@@ -1872,7 +1872,7 @@ hcp-11m21:
     formula: s = s₁
     method: Projection of the L2 atom at (0.89, 0.7801).
     reference_offset: -0.766933
-    height_reference: local shell Δz = -0.767 Å from L1
+    height_reference: 'support shell: mean Δz = -0.767 Å from L1'
     supports:
     - layer: 2
       coordinate: (0.89, 0.7801)
@@ -1884,7 +1884,7 @@ hcp-11m21:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (0.995, 0.3234) and L1 (-0.005, 0.3234).
     reference_offset: 0.0
-    height_reference: local shell Δz = +0.000 Å from L1
+    height_reference: 'support shell: mean Δz = +0.000 Å from L1'
     supports:
     - layer: 1
       coordinate: (0.995, 0.3234)
@@ -1898,7 +1898,7 @@ hcp-11m21:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L2 (0.89, 0.7801) and L2 (-0.11, 0.7801).
     reference_offset: -0.766933
-    height_reference: local shell Δz = -0.767 Å from L1
+    height_reference: 'support shell: mean Δz = -0.767 Å from L1'
     supports:
     - layer: 2
       coordinate: (0.89, 0.7801)
@@ -1912,7 +1912,7 @@ hcp-11m21:
     formula: s = (s₁ + s₂) / 2
     method: Periodic midpoint of L1 (0.995, 0.3234) and L2 (0.89, 0.7801).
     reference_offset: -0.3834665
-    height_reference: local shell Δz = -0.383 Å from L1
+    height_reference: 'support shell: mean Δz = -0.383 Å from L1'
     supports:
     - layer: 1
       coordinate: (0.995, 0.3234)
@@ -1926,7 +1926,7 @@ hcp-11m21:
     formula: s = (Σᵢ sᵢ) / 3
     method: 'Least-squares centroid of the 3-atom projected shell: L1 (-0.005, 1.3234), L2 (-0.11, 0.7801), L3 (0.4517, 1.2367).'
     reference_offset: -0.766933
-    height_reference: local shell Δz = -0.767 Å from L1
+    height_reference: 'support shell: mean Δz = -0.767 Å from L1'
     supports:
     - layer: 1
       coordinate: (-0.005, 1.3234)

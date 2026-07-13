@@ -221,7 +221,7 @@ def validate() -> list[str]:
         viewer_path = ASSETS_DIR / f"{surface_id}-viewer.json"
         try:
             viewer = json.loads(viewer_path.read_text(encoding="utf-8"))
-            for key in ("surface", "atoms", "bonds", "sites", "cell"):
+            for key in ("surface", "atoms", "bonds", "sites", "siteDisplay", "cell"):
                 if key not in viewer:
                     errors.append(f"{surface_id}: viewer geometry missing {key!r}")
             if viewer.get("surface") != surface_id:
@@ -244,16 +244,20 @@ def validate() -> list[str]:
             elif spec is not None and surface_id in stored_geometry:
                 top = max(atom["z"] for atom in viewer.get("atoms", []))
                 nearest = CRYSTALS[spec.crystal]["nearest"]
-                expected_z = [
-                    round(top + item["reference_offset"] + nearest * 0.32, 4)
-                    for item in stored_geometry[surface_id]["sites"]
-                ]
+                display_lift = round(nearest * 0.55, 4)
+                expected_z = [round(top + display_lift, 4)] * len(stored_geometry[surface_id]["sites"])
                 actual_z = [entry.get("z") for entry in viewer_sites]
                 if len(actual_z) != len(expected_z) or any(
                     actual is None or abs(actual - expected) > 2e-4
                     for actual, expected in zip(actual_z, expected_z)
                 ):
-                    errors.append(f"{surface_id}: viewer sites do not use their local height references")
+                    errors.append(f"{surface_id}: viewer sites must share one guide plane above the slab")
+                site_display = viewer.get("siteDisplay", {})
+                if (site_display.get("mode") != "uniform-guide-plane" or
+                        abs(site_display.get("heightAboveTop", -1) - display_lift) > 2e-4):
+                    errors.append(f"{surface_id}: viewer site-display metadata is invalid")
+                if any(z is None or z <= top for z in actual_z):
+                    errors.append(f"{surface_id}: viewer site marker intersects the slab height range")
             if len(viewer.get("cell", [])) != 4:
                 errors.append(f"{surface_id}: viewer cell must contain four corners")
         except (OSError, json.JSONDecodeError) as exc:

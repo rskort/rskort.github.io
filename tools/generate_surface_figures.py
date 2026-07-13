@@ -67,7 +67,7 @@ CRYSTALS = {
 LAYER_COLOURS = ("#176b72", "#91aaa6", "#d4dfda", "#e9efeb")
 LAYER_SIZES = (168, 125, 94, 70)
 INK = "#173033"
-SITE = "#d85f45"
+SITE = "#a96824"
 PAPER = "#ffffff"
 SVG_METADATA = {"Creator": "tools/generate_surface_figures.py", "Date": None}
 
@@ -362,6 +362,11 @@ def write_viewer_geometry(surface_id: str, slab: Atoms, spec: VisualSpec, site_d
             bonds.append([i, i + 1 + int(relative)])
     va, vb = slab.cell[0, :2], slab.cell[1, :2]
     top = float(atoms.positions[:, 2].max())
+    # Catalogue markers identify lateral sites; they are not adsorbates with a
+    # calculated bond length.  Keep them together on a clearly separated guide
+    # plane so support atoms in lower rows cannot pull a marker into the slab.
+    display_lift = nearest * 0.55
+    display_z = top + display_lift
     sites = []
     for geometry in geometries:
         marker = geometry["marker"]
@@ -371,9 +376,8 @@ def write_viewer_geometry(surface_id: str, slab: Atoms, spec: VisualSpec, site_d
         label = entry.get("label", f"Site {marker}")
         lowered = label.lower()
         kind = "ontop" if "ontop" in lowered else "bridge" if "bridge" in lowered else "hollow"
-        local_reference = float(geometry["reference_offset"])
         sites.append({"marker": marker, "label": label, "x": round(float(point[0]), 4),
-                      "y": round(float(point[1]), 4), "z": round(top + local_reference + nearest * 0.32, 4),
+                      "y": round(float(point[1]), 4), "z": round(display_z, 4),
                       "kind": kind, "aseKeyword": entry.get("ase_keyword")})
     cell_xy = [origin, origin + va, origin + va + vb, origin + vb]
     payload = {
@@ -383,6 +387,7 @@ def write_viewer_geometry(surface_id: str, slab: Atoms, spec: VisualSpec, site_d
         "atoms": atom_entries,
         "bonds": bonds,
         "sites": sites,
+        "siteDisplay": {"mode": "uniform-guide-plane", "heightAboveTop": round(display_lift, 4)},
         "cell": [[round(float(x), 4), round(float(y), 4), round(top + 0.05, 4)] for x, y in cell_xy],
     }
     path = OUTPUT_DIR / f"{surface_id}-viewer.json"

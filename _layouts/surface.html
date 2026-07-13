@@ -5,6 +5,7 @@ layout: default
 {% assign surface = matches | first %}
 {% assign surface_geometry = site.data.site_geometry[surface.id] %}
 {% assign site_geometry = surface_geometry.sites %}
+{% assign site_count = surface.sites.size %}
 {% assign surface_index = nil %}
 {% for item in site.data.surfaces %}{% if item.id == surface.id %}{% assign surface_index = forloop.index0 %}{% endif %}{% endfor %}
 <article class="surface-page">
@@ -40,8 +41,8 @@ layout: default
       <div><p class="kicker">Surface geometry</p><h2 id="site-map-heading">Read the surface from above</h2></div>
       <div class="layer-key" aria-label="Layer colour key"><span class="layer-one"></span>surface <span class="layer-two"></span>second layer <span class="layer-three"></span>third layer</div>
     </div>
-    <p class="quiet site-coordinate-note"><strong>L1</strong> is the highest atom-bearing plane, followed by L2 and L3. Support coordinates outside 0–1 are periodic images. The listed local Δz is the mean support-shell height relative to L1; the marker lift above that reference is visual, not a predicted adsorption height.</p>
-    <div class="surface-visual">
+    <p class="quiet site-coordinate-note"><strong>L1</strong> is the highest atom-bearing plane, followed by L2 and L3. Support coordinates outside 0–1 are periodic images. The listed Δz describes the supporting atoms, not the marker height. In the interactive model, every numbered site is placed on the same schematic guide plane above the slab; no adsorption distance or energetic ordering is implied.</p>
+    <div class="surface-visual{% if site_count > 4 %} many-sites{% endif %}">
       <figure class="hero-figure"><img src="{{ surface.figures.top | relative_url }}" alt="Top view of {{ surface.title }} with numbered adsorption sites"><figcaption>The outlined reference cell has |a<sub>1</sub>| = {{ surface_geometry.cell.a1 }}, |a<sub>2</sub>| = {{ surface_geometry.cell.a2 }}, and γ = {{ surface_geometry.cell.angle }} for the {{ surface_geometry.cell.element }} slab used in the drawing. Fractional coordinates mean <strong>r</strong><sub>∥</sub> = u<strong>a</strong><sub>1</sub> + v<strong>a</strong><sub>2</sub>.</figcaption></figure>
       <ol class="site-cards">
         {% for site_entry in surface.sites %}
@@ -53,7 +54,7 @@ layout: default
   </section>
 
   <section aria-labelledby="viewer-heading">
-    <div class="section-heading"><div><p class="kicker">Interactive model</p><h2 id="viewer-heading">Rotate the slab</h2></div><p class="quiet viewer-hint">Drag to rotate · scroll or pinch to zoom · hover a site for its name</p></div>
+    <div class="section-heading"><div><p class="kicker">Interactive model</p><h2 id="viewer-heading">Rotate the slab</h2></div><p class="quiet viewer-hint">Sites share a schematic display height · drag to rotate · hover for names</p></div>
     <div class="surface-viewer" data-geometry="{{ '/assets/surfaces/' | append: surface.id | append: '-viewer.json' | relative_url }}">
       <div class="viewer-stage">
         <canvas aria-label="Interactive three-dimensional model of {{ surface.title }} and its adsorption sites"></canvas>

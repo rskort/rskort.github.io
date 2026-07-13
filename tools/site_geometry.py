@@ -259,7 +259,7 @@ def _render(surface_id: str, marker: int, construction: dict, slab: Atoms, layer
         "formula": formula,
         "method": method,
         "reference_offset": round(reference_offset, 8),
-        "height_reference": f"local shell Δz = {reference_offset:+.3f} Å from L1",
+        "height_reference": f"support shell: mean Δz = {reference_offset:+.3f} Å from L1",
         "supports": [
             {"layer": layer, "coordinate": _coordinate(point)} for layer, point in supports
         ],

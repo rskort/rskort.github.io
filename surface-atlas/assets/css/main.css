@@ -5,6 +5,7 @@
   --accent-dark: #0e4f55;
   --accent-soft: #e6f1ef;
   --warm: #d85f45;
+  --site-accent: #a96824;
   --violet: #8b6aa8;
   --line: #d8dfdc;
   --line-dark: #bbc8c4;
@@ -212,13 +213,16 @@ p, ul, ol { max-width: 72ch; }
 .layer-two { background: #91aaa6; }
 .layer-three { background: #d4dfda; }
 .surface-visual { align-items: start; display: grid; gap: 1.2rem; grid-template-columns: minmax(0, 1.65fr) minmax(280px, .75fr); }
+.surface-visual.many-sites { grid-template-columns: 1fr; }
+.surface-visual.many-sites .hero-figure { justify-self: center; max-width: 850px; width: 100%; }
+.surface-visual.many-sites .site-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); justify-self: center; max-width: 1000px; width: 100%; }
 figure { margin: 0; }
 .hero-figure, .profile-grid figure { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 .hero-figure img { aspect-ratio: 3 / 2; display: block; object-fit: contain; width: 100%; }
 figcaption { border-top: 1px solid var(--line); color: var(--muted); font-size: .78rem; padding: .6rem .85rem; }
 .site-cards { counter-reset: site; display: grid; gap: .65rem; list-style: none; margin: 0; padding: 0; }
 .site-cards li { background: var(--paper); border: 1px solid var(--line); border-radius: 11px; min-height: 91px; padding: .8rem .9rem .75rem 3.25rem; position: relative; }
-.site-cards li::before { align-items: center; background: var(--warm); border-radius: 50%; color: white; content: attr(value); display: flex; font-size: .78rem; font-weight: 800; height: 25px; justify-content: center; left: .9rem; position: absolute; top: .85rem; width: 25px; }
+.site-cards li::before { align-items: center; background: var(--site-accent); border-radius: 50%; color: white; content: attr(value); display: flex; font-size: .78rem; font-weight: 800; height: 25px; justify-content: center; left: .9rem; position: absolute; top: .85rem; width: 25px; }
 .site-cards li > div { align-items: baseline; display: flex; gap: .6rem; justify-content: space-between; }
 .site-cards li strong { font-size: .9rem; text-transform: capitalize; }
 .site-cards li span { color: var(--muted); font-size: .7rem; white-space: nowrap; }
@@ -339,7 +343,7 @@ pre code { background: transparent; color: inherit; padding: 0; }
 .site-geometry-figure figcaption { color: var(--muted); font-size: .78rem; padding: .65rem 1rem; }
 .site-net.bonds { fill: none; stroke: #bfd0cb; stroke-width: 5; }
 .site-net.atoms circle { fill: var(--accent); r: 24px; stroke: white; stroke-width: 4; }
-.site-net.markers circle { fill: var(--warm); r: 12px; stroke: white; stroke-width: 4; }
+.site-net.markers circle { fill: var(--site-accent); r: 12px; stroke: white; stroke-width: 4; }
 .site-net.labels { fill: var(--ink); font: 700 16px Inter, sans-serif; }
 .table-wrap { overflow-x: auto; }
 table { border-collapse: collapse; font-size: .9rem; width: 100%; }
@@ -377,6 +381,7 @@ thead th { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
   .page-contents { display: block; }
   .page-contents ol { margin-top: .55rem; }
   .structure-definitions { grid-template-columns: 1fr; }
+  .surface-visual.many-sites .site-cards { grid-template-columns: 1fr; }
   .site-geometry-figure { overflow-x: auto; }
   .site-geometry-figure svg { min-width: 620px; }
   .surface-header { margin-bottom: 3rem; }
