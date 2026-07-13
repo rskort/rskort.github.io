@@ -1,0 +1,31 @@
+{% assign plane_demo_id = include.id | default: "plane-demo" %}
+<div class="plane-demo" data-plane-demo>
+  <div class="plane-stage">
+    <svg viewBox="25 0 420 370" role="img" aria-label="An FCC conventional cell with a selectable Miller plane">
+      <defs><marker id="{{ plane_demo_id }}-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#445c5f"/></marker></defs>
+      <path class="cube-edge cube-back" d="M90 91 L244 2 L398 91 L244 180 Z M90 91 L90 245 M398 91 L398 245"/>
+      <path class="cube-edge" d="M90 245 L244 156 L398 245 L244 334 Z M244 156 L244 2 M90 245 L90 91 M398 245 L398 91 M244 334 L244 180"/>
+      <polygon class="cut-plane" points="398,245 244,156 244,2 398,91" style="--plane-colour:#d85f45"/>
+      <g class="plane-guides"></g>
+      <g aria-label="corner atoms">
+        <circle class="atom" cx="90" cy="91" r="8"/><circle class="atom" cx="244" cy="2" r="8"/><circle class="atom" cx="398" cy="91" r="8"/><circle class="atom" cx="244" cy="180" r="8"/>
+        <circle class="atom" cx="90" cy="245" r="8"/><circle class="atom" cx="244" cy="156" r="8"/><circle class="atom" cx="398" cy="245" r="8"/><circle class="atom" cx="244" cy="334" r="8"/>
+      </g>
+      <g aria-label="face-centred atoms">
+        <circle class="atom face-atom" cx="167" cy="123" r="9"/><circle class="atom face-atom" cx="321" cy="123" r="9"/><circle class="atom face-atom" cx="244" cy="91" r="9"/>
+        <circle class="atom face-atom" cx="167" cy="212" r="9"/><circle class="atom face-atom" cx="321" cy="212" r="9"/><circle class="atom face-atom" cx="244" cy="245" r="9"/>
+      </g>
+      <line class="axis" marker-end="url(#{{ plane_demo_id }}-arrow)" x1="244" y1="334" x2="420" y2="236"/><text class="axis-label" x="427" y="238">x</text>
+      <line class="axis" marker-end="url(#{{ plane_demo_id }}-arrow)" x1="244" y1="334" x2="68" y2="236"/><text class="axis-label" x="52" y="238">y</text>
+      <line class="axis" marker-end="url(#{{ plane_demo_id }}-arrow)" x1="244" y1="334" x2="244" y2="196"/><text class="axis-label" x="252" y="200">z</text>
+    </svg>
+  </div>
+  <div class="plane-controls">
+    <div class="plane-buttons" role="group" aria-label="Choose a plane"><button type="button" data-plane="100" aria-pressed="true">(100)</button><button type="button" data-plane="110" aria-pressed="false">(110)</button><button type="button" data-plane="111" aria-pressed="false">(111)</button></div>
+    <div aria-live="polite">
+      <h3 data-plane-title>FCC(100)</h3>
+      <p class="plane-equation" data-plane-equation>Intercepts (a, ∞, ∞) → reciprocals (1/a, 0, 0) → (100)</p>
+      <p class="plane-description" data-plane-description>The plane meets x after one lattice constant and runs parallel to y and z. Repeating this cut exposes a square net.</p>
+    </div>
+  </div>
+</div>

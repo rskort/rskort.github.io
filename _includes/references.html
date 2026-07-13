@@ -1,0 +1,24 @@
+{% if page.references and page.references != empty %}
+<section class="concept-references" aria-labelledby="references-heading">
+  <p class="kicker">Sources</p>
+  <h2 id="references-heading">References</h2>
+  <ol>
+    {% for reference_id in page.references %}
+      {% assign reference = site.data.references[reference_id] %}
+      <li id="ref-{{ reference_id }}">
+        {% if reference %}
+          <span class="reference-authors">{{ reference.authors }}</span>{% if reference.year %}
+          (<span>{{ reference.year }}</span>){% endif %}.
+          <cite>{{ reference.title }}</cite>.
+          <span>{{ reference.source }}.</span>
+          <a href="{{ reference.url }}" rel="noopener noreferrer">{{ reference.link_label | default: 'Open source' }}</a>.{% if reference.open_url %}
+          <a href="{{ reference.open_url }}" rel="noopener noreferrer">{{ reference.open_label | default: 'Open-access copy' }}</a>.{% endif %}{% if reference.accessed %}
+          <span class="reference-accessed">Accessed {{ reference.accessed }}.</span>{% endif %}
+        {% else %}
+          <strong>Missing bibliography entry:</strong> <code>{{ reference_id }}</code>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}

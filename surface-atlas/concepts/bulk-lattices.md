@@ -1,45 +1,75 @@
 ---
 layout: concept
-title: Bulk crystal lattices
-short_title: Bulk lattices
-heading: Start with the bulk lattice
+title: Bulk crystal structures
+short_title: Bulk structure
+heading: Begin with the periodic crystal
 theme: Structure
-card_description: FCC, BCC, and HCP translation vectors, atomic bases, coordination, and layer stacking.
-intro: A surface inherits its geometry from the infinite crystal beneath it. Before choosing a plane, separate the lattice that repeats from the atomic basis carried by every lattice point.
-description: Visual introduction to FCC, BCC, and HCP bulk crystal lattices, conventional and primitive cells, coordination, and close packing.
+card_description: Build FCC, BCC, and HCP from translation vectors and atomic positions, then compare their coordination and layer stacking.
+intro: A surface inherits its atomic arrangement from the bulk beneath it. Start by separating the translations that repeat from the atoms carried by each repeat.
+description: Learn how lattice vectors, fractional coordinates, atomic bases, and cell choices describe FCC, BCC, and HCP bulk crystals.
 concept: true
 order: 1
 permalink: /surface-atlas/concepts/bulk-lattices/
 sections:
-  - {id: lattice-and-basis, label: Lattice and basis}
+  - {id: periodic-coordinates, label: Periodic coordinates}
+  - {id: lattice-and-basis, label: Cells and atomic bases}
   - {id: compare-lattices, label: Compare FCC, BCC, and HCP}
-  - {id: why-surfaces-differ, label: Why surfaces differ}
+  - {id: coordination-and-stacking, label: Coordination and stacking}
+references:
+  - iucr-lattice
+  - iucr-unit-cell
+  - hammond-2015
+  - iucr-close-packing
 ---
 
-## Translation plus decoration {#lattice-and-basis}
+## Translation vectors locate every repeat {#periodic-coordinates}
 
-A **Bravais lattice** is the set of positions produced by integer combinations of primitive translation vectors. A **basis** is the atom or group of atoms attached to each lattice point. Together they make the crystal structure.
+Choose three independent **primitive** translation vectors, \\(\mathbf a_1\\), \\(\mathbf a_2\\), and \\(\mathbf a_3\\). Integer combinations of them generate every point of the **Bravais lattice**:
 
-The familiar cubic boxes used for FCC and BCC are conventional cells: they make the symmetry obvious, but they are not the smallest possible repeat. Counting shared atoms gives four atoms per conventional FCC cell and two per conventional BCC cell. The primitive cell of either lattice contains one lattice point.
+<div class="formula-strip">\[\mathbf R_{n_1n_2n_3}=n_1\mathbf a_1+n_2\mathbf a_2+n_3\mathbf a_3,\qquad n_i\in\mathbb Z.\]</div>
+
+Each \\(\mathbf R\\) is a lattice point with an identical environment. The vectors define the **direct lattice**; they need not be mutually perpendicular or equal in length. A nonprimitive conventional cell instead spans a sublattice and contains more than one lattice point. {% include cite.html id="iucr-lattice" %}
+
+A position can be written in fractional coordinates as
+
+<div class="formula-strip">\[\mathbf r=x\mathbf a_1+y\mathbf a_2+z\mathbf a_3.\]</div>
+
+The triplet \\((x,y,z)\\) has meaning only together with the stated vectors. Adding an integer to any component reaches a periodically equivalent position, so \\((0,0,0)\\) and \\((1,0,0)\\) mark equivalent points in neighbouring cells.
+
+## A lattice and a basis make the crystal {#lattice-and-basis}
+
+A **unit cell** is a region whose translations reproduce the crystal. A primitive cell contains exactly one lattice point; a conventional cell may contain several lattice points but makes the crystal symmetry easier to see. These are different coordinate descriptions of the same infinite structure, not different materials. {% include cite.html id="iucr-unit-cell" %}
+
+The Bravais lattice alone specifies only equivalent points. Attach one or more atomic positions \\(\boldsymbol\tau_j\\), called the **basis**, to every lattice point to obtain all atomic positions:
+
+<div class="formula-strip">\[\mathbf r_{n_1n_2n_3,j}=\mathbf R_{n_1n_2n_3}+\boldsymbol\tau_j.\]</div>
+
+This distinction matters at a surface: the translations determine which orientations can repeat, while the basis determines which elements and atomic layers occur along a chosen orientation.
+
+<aside class="concept-callout"><strong>The cell outline is a convention.</strong><p>Atoms on opposite cell boundaries are periodic images. A primitive and a conventional cell can describe exactly the same crystal when their vectors and atomic positions are transformed consistently.</p></aside>
+
+## Three structures used throughout the atlas {#compare-lattices}
+
+The coordinate lists below use explicit cell conventions. For elemental FCC and BCC, the occupied positions in the conventional cubic cell are equivalent lattice points; their primitive cells need only one atom. HCP instead requires a two-atom basis on a hexagonal Bravais lattice.
 
 <div class="structure-definitions">
-  <section><h3>FCC</h3><p>Conventional cubic fractional positions:</p><code>(0,0,0) · (0,½,½) · (½,0,½) · (½,½,0)</code><p>Translations reproduce the corner and face-centred positions of neighbouring cells.</p></section>
-  <section><h3>BCC</h3><p>Conventional cubic fractional positions:</p><code>(0,0,0) · (½,½,½)</code><p>The second position is the body-centred lattice point.</p></section>
-  <section><h3>HCP</h3><p>One common hexagonal fractional convention:</p><code>(0,0,0) · (⅔,⅓,½)</code><p>The two-position basis gives ABAB stacking along the c axis.</p></section>
+  <section><h3>FCC</h3><p><strong>Face-centred cubic Bravais lattice.</strong> In the conventional cubic cell:</p><code>(0, 0, 0) · (0, 1/2, 1/2) · (1/2, 0, 1/2) · (1/2, 1/2, 0)</code><p>The four occupied positions represent four lattice points per conventional cell.</p></section>
+  <section><h3>BCC</h3><p><strong>Body-centred cubic Bravais lattice.</strong> In the conventional cubic cell:</p><code>(0, 0, 0) · (1/2, 1/2, 1/2)</code><p>The corner and body-centred positions represent two lattice points per conventional cell.</p></section>
+  <section><h3>HCP</h3><p><strong>Hexagonal lattice plus a basis.</strong> With basal vectors separated by \\(120^\circ\\) and a third vector along \\(c\\), one common convention is:</p><code>(0, 0, 0) · (2/3, 1/3, 1/2)</code><p>The two-atom basis produces the hexagonal close-packed structure. Another vector convention may use symmetry-equivalent fractions.</p></section>
 </div>
 
-## Three common elemental structures {#compare-lattices}
+Calling all three “lattices” is convenient shorthand, but it hides an important distinction: FCC and BCC are Bravais lattices, whereas HCP is a crystal structure based on the primitive hexagonal Bravais lattice. {% include cite.html id="hammond-2015" %}
 
-<div class="table-wrap"><table><thead><tr><th>Structure</th><th>Conventional description</th><th>Nearest-neighbour coordination</th><th>Packing character</th></tr></thead><tbody><tr><td><strong>FCC</strong></td><td>Cubic, 4 atoms per conventional cell</td><td>12</td><td>Close packed; ABC layer stacking</td></tr><tr><td><strong>BCC</strong></td><td>Cubic, 2 atoms per conventional cell</td><td>8</td><td>Not close packed; dense (110) rows</td></tr><tr><td><strong>HCP</strong></td><td>Hexagonal, 2-atom primitive basis</td><td>12</td><td>Close packed; AB layer stacking</td></tr></tbody></table></div>
+## Neighbours reveal packing and layer registry {#coordination-and-stacking}
 
-For the ideal HCP geometry, \\(c/a=\sqrt{8/3}\approx1.633\\). Real materials may deviate from this ratio, changing interlayer distances without changing the Miller–Bravais notation.
+The **bulk coordination number** counts an atom's nearest neighbours in the ideal infinite structure. It describes a three-dimensional neighbour shell; it is not the same as the number of surface atoms later used to construct a lateral point above the crystal.
 
-<aside class="concept-callout"><strong>Cell choice is not structure.</strong><p>A primitive and a conventional cell can describe exactly the same infinite crystal. What matters is the translation group plus the basis, not the shape of the box drawn around them.</p></aside>
+<div class="table-wrap"><table><thead><tr><th>Structure</th><th>Nearest-neighbour coordination</th><th>Layer and packing character</th></tr></thead><tbody><tr><td><strong>FCC</strong></td><td>12</td><td>Close-packed \\(\{111\}\\) layers in an ABCABC sequence</td></tr><tr><td><strong>BCC</strong></td><td>8</td><td>Densest \\(\{110\}\\) planes and \\(\langle111\rangle\\) rows; not close packed</td></tr><tr><td><strong>Ideal HCP</strong></td><td>12</td><td>Close-packed basal \\((0001)\\) layers in an ABAB sequence</td></tr></tbody></table></div>
 
-## A plane does not determine a surface alone {#why-surfaces-differ}
+In the stacking notation, A, B, and C label the three possible lateral registries of a close-packed layer. FCC cycles through all three; HCP alternates between two. For equal touching spheres, ideal HCP has
 
-Miller indices orient a plane relative to the lattice vectors. The basis determines which atoms occur at each height along that normal. That is why FCC(110) and BCC(110) share a normal direction but expose different row spacings, layer sequences, and adsorption pockets.
+<div class="formula-strip">\[\frac{c}{a}=\sqrt{\frac{8}{3}}\approx1.633.\]</div>
 
-Cutting also creates a **termination**: the particular atomic level at which the infinite bulk is stopped. Translating a plane through one interplanar period can encounter inequivalent layers, especially in crystals with a multi-atom basis or more than one element.
+Real HCP materials can have a different \\(c/a\\) ratio, which splits some neighbour distances while preserving the same translational symmetry and AB stacking. Close packing and its layer sequences are geometric models, not assumptions that real atoms are rigid spheres. {% include cite.html id="iucr-close-packing" %}
 
-<div class="concept-actions"><a class="button" href="{{ '/surface-builder/?lattice=fcc&h=1&k=1&l=0&offset=0.500' | relative_url }}">Compare FCC(110)</a><a class="button secondary" href="{{ '/surface-builder/?lattice=bcc&h=1&k=1&l=0&offset=0.500' | relative_url }}">Compare BCC(110)</a></div>
+The bulk description now tells us where every atom is. The next step is to choose an orientation through that periodic structure without confusing the orientation with the atomic layer at which the crystal ends.

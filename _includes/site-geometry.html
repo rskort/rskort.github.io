@@ -1,0 +1,12 @@
+{% assign site_geometry_id = include.id | default: "site-geometry" %}
+<figure class="site-geometry-figure">
+  <svg viewBox="0 0 720 260" role="img" aria-labelledby="{{ site_geometry_id }}-title {{ site_geometry_id }}-desc">
+    <title id="{{ site_geometry_id }}-title">Ontop, bridge, threefold hollow, and fourfold hollow adsorption sites</title>
+    <desc id="{{ site_geometry_id }}-desc">Teal circles are substrate atoms and coloured markers identify characteristic lateral sites.</desc>
+    <g class="site-net bonds"><path d="M85 75H225M85 185H225M85 75V185M225 75V185M405 185 475 64 545 185ZM475 64 615 64 545 185"/></g>
+    <g class="site-net atoms"><circle cx="85" cy="75"/><circle cx="225" cy="75"/><circle cx="85" cy="185"/><circle cx="225" cy="185"/><circle cx="405" cy="185"/><circle cx="475" cy="64"/><circle cx="545" cy="185"/><circle cx="615" cy="64"/></g>
+    <g class="site-net markers"><circle cx="85" cy="75"/><circle cx="155" cy="75"/><circle cx="155" cy="130"/><circle cx="475" cy="145"/></g>
+    <g class="site-net labels"><text x="65" y="42">ontop</text><text x="133" y="42">bridge</text><text x="123" y="237">fourfold</text><text x="446" y="232">threefold</text></g>
+  </svg>
+  <figcaption>The diagram classifies lateral support geometry. It does not encode an adsorbate height, bond length, or binding energy.</figcaption>
+</figure>

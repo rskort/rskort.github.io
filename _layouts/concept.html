@@ -2,6 +2,8 @@
 layout: default
 ---
 {% assign concepts = site.pages | where: "concept", true | sort: "order" %}
+{% assign concept_index = nil %}
+{% for item in concepts %}{% if item.url == page.url %}{% assign concept_index = forloop.index0 %}{% endif %}{% endfor %}
 <div class="concept-layout">
   <aside class="concept-sidebar" aria-label="Concepts">
     <a class="concept-home" href="{{ '/concepts/' | relative_url }}">Concepts</a>
@@ -17,20 +19,22 @@ layout: default
       <h1>{{ page.heading | default: page.title }}</h1>
       <p class="lede">{{ page.intro }}</p>
     </header>
-    {% if page.sections %}
-      <nav class="page-contents" aria-label="On this page">
-        <strong>On this page</strong>
-        <ol>{% for section in page.sections %}<li><a href="#{{ section.id }}">{{ section.label }}</a></li>{% endfor %}</ol>
+    {% if page.sections and page.sections != empty %}
+      <nav class="page-contents" aria-labelledby="page-contents-title">
+        <span class="page-contents-title" id="page-contents-title">On this page</span>
+        <ol>{% for section in page.sections %}<li><a href="#{{ section.id }}">{{ section.label }}</a></li>{% endfor %}{% if page.references and page.references != empty %}<li><a href="#references-heading">References</a></li>{% endif %}</ol>
       </nav>
     {% endif %}
     {{ content }}
+    {% include references.html %}
     <nav class="page-switcher" aria-label="Move between concepts">
-      {% assign previous_order = page.order | minus: 1 %}
-      {% assign next_order = page.order | plus: 1 %}
-      {% assign previous = concepts | where: "order", previous_order | first %}
-      {% assign next = concepts | where: "order", next_order | first %}
-      {% if previous %}<a class="previous" href="{{ previous.url }}"><small>Previous concept</small><strong>← {{ previous.short_title | default: previous.title }}</strong></a>{% else %}<a class="previous" href="{{ '/concepts/' | relative_url }}"><small>Back to</small><strong>← All concepts</strong></a>{% endif %}
-      {% if next %}<a class="next" href="{{ next.url }}"><small>Next concept</small><strong>{{ next.short_title | default: next.title }} →</strong></a>{% else %}<a class="next" href="{{ '/surface-builder/' | relative_url }}"><small>Apply it</small><strong>Build a surface →</strong></a>{% endif %}
+      {% assign last_index = concepts.size | minus: 1 %}
+      {% assign previous_index = concept_index | minus: 1 %}
+      {% assign next_index = concept_index | plus: 1 %}
+      {% assign previous = nil %}{% if previous_index >= 0 %}{% assign previous = concepts[previous_index] %}{% endif %}
+      {% assign next = nil %}{% if next_index <= last_index %}{% assign next = concepts[next_index] %}{% endif %}
+      {% if previous %}<a class="previous" rel="prev" href="{{ previous.url }}"><small>Previous concept</small><strong>← {{ previous.short_title | default: previous.title }}</strong></a>{% else %}<a class="previous" href="{{ '/concepts/' | relative_url }}"><small>Back to</small><strong>← All concepts</strong></a>{% endif %}
+      {% if next %}<a class="next" rel="next" href="{{ next.url }}"><small>Next concept</small><strong>{{ next.short_title | default: next.title }} →</strong></a>{% else %}<a class="next" href="{{ '/surface-builder/' | relative_url }}"><small>Apply it</small><strong>Build a surface →</strong></a>{% endif %}
     </nav>
   </article>
 </div>

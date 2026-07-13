@@ -1,103 +1,101 @@
 ---
 layout: concept
-title: Miller indices
-short_title: Miller planes
+title: Crystal planes and Miller indices
+short_title: Planes and indices
 heading: Orient a surface with Miller indices
 theme: Orientation
-card_description: Turn axis intercepts into cubic or hexagonal plane indices and connect the normal to a visible atomic cut.
-intro: Miller indices specify the orientation of a family of equally spaced crystal planes. They do not, by themselves, choose a chemical termination or predict a reconstruction.
-description: Learn how Miller indices define crystal planes and how FCC, BCC, and HCP bulk crystals are cut to form surfaces.
+card_description: Relate direct- and reciprocal-space descriptions of a plane, read cubic and hexagonal indices, and separate orientation from termination.
+intro: Miller indices label the orientation and spacing of a family of crystal planes. The bulk basis then determines which atomic layers occur along that orientation.
+description: Learn how reciprocal-space normals, intercepts, Miller indices, and Miller–Bravais indices describe crystal planes and surface orientations.
 concept: true
 order: 2
 permalink: /surface-atlas/concepts/miller-indices/
 sections:
-  - {id: choose-plane, label: Choose a plane}
+  - {id: choose-plane, label: Plane families and normals}
   - {id: intercept-rule, label: The intercept rule}
-  - {id: read-notation, label: Read the notation}
-  - {id: cubic-and-hcp, label: Cubic and HCP indices}
+  - {id: read-notation, label: Notation and spacing}
+  - {id: cubic-and-hcp, label: Cubic and hexagonal indices}
   - {id: termination, label: Orientation vs termination}
+references:
+  - iucr-reciprocal
+  - iucr-miller
+  - hammond-2015
 ---
 
-## First, picture the FCC unit cell {#choose-plane}
+## Plane families have reciprocal-space normals {#choose-plane}
 
-Face-centred cubic means exactly what it says: atoms occupy the eight corners of a cube and the centre of each of its six faces. The pattern repeats by one lattice constant \\(a\\) along x, y, and z. Shared corner and face atoms add up to four atoms per conventional cell.
+Let \\(\mathbf b_1,\mathbf b_2,\mathbf b_3\\) be the **dual basis** of the chosen direct-cell vectors, defined without a \\(2\pi\\) factor so that \\(\mathbf b_i\!\cdot\!\mathbf a_j=\delta_{ij}\\). The reciprocal-space vector
 
-## Then choose where the plane meets the axes
+<div class="formula-strip">\[\mathbf g_{hkl}=h\mathbf b_1+k\mathbf b_2+l\mathbf b_3\]</div>
 
-Select a plane below. The coloured sheet shows its orientation through the conventional FCC cell. After the crystal is truncated at that orientation, the uppermost remaining atoms and subsurface layers form the surface—not only atoms whose centres lie exactly in the mathematical sheet.
+is normal to the \\((hkl)\\) orientation. When the direct vectors are primitive translations, their duals form a primitive reciprocal-lattice basis. For a centred conventional cell, however, \\(\mathbf g_{hkl}\\) is still the correct orientation normal but need not itself be a reciprocal-lattice node; centring conditions determine which diffraction vectors occur.
 
-<div class="plane-demo" data-plane-demo>
-  <div class="plane-stage">
-    <svg viewBox="25 0 420 370" role="img" aria-label="An FCC unit cell with a selectable Miller plane">
-      <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#445c5f"/></marker></defs>
-      <path class="cube-edge cube-back" d="M90 91 L244 2 L398 91 L244 180 Z M90 91 L90 245 M398 91 L398 245"/>
-      <path class="cube-edge" d="M90 245 L244 156 L398 245 L244 334 Z M244 156 L244 2 M90 245 L90 91 M398 245 L398 91 M244 334 L244 180"/>
-      <polygon class="cut-plane" points="398,245 244,156 244,2 398,91" style="--plane-colour:#d85f45"/>
-      <g class="plane-guides"></g>
-      <g aria-label="corner atoms">
-        <circle class="atom" cx="90" cy="91" r="8"/><circle class="atom" cx="244" cy="2" r="8"/><circle class="atom" cx="398" cy="91" r="8"/><circle class="atom" cx="244" cy="180" r="8"/>
-        <circle class="atom" cx="90" cy="245" r="8"/><circle class="atom" cx="244" cy="156" r="8"/><circle class="atom" cx="398" cy="245" r="8"/><circle class="atom" cx="244" cy="334" r="8"/>
-      </g>
-      <g aria-label="face-centred atoms">
-        <circle class="atom face-atom" cx="167" cy="123" r="9"/><circle class="atom face-atom" cx="321" cy="123" r="9"/><circle class="atom face-atom" cx="244" cy="91" r="9"/>
-        <circle class="atom face-atom" cx="167" cy="212" r="9"/><circle class="atom face-atom" cx="321" cy="212" r="9"/><circle class="atom face-atom" cx="244" cy="245" r="9"/>
-      </g>
-      <line class="axis" x1="244" y1="334" x2="420" y2="236"/><text class="axis-label" x="427" y="238">x</text>
-      <line class="axis" x1="244" y1="334" x2="68" y2="236"/><text class="axis-label" x="52" y="238">y</text>
-      <line class="axis" x1="244" y1="334" x2="244" y2="196"/><text class="axis-label" x="252" y="200">z</text>
-    </svg>
-  </div>
-  <div class="plane-controls">
-    <div class="plane-buttons" aria-label="Choose a plane"><button type="button" data-plane="100" aria-pressed="true">(100)</button><button type="button" data-plane="110" aria-pressed="false">(110)</button><button type="button" data-plane="111" aria-pressed="false">(111)</button></div>
-    <h3 data-plane-title>FCC(100)</h3>
-    <p class="plane-equation" data-plane-equation></p>
-    <p class="plane-description" data-plane-description></p>
-  </div>
-</div>
+When \\((h,k,l)\\) is reduced to relatively prime integers, parallel coordinate planes carrying that orientation label satisfy
 
-<p><a class="button" href="{{ '/surface-builder/' | relative_url }}">Try any FCC, BCC, or HCP plane</a></p>
+<div class="formula-strip">\[hx+ky+lz=m,\qquad m\in\mathbb Z.\]</div>
 
-## Turn intercepts into indices {#intercept-rule}
+This reciprocal-space statement works for orthogonal and oblique cells alike. It is the safe general rule: \\((hkl)\\) gives a reciprocal-space normal, not necessarily the direct-space direction \\([hkl]\\). {% include cite.html id="iucr-reciprocal" %}
+
+In this atlas, a **facet** means a macroscopically flat region of a crystal surface characterized by a particular orientation and termination. The Miller indices specify its orientation; they do not by themselves identify the last exposed atomic layer.
+
+The demonstration uses an FCC conventional cell because its cubic axes make the intercepts easy to see. The coloured sheet shows an orientation through the cell. A surface made by truncating the crystal consists of the uppermost remaining atomic layer and the layers beneath it—not only atoms whose centres happen to lie in the displayed mathematical sheet.
+
+{% include plane-demo.html id="miller-plane" %}
+
+## Obtain Miller indices from axis intercepts {#intercept-rule}
+
+The intercept construction is an equivalent way to find the indices. If the chosen member of a plane family passes through the origin, first translate it to a parallel member; the orientation is unchanged. Then:
 
 <ol class="steps">
-  <li><div><strong>Write the intercepts in units of \(a\).</strong><p>Where does the plane meet x, y, and z? A plane parallel to an axis has an infinite intercept on that axis.</p></div></li>
-  <li><div><strong>Take the reciprocals.</strong><p>For example, \((a,a,\infty)\) becomes \((1/a,1/a,0)\). This is why a parallel direction receives a zero.</p></div></li>
-  <li><div><strong>Clear fractions to obtain the smallest integers.</strong><p>Drop the common \(1/a\) factor. The example above becomes \((110)\).</p></div></li>
+  <li><div><strong>Write the axial intercepts in lattice-vector units.</strong><p>An intercept \\(p\\) means \\(p\mathbf a_1\\). A plane parallel to an axis has an infinite intercept on that axis.</p></div></li>
+  <li><div><strong>Take the reciprocals.</strong><p>The fractional intercepts \\((p,q,r)\\) give \\((1/p,1/q,1/r)\\); by convention, \\(1/\infty=0\\).</p></div></li>
+  <li><div><strong>Clear fractions and remove a common factor.</strong><p>Write the smallest relatively prime integer triplet \\((hkl)\\) for the surface orientation.</p></div></li>
 </ol>
 
-<div class="formula-strip">\[(x_0,y_0,z_0) \longrightarrow \left(\frac{a}{x_0},\frac{a}{y_0},\frac{a}{z_0}\right) \longrightarrow (hkl)\]</div>
+<div class="formula-strip">\[(p,q,r)\longrightarrow\left(\frac1p,\frac1q,\frac1r\right)\propto(h,k,l).\]</div>
 
-An overbar marks a negative index. For example, \\((1\bar{1}0)\\) intersects positive x, negative y, and remains parallel to z. The sign changes the plane's orientation; it is not a subtraction operation.
+For example, intercepts \\((1,1,\infty)\\) give \\((110)\\). An overbar marks a negative index: \\((1\bar{1}0)\\) meets the first and second axes on opposite sides of the origin and remains parallel to the third. {% include cite.html id="iucr-miller" %}
 
-## Read planes, directions, and families {#read-notation}
+## Keep planes, directions, and families distinct {#read-notation}
 
-<div class="comparison"><div><strong>FCC(100)</strong><span>Square net · fourfold hollows</span></div><div><strong>FCC(110)</strong><span>Dense rows · open troughs</span></div><div><strong>FCC(111)</strong><span>Triangular net · close packed</span></div></div>
+<div class="table-wrap"><table><thead><tr><th>Notation</th><th>Meaning</th></tr></thead><tbody><tr><td>\\((hkl)\\)</td><td>A plane orientation; in surface science, a surface with that orientation</td></tr><tr><td>\\(\{hkl\}\\)</td><td>The symmetry-equivalent family of plane orientations</td></tr><tr><td>\\([uvw]\\)</td><td>A crystallographic direction in direct space</td></tr><tr><td>\\(\langle uvw\rangle\\)</td><td>The symmetry-equivalent family of directions</td></tr></tbody></table></div>
 
-For a cubic lattice, the direction \\([hkl]\\) is normal to the plane \\((hkl)\\). This convenient equality does not hold in the same form for a general non-cubic lattice, where the reciprocal lattice must be used. Higher-index cuts such as (211) or (311) are tilted away from a low-index plane. At atomic scale, that tilt often appears as narrow terraces separated by regular steps.
+With the dual-basis convention above, adjacent coordinate planes in the reduced \\((hkl)\\) family have metric spacing
 
-Parentheses denote a plane, as in \\((111)\\); square brackets denote a direction, as in \\([111]\\); and braces such as \\(\{111\}\\) collect all symmetry-equivalent planes.
+<div class="formula-strip">\[d_{hkl}=\frac{1}{|\mathbf g_{hkl}|}.\]</div>
 
-For cubic crystals with lattice constant \\(a\\), adjacent members of the plane family are separated by
+For a cubic cell with lattice constant \\(a\\), the axes are orthogonal and equal, so this becomes
 
 <div class="formula-strip">\[d_{hkl}=\frac{a}{\sqrt{h^2+k^2+l^2}}.\]</div>
 
-Proportional triplets have the same plane normal. Because the builder represents surface orientation, it reduces a triplet such as (222) to (111). Crystallographic indexing of plane families and diffraction orders requires the full lattice context.
+For a cubic metric, the direct-space direction \\([hkl]\\) is parallel to the normal of \\((hkl)\\) for every index triplet. Outside cubic systems this does not hold in general, although particular directions and plane normals may coincide; use \\(\mathbf g_{hkl}\\) to obtain the normal and spacing. {% include cite.html id="iucr-reciprocal" %}
 
-## What changes for BCC and HCP? {#cubic-and-hcp}
+This \\(d_{hkl}\\) is the spacing of the indexed coordinate-plane family. A centred lattice or multi-atom basis can place atom-bearing sublayers between those planes, so the smallest vertical separation visible in an atomic profile need not equal \\(d_{hkl}\\). Likewise, a surface-orientation label need not be an allowed diffraction vector: for example, FCC(110) is a valid surface orientation even though FCC centring makes 220 the first reciprocal-lattice node in that direction. {% include cite.html id="hammond-2015" %}
 
-The intercept rule describes the plane orientation; the bulk basis determines which atoms that plane actually exposes. FCC and BCC share cubic axes but place atoms at face centres or the body centre, so the same (110) orientation produces different surface nets.
+Triplets with a common factor are parallel: \\((222)\\) and \\((111)\\) have the same surface normal. A surface-orientation tool may therefore reduce them to \\((111)\\). Diffraction retains reciprocal-lattice multiples such as 222 because \\(\mathbf g_{222}=2\mathbf g_{111}\\), so their associated reciprocal spacing information is not interchangeable.
 
-HCP uses three equivalent basal axes separated by \\(120^\circ\\), plus the c axis. Its planes are commonly written with four Miller–Bravais indices \\((hkil)\\), where the third basal index is redundant:
+## The basis and axis system determine what is exposed {#cubic-and-hcp}
 
-\[
-i=-(h+k).
-\]
+FCC and BCC use the same conventional cubic axes, so a given triplet specifies the same geometric normal in both. Their different occupied positions nevertheless produce different atomic layer sequences and planar densities along that normal. Indices orient the cut; the bulk structure supplies its atoms.
 
-Thus (0001) is the basal plane, (10-10) and (11-20) are prism planes parallel to c, and a nonzero final index—such as in (10-11)—tilts the cut into a pyramidal plane. In typeset crystallography, negative entries are written with an overbar: \\((10\bar{1}1)\\).
+Hexagonal crystals are commonly indexed with three equivalent basal axes separated by \\(120^\circ\\) and one \\(c\\) axis. A plane then uses four Miller–Bravais indices \\((hkil)\\), with the redundant basal index
 
-## Why the termination matters {#termination}
+<div class="formula-strip">\[i=-(h+k).\]</div>
 
-Indices specify orientation, not every detail of a slab. A material can have multiple chemical terminations, reconstructions, or registries for the same \\((hkl)\\). Always report the composition, termination, cell, and slab thickness alongside the facet.
+Thus \\((0001)\\) is the basal orientation, \\((10\bar{1}0)\\) and \\((11\bar{2}0)\\) are prism orientations parallel to \\(c\\), and \\((10\bar{1}1)\\) is pyramidal. For hexagonal lattice parameters \\(a\\) and \\(c\\), their plane spacing obeys
 
-<aside class="concept-callout"><strong>Orientation and offset are separate.</strong><p>The indices set the plane normal. Translating the plane along that normal changes the termination. The lattice and basis determine which atomic layers occur at each offset.</p></aside>
+<div class="formula-strip">\[\frac{1}{d_{hkil}^{2}}=\frac{4}{3}\frac{h^2+hk+k^2}{a^2}+\frac{l^2}{c^2},\qquad i=-(h+k).\]</div>
 
+Hexagonal directions can likewise use four indices, but plane indices and direction indices must not be exchanged: their relation is set by the reciprocal metric, just as in any non-cubic crystal. {% include cite.html id="iucr-miller" %} The cubic and hexagonal spacing expressions above follow directly from their respective reciprocal metrics. {% include cite.html id="hammond-2015" %}
+
+## Orientation is not termination {#termination}
+
+The indices fix \\(\mathbf g_{hkl}\\), hence the orientation. A parallel cut can still be translated along that normal. In an equation \\(\mathbf g_{hkl}\!\cdot\!\mathbf r=\alpha\\), changing \\(\alpha\\) changes the offset without changing \\((hkl)\\).
+
+The **termination** identifies which atomic or chemical layer is last when the bulk is truncated. A multi-atom basis or multicomponent crystal can present inequivalent terminations at different offsets. Even elemental FCC and BCC expose different sequences for the same cubic indices because their bulk positions differ.
+
+Higher-index orientations are often tilted relative to a nearby low-index orientation. In an ideal atomic model, that geometry can appear as periodically repeated terraces separated by steps. The terrace width and step structure follow from the indices, basis, and termination; the phrase “high index” alone does not uniquely determine them.
+
+<aside class="concept-callout"><strong>Report more than \\((hkl)\\).</strong><p>A reproducible surface description states the crystal structure and composition, orientation, termination, and surface-cell convention. Miller indices do not specify the later atomic response to creating the surface.</p></aside>
+
+Once the orientation and termination are clear, the next task is to find the two translations that repeat within the plane.

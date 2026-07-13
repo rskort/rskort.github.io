@@ -1,0 +1,9 @@
+{%- assign citation_number = nil -%}
+{%- for citation_id in page.references -%}
+  {%- if citation_id == include.id -%}{%- assign citation_number = forloop.index -%}{%- endif -%}
+{%- endfor -%}
+{%- if citation_number -%}
+<sup class="citation"><a href="#ref-{{ include.id }}" aria-label="Reference {{ citation_number }}">[{{ citation_number }}]</a></sup>
+{%- else -%}
+<sup class="citation citation-missing" title="Reference '{{ include.id }}' is not declared for this page">[?]</sup>
+{%- endif -%}

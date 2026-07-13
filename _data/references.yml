@@ -1,0 +1,212 @@
+# Shared bibliography for the concept learning path. In a concept page, declare
+# keys under `references` in first-citation order and cite them with:
+# {% include cite.html id="reference-key" %}
+
+iucr-lattice:
+  authors: International Union of Crystallography
+  title: Lattice
+  source: Online Dictionary of Crystallography
+  url: https://dictionary.iucr.org/Lattice
+  link_label: IUCr definition
+  accessed: 2026-07-13
+
+iucr-unit-cell:
+  authors: International Union of Crystallography
+  title: Unit cell
+  source: Online Dictionary of Crystallography
+  url: https://dictionary.iucr.org/Unit_cell
+  link_label: IUCr definition
+  accessed: 2026-07-13
+
+iucr-close-packing:
+  authors: P. Krishna and D. Pandey
+  title: Close-packed structures
+  source: IUCr Teaching Pamphlet No. 5 (electronic edition 2001)
+  year: 1981
+  url: https://www.iucr.org/education/pamphlets/5/full-text
+  link_label: Open teaching text
+  accessed: 2026-07-13
+
+iucr-miller:
+  authors: International Union of Crystallography
+  title: Miller indices
+  source: Online Dictionary of Crystallography
+  url: https://dictionary.iucr.org/Miller_indices
+  link_label: IUCr definition
+  accessed: 2026-07-13
+
+iucr-reciprocal:
+  authors: International Union of Crystallography
+  title: Reciprocal lattice
+  source: Online Dictionary of Crystallography
+  url: https://dictionary.iucr.org/Reciprocal_lattice
+  link_label: IUCr definition
+  accessed: 2026-07-13
+
+hammond-2015:
+  authors: C. Hammond
+  title: The Basics of Crystallography and Diffraction
+  source: 4th ed., Oxford University Press and IUCr
+  year: 2015
+  url: https://doi.org/10.1093/acprof:oso/9780198738671.001.0001
+  link_label: doi:10.1093/acprof:oso/9780198738671.001.0001
+
+wood-1964:
+  authors: E. A. Wood
+  title: Vocabulary of Surface Crystallography
+  source: Journal of Applied Physics 35, 1306–1312
+  year: 1964
+  url: https://doi.org/10.1063/1.1713610
+  link_label: doi:10.1063/1.1713610
+
+sun-ceder-2013:
+  authors: W. Sun and G. Ceder
+  title: Efficient creation and convergence of surface slabs
+  source: Surface Science 617, 53–59
+  year: 2013
+  url: https://doi.org/10.1016/j.susc.2013.05.016
+  link_label: doi:10.1016/j.susc.2013.05.016
+  open_url: https://ceder.berkeley.edu/publications/2013_Wenhao_Sun_Surface_Slabs.pdf
+  open_label: Open manuscript
+
+iupac-adsorption:
+  authors: International Union of Pure and Applied Chemistry
+  title: Adsorption
+  source: Compendium of Chemical Terminology (the Gold Book)
+  url: https://goldbook.iupac.org/terms/view/A00155
+  link_label: IUPAC definition
+  accessed: 2026-07-13
+
+iupac-sites-1976:
+  authors: IUPAC Commission on Colloid and Surface Chemistry
+  title: "Definitions, terminology and symbols in colloid and surface chemistry, Part II: Heterogeneous catalysis"
+  source: Pure and Applied Chemistry 46, 71–90
+  year: 1976
+  url: https://doi.org/10.1351/pac197646010071
+  link_label: doi:10.1351/pac197646010071
+  open_url: https://publications.iupac.org/pac-2007/1976/pdf/4601x0071.pdf
+  open_label: Open full text
+
+iupac-coverage:
+  authors: International Union of Pure and Applied Chemistry
+  title: Surface coverage
+  source: Compendium of Chemical Terminology (the Gold Book)
+  url: https://goldbook.iupac.org/terms/view/S06165
+  link_label: IUPAC definition
+  accessed: 2026-07-13
+
+somorjai-li-2010:
+  authors: G. A. Somorjai and Y. Li
+  title: Introduction to Surface Chemistry and Catalysis
+  source: 2nd ed., Wiley
+  year: 2010
+  url: https://www.wiley-vch.de/en/areas-interest/natural-sciences/introduction-to-surface-chemistry-and-catalysis-978-0-470-50823-7
+  link_label: Publisher record
+
+gross-2003:
+  authors: A. Groß
+  title: "Theoretical Surface Science: A Microscopic Perspective"
+  source: Springer
+  year: 2003
+  url: https://doi.org/10.1007/978-3-662-05041-5
+  link_label: doi:10.1007/978-3-662-05041-5
+
+kolasinski-2012:
+  authors: K. W. Kolasinski
+  title: "Surface Science: Foundations of Catalysis and Nanoscience"
+  source: 3rd ed., Wiley
+  year: 2012
+  url: https://doi.org/10.1002/9781119941798
+  link_label: doi:10.1002/9781119941798
+
+montoya-persson-2017:
+  authors: J. H. Montoya and K. A. Persson
+  title: A high-throughput framework for determining adsorption energies on solid surfaces
+  source: npj Computational Materials 3, 14
+  year: 2017
+  url: https://doi.org/10.1038/s41524-017-0017-z
+  link_label: doi:10.1038/s41524-017-0017-z (open access)
+
+muller-1986:
+  authors: K. Müller
+  title: Relaxation and Reconstruction of Solid Surfaces
+  source: Berichte der Bunsengesellschaft für physikalische Chemie 90, 184–190
+  year: 1986
+  url: https://doi.org/10.1002/bbpc.19860900304
+  link_label: doi:10.1002/bbpc.19860900304
+
+fiorentini-methfessel-1996:
+  authors: V. Fiorentini and M. Methfessel
+  title: Extracting convergent surface energies from slab calculations
+  source: "Journal of Physics: Condensed Matter 8, 6525–6529"
+  year: 1996
+  url: https://doi.org/10.1088/0953-8984/8/36/005
+  link_label: doi:10.1088/0953-8984/8/36/005
+  open_url: https://arxiv.org/abs/cond-mat/9610046
+  open_label: Open preprint
+
+tran-2016:
+  authors: R. Tran et al.
+  title: Surface energies of elemental crystals
+  source: Scientific Data 3, 160080
+  year: 2016
+  url: https://doi.org/10.1038/sdata.2016.80
+  link_label: doi:10.1038/sdata.2016.80 (open access)
+
+tasker-1979:
+  authors: P. W. Tasker
+  title: The stability of ionic crystal surfaces
+  source: "Journal of Physics C: Solid State Physics 12, 4977–4984"
+  year: 1979
+  url: https://doi.org/10.1088/0022-3719/12/22/036
+  link_label: doi:10.1088/0022-3719/12/22/036
+
+reuter-scheffler-2003:
+  authors: K. Reuter and M. Scheffler
+  title: "First-principles atomistic thermodynamics for oxidation catalysis: Surface phase diagrams and catalytically interesting regions"
+  source: Physical Review Letters 90, 046103
+  year: 2003
+  url: https://doi.org/10.1103/PhysRevLett.90.046103
+  link_label: doi:10.1103/PhysRevLett.90.046103
+  open_url: https://arxiv.org/abs/cond-mat/0211602
+  open_label: Open preprint
+
+henkelman-2000:
+  authors: G. Henkelman, B. P. Uberuaga, and H. Jónsson
+  title: Climbing image nudged elastic band method for finding saddle points and minimum energy paths
+  source: Journal of Chemical Physics 113, 9901–9904
+  year: 2000
+  url: https://doi.org/10.1063/1.1329672
+  link_label: doi:10.1063/1.1329672
+
+bengtsson-1999:
+  authors: L. Bengtsson
+  title: Dipole correction for surface supercell calculations
+  source: Physical Review B 59, 12301–12304
+  year: 1999
+  url: https://doi.org/10.1103/PhysRevB.59.12301
+  link_label: doi:10.1103/PhysRevB.59.12301
+
+larsen-2017:
+  authors: A. H. Larsen et al.
+  title: The Atomic Simulation Environment—a Python library for working with atoms
+  source: "Journal of Physics: Condensed Matter 29, 273002"
+  year: 2017
+  url: https://doi.org/10.1088/1361-648X/aa680e
+  link_label: doi:10.1088/1361-648X/aa680e
+
+ase-surfaces:
+  authors: Atomic Simulation Environment contributors
+  title: Surfaces
+  source: ASE documentation
+  url: https://docs.ase-lib.org/ase/build/surface.html
+  link_label: Official documentation
+  accessed: 2026-07-13
+
+ase-surface-source-3-24:
+  authors: Atomic Simulation Environment contributors
+  title: Surface builder implementation (ASE 3.24.0)
+  source: ASE source code, version 3.24.0
+  year: 2024
+  url: https://gitlab.com/ase/ase/-/blob/3.24.0/ase/build/surface.py
+  link_label: Version-pinned source
