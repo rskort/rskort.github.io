@@ -44,7 +44,7 @@ Write a lateral point in fractional surface coordinates as
 
 The pairs \\((u,v)\\) and \\((u+m,v+n)\\), with integer \\(m,n\\), identify periodic images of the same lateral position. This remains true for an oblique cell, where Cartesian \\(x,y\\) values alone do not reveal the periodic relation.
 
-A full three-dimensional position also needs a coordinate normal to the surface. On a corrugated facet, atoms at similar \\((u,v)\\) can belong to different atomic heights. The lateral coordinate and the height are therefore separate pieces of information—a distinction that becomes essential when an atom or molecule is added above the surface.
+A full three-dimensional position also needs a coordinate normal to the surface. On a corrugated facet, atoms at similar \\((u,v)\\) can belong to different atomic heights. The lateral coordinate and the height are therefore separate pieces of information, which is a distinction that becomes essential when an atom or molecule is added above the surface.
 
 <aside class="concept-callout"><strong>The outline is not a wall.</strong><p>An atom drawn on one edge has a periodic image on the opposite edge. Count the basis once, using one consistent boundary convention.</p></aside>
 
@@ -60,7 +60,7 @@ For a general integer transformation,
 
 The nonsingular integer matrix keeps \\(\mathbf A_1\\) and \\(\mathbf A_2\\) independent, and the magnitude of its determinant gives the number of reference-cell areas in the new cell. A simple \\((m\times n)\\) expansion has \\(\mathbf A_1=m\mathbf a_1\\) and \\(\mathbf A_2=n\mathbf a_2\\), but the notation is meaningful only after the reference vectors have been stated. Rotated surface structures require additional information; the label alone does not determine the vectors, origin, or atomic basis. {% include cite.html id="wood-1964" %}
 
-Different-looking primitive cells can describe the same lattice. An integer change of basis with determinant \\(\pm1\\) changes the vectors without changing the cell area or translation lattice. To compare two conventions, compare their real-space vectors, areas, fractional positions, and origins—not only a label such as \\((1\times1)\\).
+Different-looking primitive cells can describe the same lattice. An integer change of basis with determinant \\(\pm1\\) changes the vectors without changing the cell area or translation lattice. To compare two conventions, compare their real-space vectors, areas, fractional positions, and origins; not only a label such as \\((1\times1)\\).
 
 ## A calculation represents a surface with a periodic slab {#periodic-slab}
 

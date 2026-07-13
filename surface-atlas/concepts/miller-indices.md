@@ -38,7 +38,7 @@ This reciprocal-space statement works for orthogonal and oblique cells alike. It
 
 In this atlas, a **facet** means a macroscopically flat region of a crystal surface characterized by a particular orientation and termination. The Miller indices specify its orientation; they do not by themselves identify the last exposed atomic layer.
 
-The demonstration uses an FCC conventional cell because its cubic axes make the intercepts easy to see. The coloured sheet shows an orientation through the cell. A surface made by truncating the crystal consists of the uppermost remaining atomic layer and the layers beneath it—not only atoms whose centres happen to lie in the displayed mathematical sheet.
+The demonstration uses an FCC conventional cell because its cubic axes make the intercepts easy to see. The coloured sheet shows an orientation through the cell. A surface made by truncating the crystal consists of the uppermost remaining atomic layer and the layers beneath it, not only atoms whose centres happen to lie in the displayed mathematical sheet.
 
 {% include plane-demo.html id="miller-plane" %}
 
@@ -47,9 +47,9 @@ The demonstration uses an FCC conventional cell because its cubic axes make the 
 The intercept construction is an equivalent way to find the indices. If the chosen member of a plane family passes through the origin, first translate it to a parallel member; the orientation is unchanged. Then:
 
 <ol class="steps">
-  <li><div><strong>Write the axial intercepts in lattice-vector units.</strong><p>An intercept \\(p\\) means \\(p\mathbf a_1\\). A plane parallel to an axis has an infinite intercept on that axis.</p></div></li>
-  <li><div><strong>Take the reciprocals.</strong><p>The fractional intercepts \\((p,q,r)\\) give \\((1/p,1/q,1/r)\\); by convention, \\(1/\infty=0\\).</p></div></li>
-  <li><div><strong>Clear fractions and remove a common factor.</strong><p>Write the smallest relatively prime integer triplet \\((hkl)\\) for the surface orientation.</p></div></li>
+  <li><div><strong>Write the axial intercepts in lattice-vector units.</strong><p>An intercept \(p\) means \(p\mathbf a_1\). A plane parallel to an axis has an infinite intercept on that axis.</p></div></li>
+  <li><div><strong>Take the reciprocals.</strong><p>The fractional intercepts \((p,q,r)\) give \((1/p,1/q,1/r)\); by convention, \(1/\infty=0\).</p></div></li>
+  <li><div><strong>Clear fractions and remove a common factor.</strong><p>Write the smallest relatively prime integer triplet \((hkl)\) for the surface orientation.</p></div></li>
 </ol>
 
 <div class="formula-strip">\[(p,q,r)\longrightarrow\left(\frac1p,\frac1q,\frac1r\right)\propto(h,k,l).\]</div>
@@ -58,7 +58,7 @@ For example, intercepts \\((1,1,\infty)\\) give \\((110)\\). An overbar marks a 
 
 ## Keep planes, directions, and families distinct {#read-notation}
 
-<div class="table-wrap"><table><thead><tr><th>Notation</th><th>Meaning</th></tr></thead><tbody><tr><td>\\((hkl)\\)</td><td>A plane orientation; in surface science, a surface with that orientation</td></tr><tr><td>\\(\{hkl\}\\)</td><td>The symmetry-equivalent family of plane orientations</td></tr><tr><td>\\([uvw]\\)</td><td>A crystallographic direction in direct space</td></tr><tr><td>\\(\langle uvw\rangle\\)</td><td>The symmetry-equivalent family of directions</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>Notation</th><th>Meaning</th></tr></thead><tbody><tr><td>\((hkl)\)</td><td>A plane orientation; in surface science, a surface with that orientation</td></tr><tr><td>\(\{hkl\}\)</td><td>The symmetry-equivalent family of plane orientations</td></tr><tr><td>\([uvw]\)</td><td>A crystallographic direction in direct space</td></tr><tr><td>\(\langle uvw\rangle\)</td><td>The symmetry-equivalent family of directions</td></tr></tbody></table></div>
 
 With the dual-basis convention above, adjacent coordinate planes in the reduced \\((hkl)\\) family have metric spacing
 
@@ -96,6 +96,6 @@ The **termination** identifies which atomic or chemical layer is last when the b
 
 Higher-index orientations are often tilted relative to a nearby low-index orientation. In an ideal atomic model, that geometry can appear as periodically repeated terraces separated by steps. The terrace width and step structure follow from the indices, basis, and termination; the phrase “high index” alone does not uniquely determine them.
 
-<aside class="concept-callout"><strong>Report more than \\((hkl)\\).</strong><p>A reproducible surface description states the crystal structure and composition, orientation, termination, and surface-cell convention. Miller indices do not specify the later atomic response to creating the surface.</p></aside>
+<aside class="concept-callout"><strong>Report more than \((hkl)\).</strong><p>A reproducible surface description states the crystal structure and composition, orientation, termination, and surface-cell convention. Miller indices do not specify the later atomic response to creating the surface.</p></aside>
 
 Once the orientation and termination are clear, the next task is to find the two translations that repeat within the plane.

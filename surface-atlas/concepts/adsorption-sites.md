@@ -5,7 +5,7 @@ short_title: Adsorption sites
 heading: Place an adsorbate relative to the surface
 theme: Coordination
 card_description: Separate lateral registry from height and orientation, then compare coordination, subsurface registry, steps, and coverage.
-intro: An adsorption-site name identifies a geometric relation to the substrate. It is a reproducible starting description—not a universal bond length or a promise of energetic stability.
+intro: An adsorption-site name identifies a geometric relation to the substrate. It is a reproducible starting description, not a universal bond length or a promise of energetic stability.
 description: Learn how ontop, bridge, hollow, step, and trough adsorption sites are constructed and how site geometry relates to coverage.
 concept: true
 order: 4
@@ -80,7 +80,7 @@ On FCC(111), the two threefold hollows have the same top-layer coordination but 
 
 High-index and open facets expose terraces, step edges, atomic rows, kinks, and troughs. A **step bridge** can join two ledge atoms, whereas a **terrace bridge** joins atoms within a flatter patch. Both are twofold in the primary shell, but their lower-layer registry and wider neighbourhood differ. Terms such as **short bridge**, **long bridge**, **step ontop**, **trough**, and **kink** should therefore be accompanied by coordinates or an explicit construction.
 
-Surface symmetry removes redundant labels only when it maps the complete local environment—not merely the topmost pair or triangle—onto itself. A changed surface motif, defect, coadsorbate, or molecular orientation can break a symmetry that the clean ideal surface possessed.
+Surface symmetry removes redundant labels only when it maps the complete local environment onto itself, not merely the topmost pair or triangle. A changed surface motif, defect, coadsorbate, or molecular orientation can break a symmetry that the clean ideal surface possessed.
 
 ## Coverage belongs to a declared periodic cell {#coverage}
 
@@ -88,7 +88,7 @@ Coverage states how much adsorbate is associated with a surface area or a declar
 
 <div class="formula-strip">\[\rho=\frac{N_{\mathrm{ads}}}{A},\qquad \theta=\frac{N_{\mathrm{ads}}}{N_{\mathrm{ML}}}.\]</div>
 
-Here \\(A\\) is the area of the decorated face and \\(N_{\mathrm{ML}}\\) is the number of adsorbates assigned to a complete monolayer on that same area. That capacity depends on the stated structural convention—for example, one adsorbate per exposed atom or per site in a named site family. “One monolayer” is therefore not self-defining on a stepped surface, a surface with a changed repeat, or a multicomponent surface. {% include cite.html id="iupac-coverage" %}
+Here \\(A\\) is the area of the decorated face and \\(N_{\mathrm{ML}}\\) is the number of adsorbates assigned to a complete monolayer on that same area. That capacity depends on the stated structural convention, for example, one adsorbate per exposed atom or per site in a named site family. “One monolayer” is therefore not self-defining on a stepped surface, a surface with a changed repeat, or a multicomponent surface. {% include cite.html id="iupac-coverage" %}
 
 If a primitive cell contains one site of the chosen family, one adsorbate in a simple \\((2\times2)\\) supercell occupies one quarter of that periodic site population. Calling this \\(1/4\\) monolayer is justified only when one monolayer has been defined as one adsorbate per such site. For a slab decorated on both faces, state the number and coverage **per face**.
 
@@ -96,6 +96,6 @@ Periodic boundary conditions also fix the adsorbate–image separations. Measure
 
 ## A constructed site is a candidate, not an energetic result {#candidate-not-minimum}
 
-A geometric site is a reproducible starting configuration. During **structural relaxation**—a force-driven local optimization—the adsorbate may remain at that site, move laterally, change height or orientation, dissociate, or induce a different substrate motif. A bridge-like configuration may be a transition region rather than a minimum. The next concept page defines relaxation, reconstruction, and the potential-energy landscape in detail. {% include cite.html id="gross-2003" %}
+A geometric site is a reproducible starting configuration. During **structural relaxation**, a force-driven local optimization, the adsorbate may remain at that site, move laterally, change height or orientation, dissociate, or induce a different substrate motif. A bridge-like configuration may be a transition region rather than a minimum. The next concept page defines relaxation, reconstruction, and the potential-energy landscape in detail. {% include cite.html id="gross-2003" %}
 
 <div class="table-wrap"><table><thead><tr><th>The site description records</th><th>It does not guarantee</th></tr></thead><tbody><tr><td>Lateral coordinate and support construction</td><td>A universal adsorbate height</td></tr><tr><td>Ideal local coordination and registry</td><td>That the geometry is a local minimum</td></tr><tr><td>Relation to a terrace, step, or trough</td><td>The same binding strength for every species</td></tr><tr><td>Coverage when the reference population is stated</td><td>Negligible interaction between periodic images</td></tr></tbody></table></div>

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the concept learning path, citations, and internal navigation."""
+"""Validate site math, the concept learning path, citations, and navigation."""
 
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 CONCEPT_DIR = ROOT / "surface-atlas" / "concepts"
 REFERENCES_FILE = ROOT / "_data" / "references.yml"
+SURFACES_FILE = ROOT / "_data" / "surfaces.yml"
 CONFIG_FILE = ROOT / "_config.yml"
 
 FRONT_MATTER = re.compile(r"\A---\s*\r?\n(.*?)\r?\n---\s*\r?\n", re.DOTALL)
@@ -22,6 +23,11 @@ HEADING_ANCHOR = re.compile(r"\{#([a-z0-9][a-z0-9-]*)\}\s*$")
 CITATION = re.compile(r"\{%\s*include\s+cite\.html\s+id=\"([^\"]+)\"\s*%\}")
 RELATIVE_LINK = re.compile(r"\{\{\s*'([^']+)'\s*\|\s*relative_url\s*\}\}")
 SINGLE_INLINE_MATH = re.compile(r"(?<!\\)\\[()]")
+SINGLE_DISPLAY_MATH = re.compile(r"(?<!\\)\\(?:\[|\])")
+HTML_BLOCK_TAG = r"(?:aside|div|figure|li|ol|p|section|table|td|th|ul)"
+HTML_BLOCK_START = re.compile(rf"^\s*<{HTML_BLOCK_TAG}\b", re.IGNORECASE)
+HTML_BLOCK_OPEN = re.compile(rf"<{HTML_BLOCK_TAG}\b[^>]*?(?<!/)>", re.IGNORECASE)
+HTML_BLOCK_CLOSE = re.compile(rf"</{HTML_BLOCK_TAG}\s*>", re.IGNORECASE)
 SAFE_REFERENCE_ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 MOJIBAKE = ("�", "Ã", "Â", "â€", "â†", "âˆ", "â€“", "â—")
 
@@ -64,6 +70,81 @@ def unique_in_order(values: list[str]) -> list[str]:
         if value not in result:
             result.append(value)
     return result
+
+
+def validate_inline_math(path: Path, content: str, errors: list[str]) -> None:
+    """Enforce the delimiter form that survives each Markdown parsing context."""
+    path_label = path.relative_to(ROOT).as_posix()
+    html_depth = 0
+    in_fence = False
+    in_formula_strip = False
+    markdown_open = markdown_close = 0
+    html_open = html_close = 0
+    body_line_offset = (
+        path.read_text(encoding="utf-8").count("\n") - content.count("\n")
+    )
+
+    for line_number, line in enumerate(content.splitlines(), 1):
+        if line.lstrip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+
+        starts_html = bool(HTML_BLOCK_START.match(line))
+        in_raw_html = html_depth > 0 or starts_html
+        if in_raw_html:
+            if "\\\\(" in line or "\\\\)" in line:
+                errors.append(
+                    f"{path_label}:{body_line_offset + line_number}: raw HTML must use "
+                    "single-backslash MathJax delimiters"
+                )
+            html_open += line.count("\\(")
+            html_close += line.count("\\)")
+            if 'class="formula-strip"' in line:
+                formula_start = line.split(">", 1)[1].lstrip()
+                if not formula_start.startswith("\\[") or formula_start.startswith("\\\\["):
+                    errors.append(
+                        f"{path_label}:{body_line_offset + line_number}: formula strips "
+                        "must start with a single-backslash display delimiter"
+                    )
+                in_formula_strip = "</div>" not in line
+            if ('class="formula-strip"' in line or in_formula_strip) and "</div>" in line:
+                formula_end = line.rsplit("</div>", 1)[0].rstrip()
+                if not formula_end.endswith("\\]") or formula_end.endswith("\\\\]"):
+                    errors.append(
+                        f"{path_label}:{body_line_offset + line_number}: formula strips "
+                        "must end with a single-backslash display delimiter"
+                    )
+                in_formula_strip = False
+        else:
+            if SINGLE_INLINE_MATH.search(line) or SINGLE_DISPLAY_MATH.search(line):
+                errors.append(
+                    f"{path_label}:{body_line_offset + line_number}: Markdown text must use "
+                    "double-backslash MathJax delimiters"
+                )
+            markdown_open += line.count("\\\\(")
+            markdown_close += line.count("\\\\)")
+
+        if in_raw_html:
+            html_depth += len(HTML_BLOCK_OPEN.findall(line))
+            html_depth -= len(HTML_BLOCK_CLOSE.findall(line))
+            html_depth = max(0, html_depth)
+
+    if markdown_open != markdown_close:
+        errors.append(f"{path_label}: unbalanced escaped inline MathJax delimiters in Markdown text")
+    if html_open != html_close:
+        errors.append(f"{path_label}: unbalanced inline MathJax delimiters in raw HTML")
+    if in_formula_strip:
+        errors.append(f"{path_label}: unclosed formula strip")
+
+
+def validate_html_math_value(label: str, value: str, errors: list[str]) -> None:
+    """Validate data values that Liquid inserts directly into rendered HTML."""
+    if "\\\\(" in value or "\\\\)" in value:
+        errors.append(f"{label}: HTML-injected math must use single-backslash delimiters")
+    if value.count("\\(") != value.count("\\)"):
+        errors.append(f"{label}: unbalanced inline MathJax delimiters")
 
 
 def collect_permalinks(errors: list[str]) -> set[str]:
@@ -111,6 +192,33 @@ def validate() -> list[str]:
             parsed = urlsplit(str(url))
             if parsed.scheme != "https" or not parsed.netloc:
                 errors.append(f"Reference {reference_id!r} field {url_field!r} must be an absolute HTTPS URL")
+
+    try:
+        surfaces = yaml.load(
+            SURFACES_FILE.read_text(encoding="utf-8"), Loader=UniqueKeyLoader
+        ) or []
+    except (OSError, yaml.YAMLError) as exc:
+        errors.append(f"Cannot read {SURFACES_FILE}: {exc}")
+        surfaces = []
+    if not isinstance(surfaces, list):
+        errors.append("surfaces.yml must contain a list")
+    else:
+        for index, surface in enumerate(surfaces, 1):
+            if not isinstance(surface, dict):
+                continue
+            summary = surface.get("math_summary")
+            if isinstance(summary, str):
+                surface_label = surface.get("id", f"entry {index}")
+                validate_html_math_value(
+                    f"surfaces.yml {surface_label} math_summary", summary, errors
+                )
+
+    for path in sorted((ROOT / "surface-atlas").rglob("*.md")):
+        try:
+            _, content = read_front_matter(path)
+        except (ValueError, yaml.YAMLError):
+            continue
+        validate_inline_math(path, content, errors)
 
     config = yaml.safe_load(CONFIG_FILE.read_text(encoding="utf-8")) or {}
     baseurl = str(config.get("baseurl", "")).rstrip("/")
@@ -186,10 +294,6 @@ def validate() -> list[str]:
             if reference_id not in references:
                 errors.append(f"{path.name}: unknown reference {reference_id!r}")
 
-        if SINGLE_INLINE_MATH.search(content):
-            errors.append(f"{path.name}: single-backslash inline MathJax delimiter will be consumed by Markdown")
-        if content.count("\\\\(") != content.count("\\\\)"):
-            errors.append(f"{path.name}: unbalanced escaped inline MathJax delimiters")
         for token in MOJIBAKE:
             if token in content:
                 errors.append(f"{path.name}: probable mojibake token {token!r}")
@@ -212,11 +316,11 @@ def validate() -> list[str]:
 def main() -> int:
     errors = validate()
     if errors:
-        print("Concept validation failed:", file=sys.stderr)
+        print("Content validation failed:", file=sys.stderr)
         for error in errors:
             print(f"  - {error}", file=sys.stderr)
         return 1
-    print("Concept validation passed.")
+    print("Content validation passed.")
     return 0
 
 

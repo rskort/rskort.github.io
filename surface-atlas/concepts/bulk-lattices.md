@@ -55,7 +55,7 @@ The coordinate lists below use explicit cell conventions. For elemental FCC and 
 <div class="structure-definitions">
   <section><h3>FCC</h3><p><strong>Face-centred cubic Bravais lattice.</strong> In the conventional cubic cell:</p><code>(0, 0, 0) · (0, 1/2, 1/2) · (1/2, 0, 1/2) · (1/2, 1/2, 0)</code><p>The four occupied positions represent four lattice points per conventional cell.</p></section>
   <section><h3>BCC</h3><p><strong>Body-centred cubic Bravais lattice.</strong> In the conventional cubic cell:</p><code>(0, 0, 0) · (1/2, 1/2, 1/2)</code><p>The corner and body-centred positions represent two lattice points per conventional cell.</p></section>
-  <section><h3>HCP</h3><p><strong>Hexagonal lattice plus a basis.</strong> With basal vectors separated by \\(120^\circ\\) and a third vector along \\(c\\), one common convention is:</p><code>(0, 0, 0) · (2/3, 1/3, 1/2)</code><p>The two-atom basis produces the hexagonal close-packed structure. Another vector convention may use symmetry-equivalent fractions.</p></section>
+  <section><h3>HCP</h3><p><strong>Hexagonal lattice plus a basis.</strong> With basal vectors separated by \(120^\circ\) and a third vector along \(c\), one common convention is:</p><code>(0, 0, 0) · (2/3, 1/3, 1/2)</code><p>The two-atom basis produces the hexagonal close-packed structure. Another vector convention may use symmetry-equivalent fractions.</p></section>
 </div>
 
 Calling all three “lattices” is convenient shorthand, but it hides an important distinction: FCC and BCC are Bravais lattices, whereas HCP is a crystal structure based on the primitive hexagonal Bravais lattice. {% include cite.html id="hammond-2015" %}
@@ -64,7 +64,7 @@ Calling all three “lattices” is convenient shorthand, but it hides an import
 
 The **bulk coordination number** counts an atom's nearest neighbours in the ideal infinite structure. It describes a three-dimensional neighbour shell; it is not the same as the number of surface atoms later used to construct a lateral point above the crystal.
 
-<div class="table-wrap"><table><thead><tr><th>Structure</th><th>Nearest-neighbour coordination</th><th>Layer and packing character</th></tr></thead><tbody><tr><td><strong>FCC</strong></td><td>12</td><td>Close-packed \\(\{111\}\\) layers in an ABCABC sequence</td></tr><tr><td><strong>BCC</strong></td><td>8</td><td>Densest \\(\{110\}\\) planes and \\(\langle111\rangle\\) rows; not close packed</td></tr><tr><td><strong>Ideal HCP</strong></td><td>12</td><td>Close-packed basal \\((0001)\\) layers in an ABAB sequence</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>Structure</th><th>Nearest-neighbour coordination</th><th>Layer and packing character</th></tr></thead><tbody><tr><td><strong>FCC</strong></td><td>12</td><td>Close-packed \(\{111\}\) layers in an ABCABC sequence</td></tr><tr><td><strong>BCC</strong></td><td>8</td><td>Densest \(\{110\}\) planes and \(\langle111\rangle\) rows; not close packed</td></tr><tr><td><strong>Ideal HCP</strong></td><td>12</td><td>Close-packed basal \((0001)\) layers in an ABAB sequence</td></tr></tbody></table></div>
 
 In the stacking notation, A, B, and C label the three possible lateral registries of a close-packed layer. FCC cycles through all three; HCP alternates between two. For equal touching spheres, ideal HCP has
 

@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate concept structure and references
+      - name: Validate content structure, references, and math
         run: |
           python -m pip install "PyYAML==6.0.2"
           python tools/validate_concepts.py

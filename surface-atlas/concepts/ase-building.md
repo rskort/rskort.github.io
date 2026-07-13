@@ -70,7 +70,7 @@ print("PBC:", slab.pbc)
 print("tags:", np.unique(slab.get_tags(), return_counts=True))
 ```
 
-Adding the adsorbate before calling `center()` makes the requested vacuum apply to the complete structure rather than only to the clean slab. An explicit lattice parameter prevents the geometry from silently changing with a library default or database update. The script records—but does not claim that 3.615 Å is the correct bulk parameter for a particular state or that 1.2 Å is a relaxed H–surface distance.
+Adding the adsorbate before calling `center()` makes the requested vacuum apply to the complete structure rather than only to the clean slab. An explicit lattice parameter prevents the geometry from silently changing with a library default or database update. The script records, but does not claim, that 3.615 Å is the correct bulk parameter for a particular state or that 1.2 Å is a relaxed H–surface distance.
 
 ## Keep lateral site and vertical height separate {#site-coordinates}
 

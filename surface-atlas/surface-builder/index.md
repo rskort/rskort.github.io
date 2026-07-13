@@ -86,6 +86,6 @@ scripts:
     <div><span class="candidate-dot ontop"></span><p><strong>Ontop</strong> positions sit above exposed atoms.</p></div>
     <div><span class="candidate-dot bridge"></span><p><strong>Bridge</strong> positions are nearest-neighbour midpoints.</p></div>
     <div><span class="candidate-dot hollow"></span><p><strong>Hollow or pocket</strong> positions are empty circumcentres, classified by the number of surrounding atoms.</p></div>
-    <p>These are geometric starting points—not predicted adsorption minima. Relaxation, reconstruction, chemistry, and the chosen termination can change the preferred position.</p>
+    <p>These are geometric starting points; not predicted adsorption minima. Relaxation, reconstruction, chemistry, and the chosen termination can change the preferred position.</p>
   </aside>
 </article>

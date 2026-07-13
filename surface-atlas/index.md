@@ -38,7 +38,7 @@ permalink: /surface-atlas/
 </section>
 
 <section class="home-sections" aria-label="Ways into the guide">
-  <a class="home-card" href="{{ '/surface-sites/' | relative_url }}"><small>Compare</small><h2>Common surfaces</h2><p>Move across FCC, BCC, and HCP—from close-packed planes to stepped and open facets—with the same visual language throughout.</p></a>
+  <a class="home-card" href="{{ '/surface-sites/' | relative_url }}"><small>Compare</small><h2>Common surfaces</h2><p>Move across FCC, BCC, and HCP, from close-packed planes to stepped and open facets, with the same visual language throughout.</p></a>
   <a class="home-card" href="{{ '/concepts/' | relative_url }}"><small>Understand</small><h2>Core concepts</h2><p>Follow the cut from bulk FCC to a two-dimensional surface cell, then place adsorption sites and build a slab.</p></a>
 </section>
 
