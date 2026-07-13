@@ -6,28 +6,28 @@ permalink: /surface-atlas/surface-sites/
 ---
 
 <div class="atlas-intro">
-  <div><p class="eyebrow">22 facets · three bulk lattices</p><h1>Common surfaces and adsorption sites</h1><p class="lede">Compare how FCC, BCC, and HCP crystals respond to common crystallographic cuts. Each guide connects the Miller plane, exposed atomic structure, subsurface registry, adsorption sites, and a rotatable slab.</p><p><a class="button" href="{{ '/surface-builder/' | relative_url }}">Build any indexed surface</a></p></div>
-  <p class="atlas-note">In every map, dark teal atoms belong to the outermost layer. Paler atoms sit below it. Orange numbers mark ideal adsorption positions, and the outlined polygon is one repeating surface cell.</p>
+  <div><p class="eyebrow">22 surfaces · three bulk lattices</p><h1>Common surfaces and adsorption sites</h1><p class="lede">Compare how FCC, BCC, and HCP crystals respond to common crystallographic cuts. Each guide connects the Miller plane, exposed atomic structure, subsurface registry, adsorption sites, and a rotatable slab.</p><p><a class="button" href="{{ '/surface-builder/' | relative_url }}">Build any indexed surface</a></p></div>
+  <p class="atlas-note">Dark teal atoms belong to the outermost layer and paler atoms sit below it. Orange numbers mark constructed starting sites. Each site shows its fractional coordinate and whether ASE accepts it as a named keyword.</p>
 </div>
 
 <div class="surface-group-heading"><h2>Face-centred cubic</h2><span>Close-packed faces, open rows, and regular steps</span></div>
 <div class="surface-grid">
 {% for surface in site.data.surfaces %}{% if surface.crystal == 'fcc' %}
-  <a class="surface-card" href="{{ '/surface-sites/' | append: surface.id | append: '.html' | relative_url }}"><img src="{{ surface.figures.top | relative_url }}" alt="{{ surface.title }} atomic surface net"><div class="surface-card-body"><h3>{{ surface.title }} <span>→</span></h3><p>{{ surface.card_description }}</p><div class="site-tags">{% for entry in surface.sites %}<span>{{ entry.label }}</span>{% endfor %}</div></div></a>
+  <a class="surface-card" href="{{ '/surface-sites/' | append: surface.id | append: '.html' | relative_url }}"><img src="{{ surface.figures.top | relative_url }}" alt="{{ surface.title }} atomic surface net"><div class="surface-card-body"><h3>{{ surface.title }} <span>→</span></h3><p>{{ surface.card_description }}</p><div class="site-tags">{% for entry in surface.sites limit:3 %}<span>{{ entry.label }}</span>{% endfor %}{% if surface.sites.size > 3 %}{% assign remaining = surface.sites.size | minus: 3 %}<span class="more">+{{ remaining }} sites</span>{% endif %}</div></div></a>
 {% endif %}{% endfor %}
 </div>
 
 <div class="surface-group-heading"><h2>Body-centred cubic</h2><span>Dense (110), open low-index faces, and stepped rows</span></div>
 <div class="surface-grid">
 {% for surface in site.data.surfaces %}{% if surface.crystal == 'bcc' %}
-  <a class="surface-card" href="{{ '/surface-sites/' | append: surface.id | append: '.html' | relative_url }}"><img src="{{ surface.figures.top | relative_url }}" alt="{{ surface.title }} atomic surface net"><div class="surface-card-body"><h3>{{ surface.title }} <span>→</span></h3><p>{{ surface.card_description }}</p><div class="site-tags">{% for entry in surface.sites %}<span>{{ entry.label }}</span>{% endfor %}</div></div></a>
+  <a class="surface-card" href="{{ '/surface-sites/' | append: surface.id | append: '.html' | relative_url }}"><img src="{{ surface.figures.top | relative_url }}" alt="{{ surface.title }} atomic surface net"><div class="surface-card-body"><h3>{{ surface.title }} <span>→</span></h3><p>{{ surface.card_description }}</p><div class="site-tags">{% for entry in surface.sites limit:3 %}<span>{{ entry.label }}</span>{% endfor %}{% if surface.sites.size > 3 %}{% assign remaining = surface.sites.size | minus: 3 %}<span class="more">+{{ remaining }} sites</span>{% endif %}</div></div></a>
 {% endif %}{% endfor %}
 </div>
 
 <div class="surface-group-heading"><h2>Hexagonal close packed</h2><span>Basal, prismatic, and pyramidal cuts</span></div>
 <div class="surface-grid">
 {% for surface in site.data.surfaces %}{% if surface.crystal == 'hcp' %}
-  <a class="surface-card" href="{{ '/surface-sites/' | append: surface.id | append: '.html' | relative_url }}"><img src="{{ surface.figures.top | relative_url }}" alt="{{ surface.title }} atomic surface net"><div class="surface-card-body"><h3>{{ surface.title }} <span>→</span></h3><p>{{ surface.card_description }}</p><div class="site-tags">{% for entry in surface.sites %}<span>{{ entry.label }}</span>{% endfor %}</div></div></a>
+  <a class="surface-card" href="{{ '/surface-sites/' | append: surface.id | append: '.html' | relative_url }}"><img src="{{ surface.figures.top | relative_url }}" alt="{{ surface.title }} atomic surface net"><div class="surface-card-body"><h3>{{ surface.title }} <span>→</span></h3><p>{{ surface.card_description }}</p><div class="site-tags">{% for entry in surface.sites limit:3 %}<span>{{ entry.label }}</span>{% endfor %}{% if surface.sites.size > 3 %}{% assign remaining = surface.sites.size | minus: 3 %}<span class="more">+{{ remaining }} sites</span>{% endif %}</div></div></a>
 {% endif %}{% endfor %}
 </div>
 

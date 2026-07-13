@@ -32,7 +32,7 @@ The familiar cubic boxes used for FCC and BCC are conventional cells: they make 
 
 <div class="table-wrap"><table><thead><tr><th>Structure</th><th>Conventional description</th><th>Nearest-neighbour coordination</th><th>Packing character</th></tr></thead><tbody><tr><td><strong>FCC</strong></td><td>Cubic, 4 atoms per conventional cell</td><td>12</td><td>Close packed; ABC layer stacking</td></tr><tr><td><strong>BCC</strong></td><td>Cubic, 2 atoms per conventional cell</td><td>8</td><td>Not close packed; dense (110) rows</td></tr><tr><td><strong>HCP</strong></td><td>Hexagonal, 2-atom primitive basis</td><td>12</td><td>Close packed; AB layer stacking</td></tr></tbody></table></div>
 
-For the ideal HCP geometry, \(c/a=\sqrt{8/3}\approx1.633\). Real materials may deviate from this ratio, changing interlayer distances without changing the Miller–Bravais notation.
+For the ideal HCP geometry, \\(c/a=\sqrt{8/3}\approx1.633\\). Real materials may deviate from this ratio, changing interlayer distances without changing the Miller–Bravais notation.
 
 <aside class="concept-callout"><strong>Cell choice is not structure.</strong><p>A primitive and a conventional cell can describe exactly the same infinite crystal. What matters is the translation group plus the basis, not the shape of the box drawn around them.</p></aside>
 

@@ -33,11 +33,15 @@ def main() -> None:
     render(180).save(ROOT / "apple-touch-icon.png", optimize=True)
     render(192).save(ROOT / "favicon-192.png", optimize=True)
     render(512).save(ROOT / "favicon-512.png", optimize=True)
-    render(256).save(
-        ROOT / "favicon.ico",
-        format="ICO",
-        sizes=[(16, 16), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)],
-    )
+    ico_options = {
+        "format": "ICO",
+        "sizes": [(16, 16), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)],
+    }
+    icon = render(256)
+    # Keep the conventional fallback and a stable, brand-specific URL. The
+    # latter avoids stale caches left by the favicon that preceded Surface Atlas.
+    icon.save(ROOT / "favicon.ico", **ico_options)
+    icon.save(ROOT / "surface-atlas-favicon.ico", **ico_options)
 
 
 if __name__ == "__main__":

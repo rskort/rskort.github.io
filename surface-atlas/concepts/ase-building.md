@@ -20,7 +20,7 @@ sections:
 
 ## A minimal, explicit example {#minimal-example}
 
-The Atomic Simulation Environment (ASE) provides helpers for common facets. This example builds a \(3\times3\), four-layer FCC(111) model, fixes its bottom layer, and places H at an FCC hollow:
+The Atomic Simulation Environment (ASE) provides helpers for common facets. This example builds a \\(3\times3\\), four-layer FCC(111) model, fixes its bottom layer, and places H at an FCC hollow:
 
 ```python
 from ase.build import add_adsorbate, fcc111

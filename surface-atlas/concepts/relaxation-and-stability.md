@@ -23,7 +23,7 @@ Creating a surface removes neighbours from atoms that were coordinated in the bu
 
 <div class="comparison"><div><strong>Relaxation</strong><span>Atoms move while the surface periodicity and composition remain the same.</span></div><div><strong>Reconstruction</strong><span>The surface adopts a new periodicity, bonding pattern, or atom count.</span></div><div><strong>Termination</strong><span>A choice of which atomic or chemical layer ends the bulk.</span></div></div>
 
-Interlayer spacings often contract or expand near the surface. A reconstruction can be subtler or more dramatic: rows may pair, vacancies may order, or a nominal \((1\times1)\) surface may become \((2\times1)\). These changes cannot be inferred from Miller indices alone.
+Interlayer spacings often contract or expand near the surface. A reconstruction can be subtler or more dramatic: rows may pair, vacancies may order, or a nominal \\((1\times1)\\) surface may become \\((2\times1)\\). These changes cannot be inferred from Miller indices alone.
 
 ## Comparing surface energies {#surface-energy}
 
@@ -31,7 +31,7 @@ For a symmetric elemental slab with two equivalent faces, a common definition is
 
 <div class="formula-strip">\[\gamma=\frac{E_{\mathrm{slab}}-N E_{\mathrm{bulk}}}{2A}.\]</div>
 
-Here \(A\) is the area of one face. The factor of two is valid only when the two surfaces are equivalent. For multicomponent, polar, asymmetric, or adsorbate-covered slabs, chemical potentials and face-specific terms may be required.
+Here \\(A\\) is the area of one face. The factor of two is valid only when the two surfaces are equivalent. For multicomponent, polar, asymmetric, or adsorbate-covered slabs, chemical potentials and face-specific terms may be required.
 
 Lower-index close-packed facets often have lower surface energy because they break fewer or weaker bonds per unit area. This correlation is not universal. Temperature, pressure, adsorbates, magnetism, and composition can change which facet or termination is stable.
 

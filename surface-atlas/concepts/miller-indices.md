@@ -20,7 +20,7 @@ sections:
 
 ## First, picture the FCC unit cell {#choose-plane}
 
-Face-centred cubic means exactly what it says: atoms occupy the eight corners of a cube and the centre of each of its six faces. The pattern repeats by one lattice constant \(a\) along x, y, and z. Shared corner and face atoms add up to four atoms per conventional cell.
+Face-centred cubic means exactly what it says: atoms occupy the eight corners of a cube and the centre of each of its six faces. The pattern repeats by one lattice constant \\(a\\) along x, y, and z. Shared corner and face atoms add up to four atoms per conventional cell.
 
 ## Then choose where the plane meets the axes
 
@@ -67,17 +67,17 @@ Select a plane below. The coloured sheet shows its orientation through the conve
 
 <div class="formula-strip">\[(x_0,y_0,z_0) \longrightarrow \left(\frac{a}{x_0},\frac{a}{y_0},\frac{a}{z_0}\right) \longrightarrow (hkl)\]</div>
 
-An overbar marks a negative index. For example, \((1\bar{1}0)\) intersects positive x, negative y, and remains parallel to z. The sign changes the plane's orientation; it is not a subtraction operation.
+An overbar marks a negative index. For example, \\((1\bar{1}0)\\) intersects positive x, negative y, and remains parallel to z. The sign changes the plane's orientation; it is not a subtraction operation.
 
 ## Read planes, directions, and families {#read-notation}
 
 <div class="comparison"><div><strong>FCC(100)</strong><span>Square net · fourfold hollows</span></div><div><strong>FCC(110)</strong><span>Dense rows · open troughs</span></div><div><strong>FCC(111)</strong><span>Triangular net · close packed</span></div></div>
 
-For a cubic lattice, the direction \([hkl]\) is normal to the plane \((hkl)\). This convenient equality does not hold in the same form for a general non-cubic lattice, where the reciprocal lattice must be used. Higher-index cuts such as (211) or (311) are tilted away from a low-index plane. At atomic scale, that tilt often appears as narrow terraces separated by regular steps.
+For a cubic lattice, the direction \\([hkl]\\) is normal to the plane \\((hkl)\\). This convenient equality does not hold in the same form for a general non-cubic lattice, where the reciprocal lattice must be used. Higher-index cuts such as (211) or (311) are tilted away from a low-index plane. At atomic scale, that tilt often appears as narrow terraces separated by regular steps.
 
-Parentheses denote a plane, as in \((111)\); square brackets denote a direction, as in \([111]\); and braces such as \(\{111\}\) collect all symmetry-equivalent planes.
+Parentheses denote a plane, as in \\((111)\\); square brackets denote a direction, as in \\([111]\\); and braces such as \\(\{111\}\\) collect all symmetry-equivalent planes.
 
-For cubic crystals with lattice constant \(a\), adjacent members of the plane family are separated by
+For cubic crystals with lattice constant \\(a\\), adjacent members of the plane family are separated by
 
 <div class="formula-strip">\[d_{hkl}=\frac{a}{\sqrt{h^2+k^2+l^2}}.\]</div>
 
@@ -87,17 +87,17 @@ Proportional triplets have the same plane normal. Because the builder represents
 
 The intercept rule describes the plane orientation; the bulk basis determines which atoms that plane actually exposes. FCC and BCC share cubic axes but place atoms at face centres or the body centre, so the same (110) orientation produces different surface nets.
 
-HCP uses three equivalent basal axes separated by \(120^\circ\), plus the c axis. Its planes are commonly written with four Miller–Bravais indices \((hkil)\), where the third basal index is redundant:
+HCP uses three equivalent basal axes separated by \\(120^\circ\\), plus the c axis. Its planes are commonly written with four Miller–Bravais indices \\((hkil)\\), where the third basal index is redundant:
 
 \[
 i=-(h+k).
 \]
 
-Thus (0001) is the basal plane, (10-10) and (11-20) are prism planes parallel to c, and a nonzero final index—such as in (10-11)—tilts the cut into a pyramidal plane. In typeset crystallography, negative entries are written with an overbar: \((10\bar{1}1)\).
+Thus (0001) is the basal plane, (10-10) and (11-20) are prism planes parallel to c, and a nonzero final index—such as in (10-11)—tilts the cut into a pyramidal plane. In typeset crystallography, negative entries are written with an overbar: \\((10\bar{1}1)\\).
 
 ## Why the termination matters {#termination}
 
-Indices specify orientation, not every detail of a slab. A material can have multiple chemical terminations, reconstructions, or registries for the same \((hkl)\). Always report the composition, termination, cell, and slab thickness alongside the facet.
+Indices specify orientation, not every detail of a slab. A material can have multiple chemical terminations, reconstructions, or registries for the same \\((hkl)\\). Always report the composition, termination, cell, and slab thickness alongside the facet.
 
 <aside class="concept-callout"><strong>Orientation and offset are separate.</strong><p>The indices set the plane normal. Translating the plane along that normal changes the termination. The lattice and basis determine which atomic layers occur at each offset.</p></aside>
 

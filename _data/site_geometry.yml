@@ -1,0 +1,1936 @@
+fcc-100:
+  cell:
+    element: Cu
+    a1: 3.6100 Å
+    a2: 3.6100 Å
+    angle: 90.00°
+    area: 13.0321 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.5
+    - 0.0
+    coordinate: (1/2, 0)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/2, 0).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, 0)
+  - marker: 2
+    uv:
+    - 0.25
+    - 0.25
+    coordinate: (1/4, 1/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/2, 0) and L1 (0, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, 0)
+    - layer: 1
+      coordinate: (0, 1/2)
+  - marker: 3
+    uv:
+    - 0.5
+    - 0.5
+    coordinate: (1/2, 1/2)
+    formula: s = (Σᵢ sᵢ) / 4
+    method: 'Least-squares centroid of the 4-atom projected shell: L1 (1/2, 0), L1 (0, 1/2), L1 (1/2, 1), L1 (1, 1/2).'
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, 0)
+    - layer: 1
+      coordinate: (0, 1/2)
+    - layer: 1
+      coordinate: (1/2, 1)
+    - layer: 1
+      coordinate: (1, 1/2)
+fcc-110:
+  cell:
+    element: Cu
+    a1: 5.1053 Å
+    a2: 3.6100 Å
+    angle: 90.00°
+    area: 18.4302 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.25
+    - 0.5
+    coordinate: (1/4, 1/2)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/4, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/4, 1/2)
+  - marker: 2
+    uv:
+    - 0.5
+    - 0.5
+    coordinate: (1/2, 1/2)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/4, 1/2) and L1 (3/4, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/4, 1/2)
+    - layer: 1
+      coordinate: (3/4, 1/2)
+  - marker: 3
+    uv:
+    - 0.25
+    - 0.0
+    coordinate: (1/4, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/4, -1/2) and L1 (1/4, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/4, -1/2)
+    - layer: 1
+      coordinate: (1/4, 1/2)
+  - marker: 4
+    uv:
+    - 0.5
+    - 0.0
+    coordinate: (1/2, 0)
+    formula: s = (Σᵢ sᵢ) / 4
+    method: 'Least-squares centroid of the 4-atom projected shell: L1 (1/4, -1/2), L1 (3/4, -1/2), L1 (1/4, 1/2), L1 (3/4,
+      1/2).'
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/4, -1/2)
+    - layer: 1
+      coordinate: (3/4, -1/2)
+    - layer: 1
+      coordinate: (1/4, 1/2)
+    - layer: 1
+      coordinate: (3/4, 1/2)
+fcc-111:
+  cell:
+    element: Cu
+    a1: 5.1053 Å
+    a2: 5.1053 Å
+    angle: 60.00°
+    area: 22.5723 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.0
+    - 0.0
+    coordinate: (0, 0)
+    formula: s = s₁
+    method: Projection of the L1 atom at (0, 0).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0, 0)
+  - marker: 2
+    uv:
+    - 0.25
+    - 0.0
+    coordinate: (1/4, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (0, 0) and L1 (1/2, 0).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0, 0)
+    - layer: 1
+      coordinate: (1/2, 0)
+  - marker: 3
+    uv:
+    - 0.16666667
+    - 0.16666667
+    coordinate: (1/6, 1/6)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (0, 0), L1 (1/2, 0), L1 (0, 1/2).'
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0, 0)
+    - layer: 1
+      coordinate: (1/2, 0)
+    - layer: 1
+      coordinate: (0, 1/2)
+  - marker: 4
+    uv:
+    - 0.33333333
+    - 0.33333333
+    coordinate: (1/3, 1/3)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (1/2, 0), L1 (0, 1/2), L1 (1/2, 1/2).'
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, 0)
+    - layer: 1
+      coordinate: (0, 1/2)
+    - layer: 1
+      coordinate: (1/2, 1/2)
+fcc-210:
+  cell:
+    element: Cu
+    a1: 8.0722 Å
+    a2: 3.6100 Å
+    angle: 90.00°
+    area: 29.1407 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.2
+    - 0.5
+    coordinate: (1/5, 1/2)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/5, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/5, 1/2)
+  - marker: 2
+    uv:
+    - 0.4
+    - 0.0
+    coordinate: (2/5, 0)
+    formula: s = s₁
+    method: Projection of the L2 atom at (2/5, 0).
+    reference_offset: -0.80722
+    height_reference: local shell Δz = -0.807 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (2/5, 0)
+  - marker: 3
+    uv:
+    - 0.2
+    - 0.0
+    coordinate: (1/5, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/5, 1/2) and L1 (1/5, 3/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/5, 1/2)
+    - layer: 1
+      coordinate: (1/5, 3/2)
+  - marker: 4
+    uv:
+    - 0.65
+    - 0.25
+    coordinate: (13/20, 1/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (7/10, 0) and L3 (3/5, 1/2).
+    reference_offset: -0.8072205
+    height_reference: local shell Δz = -0.807 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (7/10, 0)
+    - layer: 3
+      coordinate: (3/5, 1/2)
+  - marker: 5
+    uv:
+    - 0.55
+    - 0.5
+    coordinate: (11/20, 1/2)
+    formula: s = (Σᵢ sᵢ) / 4
+    method: 'Least-squares centroid of the 4-atom projected shell: L1 (7/10, 0), L1 (7/10, 1), L2 (2/5, 0), L2 (2/5, 1).'
+    reference_offset: -0.40361
+    height_reference: local shell Δz = -0.404 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (7/10, 0)
+    - layer: 1
+      coordinate: (7/10, 1)
+    - layer: 2
+      coordinate: (2/5, 0)
+    - layer: 2
+      coordinate: (2/5, 1)
+fcc-211:
+  cell:
+    element: Cu
+    a1: 6.2527 Å
+    a2: 5.1053 Å
+    angle: 90.00°
+    area: 31.9220 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.66666667
+    - 0.25
+    coordinate: (2/3, 1/4)
+    formula: s = s₁
+    method: Projection of the L3 atom at (2/3, 1/4).
+    reference_offset: -1.473776
+    height_reference: local shell Δz = -1.474 Å from L1
+    supports:
+    - layer: 3
+      coordinate: (2/3, 1/4)
+  - marker: 2
+    uv:
+    - 0.33333333
+    - 0.25
+    coordinate: (1/3, 1/4)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/3, 1/4).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/3, 1/4)
+  - marker: 3
+    uv:
+    - 0.0
+    - 0.0
+    coordinate: (0, 0)
+    formula: s = s₁
+    method: Projection of the L2 atom at (0, 0).
+    reference_offset: -0.736888
+    height_reference: local shell Δz = -0.737 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0, 0)
+  - marker: 4
+    uv:
+    - 0.0
+    - 0.75
+    coordinate: (0, 3/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L2 (0, 0) and L2 (0, -1/2).
+    reference_offset: -0.736888
+    height_reference: local shell Δz = -0.737 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0, 0)
+    - layer: 2
+      coordinate: (0, -1/2)
+  - marker: 5
+    uv:
+    - 0.33333333
+    - 0.0
+    coordinate: (1/3, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/3, 1/4) and L1 (1/3, -1/4).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/3, 1/4)
+    - layer: 1
+      coordinate: (1/3, -1/4)
+  - marker: 6
+    uv:
+    - 0.16666667
+    - 0.625
+    coordinate: (1/6, 5/8)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (4/3, 3/4) and L2 (1, 1/2).
+    reference_offset: -0.368444
+    height_reference: local shell Δz = -0.368 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (4/3, 3/4)
+    - layer: 2
+      coordinate: (1, 1/2)
+  - marker: 7
+    uv:
+    - 0.33333333
+    - 0.5
+    coordinate: (1/3, 1/2)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L2 (0, 0), L2 (0, 1), L2 (1, 1/2).'
+    reference_offset: -0.736888
+    height_reference: local shell Δz = -0.737 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0, 0)
+    - layer: 2
+      coordinate: (0, 1)
+    - layer: 2
+      coordinate: (1, 1/2)
+  - marker: 8
+    uv:
+    - 0.66666667
+    - 0.66666667
+    coordinate: (2/3, 2/3)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (-2/3, 3/4), L2 (0, 1), L3 (-1/3, 1/4).'
+    reference_offset: -0.736888
+    height_reference: local shell Δz = -0.737 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (-2/3, 3/4)
+    - layer: 2
+      coordinate: (0, 1)
+    - layer: 3
+      coordinate: (-1/3, 1/4)
+fcc-221:
+  cell:
+    element: Cu
+    a1: 5.1053 Å
+    a2: 8.0722 Å
+    angle: 108.43°
+    area: 39.0963 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.38888889
+    - 0.27777778
+    coordinate: (7/18, 5/18)
+    formula: s = s₁
+    method: Projection of the L1 atom at (7/18, 5/18).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (7/18, 5/18)
+  - marker: 2
+    uv:
+    - 0.0
+    - 0.0
+    coordinate: (0, 0)
+    formula: s = s₁
+    method: Projection of the L2 atom at (0, 0).
+    reference_offset: -0.601667
+    height_reference: local shell Δz = -0.602 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0, 0)
+  - marker: 3
+    uv:
+    - 0.63888889
+    - 0.27777778
+    coordinate: (23/36, 5/18)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (-1/9, -13/18) and L1 (-11/18, -13/18).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (-1/9, -13/18)
+    - layer: 1
+      coordinate: (-11/18, -13/18)
+  - marker: 4
+    uv:
+    - 0.25
+    - 0.0
+    coordinate: (1/4, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L2 (-1/2, 0) and L2 (-1, 0).
+    reference_offset: -0.601667
+    height_reference: local shell Δz = -0.602 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (-1/2, 0)
+    - layer: 2
+      coordinate: (-1, 0)
+  - marker: 5
+    uv:
+    - 0.69444444
+    - 0.13888889
+    coordinate: (25/36, 5/36)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (8/9, 23/18) and L2 (1/2, 1).
+    reference_offset: -0.3008335
+    height_reference: local shell Δz = -0.301 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (8/9, 23/18)
+    - layer: 2
+      coordinate: (1/2, 1)
+  - marker: 6
+    uv:
+    - 0.27777778
+    - 0.05555556
+    coordinate: (5/18, 1/18)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L3 (-7/18, 13/18), L3 (11/18, 13/18), L3 (11/18, 31/18).'
+    reference_offset: -1.203334
+    height_reference: local shell Δz = -1.203 Å from L1
+    supports:
+    - layer: 3
+      coordinate: (-7/18, 13/18)
+    - layer: 3
+      coordinate: (11/18, 13/18)
+    - layer: 3
+      coordinate: (11/18, 31/18)
+  - marker: 7
+    uv:
+    - 0.83333333
+    - 0.0
+    coordinate: (5/6, 0)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (8/9, 23/18), L2 (1, 1), L3 (11/18, 13/18).'
+    reference_offset: -0.601667
+    height_reference: local shell Δz = -0.602 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (8/9, 23/18)
+    - layer: 2
+      coordinate: (1, 1)
+    - layer: 3
+      coordinate: (11/18, 13/18)
+fcc-310:
+  cell:
+    element: Cu
+    a1: 11.4158 Å
+    a2: 3.6100 Å
+    angle: 90.00°
+    area: 41.2111 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.3
+    - 0.0
+    coordinate: (3/10, 0)
+    formula: s = s₁
+    method: Projection of the L2 atom at (3/10, 0).
+    reference_offset: -0.570791
+    height_reference: local shell Δz = -0.571 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (3/10, 0)
+  - marker: 2
+    uv:
+    - 0.15
+    - 0.5
+    coordinate: (3/20, 1/2)
+    formula: s = s₁
+    method: Projection of the L1 atom at (3/20, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/20, 1/2)
+  - marker: 3
+    uv:
+    - 0.15
+    - 0.0
+    coordinate: (3/20, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (3/20, 1/2) and L1 (3/20, 3/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/20, 1/2)
+    - layer: 1
+      coordinate: (3/20, 3/2)
+  - marker: 4
+    uv:
+    - 0.3
+    - 0.5
+    coordinate: (3/10, 1/2)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L2 (3/10, 0) and L2 (3/10, -1).
+    reference_offset: -0.570791
+    height_reference: local shell Δz = -0.571 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (3/10, 0)
+    - layer: 2
+      coordinate: (3/10, -1)
+  - marker: 5
+    uv:
+    - 0.225
+    - 0.25
+    coordinate: (9/40, 1/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (3/20, 1/2) and L2 (3/10, 0).
+    reference_offset: -0.2853955
+    height_reference: local shell Δz = -0.285 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/20, 1/2)
+    - layer: 2
+      coordinate: (3/10, 0)
+  - marker: 6
+    uv:
+    - 0.05
+    - 0.5
+    coordinate: (1/20, 1/2)
+    formula: s = (Σᵢ sᵢ) / 4
+    method: 'Least-squares centroid of the 4-atom projected shell: L2 (3/10, 0), L2 (3/10, -1), L2 (-1/5, 0), L2 (-1/5, -1).'
+    reference_offset: -0.570791
+    height_reference: local shell Δz = -0.571 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (3/10, 0)
+    - layer: 2
+      coordinate: (3/10, -1)
+    - layer: 2
+      coordinate: (-1/5, 0)
+    - layer: 2
+      coordinate: (-1/5, -1)
+  - marker: 7
+    uv:
+    - 0.35
+    - 0.5
+    coordinate: (7/20, 1/2)
+    formula: s = (Σᵢ sᵢ) / 4
+    method: 'Least-squares centroid of the 4-atom projected shell: L1 (3/20, 1/2), L1 (13/20, 1/2), L2 (3/10, 0), L2 (3/10,
+      1).'
+    reference_offset: -0.2853955
+    height_reference: local shell Δz = -0.285 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/20, 1/2)
+    - layer: 1
+      coordinate: (13/20, 1/2)
+    - layer: 2
+      coordinate: (3/10, 0)
+    - layer: 2
+      coordinate: (3/10, 1)
+  - marker: 8
+    uv:
+    - 0.3
+    - 0.33333333
+    coordinate: (3/10, 1/3)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (3/20, 3/2), L2 (3/10, 1), L3 (9/20, 3/2).'
+    reference_offset: -0.570791
+    height_reference: local shell Δz = -0.571 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/20, 3/2)
+    - layer: 2
+      coordinate: (3/10, 1)
+    - layer: 3
+      coordinate: (9/20, 3/2)
+fcc-311:
+  cell:
+    element: Cu
+    a1: 8.8427 Å
+    a2: 5.1053 Å
+    angle: 73.22°
+    area: 43.2226 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.09090909
+    - 0.95454545
+    coordinate: (1/11, 21/22)
+    formula: s = s₁
+    method: Projection of the L3 atom at (1/11, 21/22).
+    reference_offset: -2.176912
+    height_reference: local shell Δz = -2.177 Å from L1
+    supports:
+    - layer: 3
+      coordinate: (1/11, 21/22)
+  - marker: 2
+    uv:
+    - 0.04545455
+    - 0.22727273
+    coordinate: (1/22, 5/22)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/22, 5/22).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/22, 5/22)
+  - marker: 3
+    uv:
+    - 0.31818182
+    - 0.09090909
+    coordinate: (7/22, 1/11)
+    formula: s = s₁
+    method: Projection of the L2 atom at (7/22, 1/11).
+    reference_offset: -1.088456
+    height_reference: local shell Δz = -1.088 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (7/22, 1/11)
+  - marker: 4
+    uv:
+    - 0.81818182
+    - 0.84090909
+    coordinate: (9/11, 37/44)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L2 (9/11, -9/22) and L2 (9/11, 1/11).
+    reference_offset: -1.088456
+    height_reference: local shell Δz = -1.088 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (9/11, -9/22)
+    - layer: 2
+      coordinate: (9/11, 1/11)
+  - marker: 5
+    uv:
+    - 0.54545455
+    - 0.97727273
+    coordinate: (6/11, 43/44)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (-5/11, 8/11) and L1 (-5/11, 27/22).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (-5/11, 8/11)
+    - layer: 1
+      coordinate: (-5/11, 27/22)
+  - marker: 6
+    uv:
+    - 0.43181818
+    - 0.15909091
+    coordinate: (19/44, 7/44)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (6/11, 5/22) and L2 (7/22, 1/11).
+    reference_offset: -0.544228
+    height_reference: local shell Δz = -0.544 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (6/11, 5/22)
+    - layer: 2
+      coordinate: (7/22, 1/11)
+  - marker: 7
+    uv:
+    - 0.56818182
+    - 0.84090909
+    coordinate: (25/44, 37/44)
+    formula: s = (Σᵢ sᵢ) / 4
+    method: 'Least-squares centroid of the 4-atom projected shell: L2 (7/22, 1/11), L2 (7/22, -9/22), L2 (9/11, -9/22), L2
+      (9/11, 1/11).'
+    reference_offset: -1.088456
+    height_reference: local shell Δz = -1.088 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (7/22, 1/11)
+    - layer: 2
+      coordinate: (7/22, -9/22)
+    - layer: 2
+      coordinate: (9/11, -9/22)
+    - layer: 2
+      coordinate: (9/11, 1/11)
+  - marker: 8
+    uv:
+    - 0.48484848
+    - 0.59090909
+    coordinate: (16/33, 13/22)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (6/11, -3/11), L2 (7/22, -9/22), L3 (13/22, -6/11).'
+    reference_offset: -1.088456
+    height_reference: local shell Δz = -1.088 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (6/11, -3/11)
+    - layer: 2
+      coordinate: (7/22, -9/22)
+    - layer: 3
+      coordinate: (13/22, -6/11)
+fcc-331:
+  cell:
+    element: Cu
+    a1: 5.1053 Å
+    a2: 11.4158 Å
+    angle: 102.92°
+    area: 56.8056 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.39473684
+    - 0.28947368
+    coordinate: (15/38, 11/38)
+    formula: s = s₁
+    method: Projection of the L3 atom at (15/38, 11/38).
+    reference_offset: -1.656381
+    height_reference: local shell Δz = -1.656 Å from L1
+    supports:
+    - layer: 3
+      coordinate: (15/38, 11/38)
+  - marker: 2
+    uv:
+    - 0.07894737
+    - 0.15789474
+    coordinate: (3/38, 3/19)
+    formula: s = s₁
+    method: Projection of the L1 atom at (3/38, 3/19).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/38, 3/19)
+  - marker: 3
+    uv:
+    - 0.23684211
+    - 0.47368421
+    coordinate: (9/38, 9/19)
+    formula: s = s₁
+    method: Projection of the L2 atom at (9/38, 9/19).
+    reference_offset: -0.828191
+    height_reference: local shell Δz = -0.828 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (9/38, 9/19)
+  - marker: 4
+    uv:
+    - 0.48684211
+    - 0.47368421
+    coordinate: (0.4868, 9/19)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L2 (-5/19, 9/19) and L2 (-29/38, 9/19).
+    reference_offset: -0.828191
+    height_reference: local shell Δz = -0.828 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (-5/19, 9/19)
+    - layer: 2
+      coordinate: (-29/38, 9/19)
+  - marker: 5
+    uv:
+    - 0.82894737
+    - 0.15789474
+    coordinate: (0.8289, 3/19)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (3/38, 3/19) and L1 (-8/19, 3/19).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/38, 3/19)
+    - layer: 1
+      coordinate: (-8/19, 3/19)
+  - marker: 6
+    uv:
+    - 0.15789474
+    - 0.56578947
+    coordinate: (3/19, 0.5658)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (3/38, 25/38) and L2 (9/38, 9/19).
+    reference_offset: -0.4140955
+    height_reference: local shell Δz = -0.414 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/38, 25/38)
+    - layer: 2
+      coordinate: (9/38, 9/19)
+  - marker: 7
+    uv:
+    - 0.23684211
+    - 0.80701754
+    coordinate: (9/38, 0.807)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L2 (9/38, 9/19), L2 (14/19, 37/38), L2 (-5/19, 37/38).'
+    reference_offset: -0.828191
+    height_reference: local shell Δz = -0.828 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (9/38, 9/19)
+    - layer: 2
+      coordinate: (14/19, 37/38)
+    - layer: 2
+      coordinate: (-5/19, 37/38)
+  - marker: 8
+    uv:
+    - 0.23684211
+    - 0.14035088
+    coordinate: (9/38, 0.1404)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (3/38, 3/19), L2 (9/38, -1/38), L3 (15/38, 11/38).'
+    reference_offset: -0.82819067
+    height_reference: local shell Δz = -0.828 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/38, 3/19)
+    - layer: 2
+      coordinate: (9/38, -1/38)
+    - layer: 3
+      coordinate: (15/38, 11/38)
+fcc-511:
+  cell:
+    element: Cu
+    a1: 13.5074 Å
+    a2: 5.1053 Å
+    angle: 79.11°
+    area: 67.7168 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.2037037
+    - 0.14814815
+    coordinate: (0.2037, 4/27)
+    formula: s = s₁
+    method: Projection of the L3 atom at (0.2037, 4/27).
+    reference_offset: -1.389489
+    height_reference: local shell Δz = -1.389 Å from L1
+    supports:
+    - layer: 3
+      coordinate: (0.2037, 4/27)
+  - marker: 2
+    uv:
+    - 0.33333333
+    - 0.33333333
+    coordinate: (1/3, 1/3)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/3, 1/3).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/3, 1/3)
+  - marker: 3
+    uv:
+    - 0.01851852
+    - 0.24074074
+    coordinate: (0.0185, 0.2407)
+    formula: s = s₁
+    method: Projection of the L2 atom at (0.0185, 0.2407).
+    reference_offset: -0.694744
+    height_reference: local shell Δz = -0.695 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0.0185, 0.2407)
+  - marker: 4
+    uv:
+    - 0.01851852
+    - 0.49074074
+    coordinate: (0.0185, 0.4907)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L2 (0.0185, 0.2407) and L2 (0.0185, 20/27).
+    reference_offset: -0.694744
+    height_reference: local shell Δz = -0.695 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0.0185, 0.2407)
+    - layer: 2
+      coordinate: (0.0185, 20/27)
+  - marker: 5
+    uv:
+    - 0.83333333
+    - 0.08333333
+    coordinate: (5/6, 1/12)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (5/6, 1/3) and L1 (5/6, -1/6).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (5/6, 1/3)
+    - layer: 1
+      coordinate: (5/6, -1/6)
+  - marker: 6
+    uv:
+    - 0.42592593
+    - 0.28703704
+    coordinate: (0.4259, 0.287)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/3, -2/3) and L2 (14/27, -0.7593).
+    reference_offset: -0.347372
+    height_reference: local shell Δz = -0.347 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/3, -2/3)
+    - layer: 2
+      coordinate: (14/27, -0.7593)
+  - marker: 7
+    uv:
+    - 0.26851852
+    - 0.24074074
+    coordinate: (0.2685, 0.2407)
+    formula: s = (Σᵢ sᵢ) / 4
+    method: 'Least-squares centroid of the 4-atom projected shell: L2 (0.0185, 0.2407), L2 (0.0185, 20/27), L2 (14/27, 0.2407),
+      L2 (14/27, -7/27).'
+    reference_offset: -0.694744
+    height_reference: local shell Δz = -0.695 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0.0185, 0.2407)
+    - layer: 2
+      coordinate: (0.0185, 20/27)
+    - layer: 2
+      coordinate: (14/27, 0.2407)
+    - layer: 2
+      coordinate: (14/27, -7/27)
+  - marker: 8
+    uv:
+    - 0.68518519
+    - 0.07407407
+    coordinate: (0.6852, 2/27)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (5/6, 1/3), L2 (14/27, 0.2407), L3 (19/27, -0.3519).'
+    reference_offset: -0.69474433
+    height_reference: local shell Δz = -0.695 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (5/6, 1/3)
+    - layer: 2
+      coordinate: (14/27, 0.2407)
+    - layer: 3
+      coordinate: (19/27, -0.3519)
+bcc-100:
+  cell:
+    element: Fe
+    a1: 2.8700 Å
+    a2: 2.8700 Å
+    angle: 90.00°
+    area: 8.2369 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.5
+    - 0.5
+    coordinate: (1/2, 1/2)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/2, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, 1/2)
+  - marker: 2
+    uv:
+    - 0.5
+    - 0.0
+    coordinate: (1/2, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/2, -1/2) and L1 (1/2, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, -1/2)
+    - layer: 1
+      coordinate: (1/2, 1/2)
+  - marker: 3
+    uv:
+    - 0.0
+    - 0.0
+    coordinate: (0, 0)
+    formula: s = (Σᵢ sᵢ) / 4
+    method: 'Least-squares centroid of the 4-atom projected shell: L1 (-1/2, -1/2), L1 (1/2, -1/2), L1 (-1/2, 1/2), L1 (1/2,
+      1/2).'
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (-1/2, -1/2)
+    - layer: 1
+      coordinate: (1/2, -1/2)
+    - layer: 1
+      coordinate: (-1/2, 1/2)
+    - layer: 1
+      coordinate: (1/2, 1/2)
+bcc-110:
+  cell:
+    element: Fe
+    a1: 4.0588 Å
+    a2: 2.8700 Å
+    angle: 90.00°
+    area: 11.6487 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.5
+    - 0.0
+    coordinate: (1/2, 0)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/2, 0).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, 0)
+  - marker: 2
+    uv:
+    - 0.25
+    - 0.25
+    coordinate: (1/4, 1/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/2, 0) and L1 (0, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, 0)
+    - layer: 1
+      coordinate: (0, 1/2)
+  - marker: 3
+    uv:
+    - 0.5
+    - 0.5
+    coordinate: (1/2, 1/2)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/2, 0) and L1 (1/2, 1).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, 0)
+    - layer: 1
+      coordinate: (1/2, 1)
+  - marker: 4
+    uv:
+    - 0.625
+    - 0.5
+    coordinate: (5/8, 1/2)
+    formula: exact ASE affine transform
+    method: ASE bcc110 hollow (3/8, 1/4), transformed from its primitive oblique cell into this rectangular cell.
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports: []
+bcc-111:
+  cell:
+    element: Fe
+    a1: 4.0588 Å
+    a2: 4.0588 Å
+    angle: 60.00°
+    area: 14.2667 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.33333333
+    - 0.33333333
+    coordinate: (1/3, 1/3)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/3, 1/3).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/3, 1/3)
+  - marker: 2
+    uv:
+    - 0.0
+    - 0.0
+    coordinate: (0, 0)
+    formula: s = s₁
+    method: Projection of the L2 atom at (0, 0).
+    reference_offset: -0.828498
+    height_reference: local shell Δz = -0.828 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0, 0)
+  - marker: 3
+    uv:
+    - 0.16666667
+    - 0.16666667
+    coordinate: (1/6, 1/6)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/3, 1/3) and L2 (0, 0).
+    reference_offset: -0.414249
+    height_reference: local shell Δz = -0.414 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/3, 1/3)
+    - layer: 2
+      coordinate: (0, 0)
+  - marker: 4
+    uv:
+    - 0.66666667
+    - 0.66666667
+    coordinate: (2/3, 2/3)
+    formula: exact ASE affine transform
+    method: Current ASE bcc111 hollow offset (1/3, 1/3) added to the outermost atom at (1/3, 1/3).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports: []
+bcc-210:
+  cell:
+    element: Fe
+    a1: 6.4175 Å
+    a2: 2.8700 Å
+    angle: 90.00°
+    area: 18.4183 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.7
+    - 0.5
+    coordinate: (7/10, 1/2)
+    formula: s = s₁
+    method: Projection of the L1 atom at (7/10, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (7/10, 1/2)
+  - marker: 2
+    uv:
+    - 0.4
+    - 0.0
+    coordinate: (2/5, 0)
+    formula: s = s₁
+    method: Projection of the L2 atom at (2/5, 0).
+    reference_offset: -0.641752
+    height_reference: local shell Δz = -0.642 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (2/5, 0)
+  - marker: 3
+    uv:
+    - 0.7
+    - 0.0
+    coordinate: (7/10, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (17/10, 1/2) and L1 (17/10, -1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (17/10, 1/2)
+    - layer: 1
+      coordinate: (17/10, -1/2)
+  - marker: 4
+    uv:
+    - 0.55
+    - 0.25
+    coordinate: (11/20, 1/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (17/10, -1/2) and L2 (7/5, -1).
+    reference_offset: -0.320876
+    height_reference: local shell Δz = -0.321 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (17/10, -1/2)
+    - layer: 2
+      coordinate: (7/5, -1)
+  - marker: 5
+    uv:
+    - 0.55
+    - 0.75
+    coordinate: (11/20, 3/4)
+    formula: s = (Σᵢ sᵢ) / 4
+    method: 'Least-squares centroid of the 4-atom projected shell: L1 (-3/10, 1/2), L1 (-3/10, -1/2), L2 (-3/5, 0), L2 (-3/5,
+      -1).'
+    reference_offset: -0.320876
+    height_reference: local shell Δz = -0.321 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (-3/10, 1/2)
+    - layer: 1
+      coordinate: (-3/10, -1/2)
+    - layer: 2
+      coordinate: (-3/5, 0)
+    - layer: 2
+      coordinate: (-3/5, -1)
+bcc-211:
+  cell:
+    element: Fe
+    a1: 4.9710 Å
+    a2: 4.0588 Å
+    angle: 90.00°
+    area: 20.1762 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.16666667
+    - 0.5
+    coordinate: (1/6, 1/2)
+    formula: s = s₁
+    method: Projection of the L3 atom at (1/6, 1/2).
+    reference_offset: -2.343345
+    height_reference: local shell Δz = -2.343 Å from L1
+    supports:
+    - layer: 3
+      coordinate: (1/6, 1/2)
+  - marker: 2
+    uv:
+    - 0.0
+    - 0.5
+    coordinate: (0, 1/2)
+    formula: s = s₁
+    method: Projection of the L1 atom at (0, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0, 1/2)
+  - marker: 3
+    uv:
+    - 0.33333333
+    - 0.0
+    coordinate: (1/3, 0)
+    formula: s = s₁
+    method: Projection of the L2 atom at (1/3, 0).
+    reference_offset: -1.171672
+    height_reference: local shell Δz = -1.172 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (1/3, 0)
+  - marker: 4
+    uv:
+    - 0.08333333
+    - 0.0
+    coordinate: (1/12, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L2 (5/6, 0) and L2 (4/3, 0).
+    reference_offset: -1.171672
+    height_reference: local shell Δz = -1.172 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (5/6, 0)
+    - layer: 2
+      coordinate: (4/3, 0)
+  - marker: 5
+    uv:
+    - 0.25
+    - 0.5
+    coordinate: (1/4, 1/2)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (-1/2, 1/2) and L1 (-1, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (-1/2, 1/2)
+    - layer: 1
+      coordinate: (-1, 1/2)
+  - marker: 6
+    uv:
+    - 0.41666667
+    - 0.25
+    coordinate: (5/12, 1/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (-1/2, 1/2) and L2 (-2/3, 0).
+    reference_offset: -0.585836
+    height_reference: local shell Δz = -0.586 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (-1/2, 1/2)
+    - layer: 2
+      coordinate: (-2/3, 0)
+  - marker: 7
+    uv:
+    - 0.83333333
+    - 0.33333333
+    coordinate: (5/6, 1/3)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (0, 1/2), L2 (-1/6, 0), L3 (-1/3, 1/2).'
+    reference_offset: -1.17167233
+    height_reference: local shell Δz = -1.172 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0, 1/2)
+    - layer: 2
+      coordinate: (-1/6, 0)
+    - layer: 3
+      coordinate: (-1/3, 1/2)
+bcc-310:
+  cell:
+    element: Fe
+    a1: 9.0757 Å
+    a2: 2.8700 Å
+    angle: 90.00°
+    area: 26.0474 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.4
+    - 0.5
+    coordinate: (2/5, 1/2)
+    formula: s = s₁
+    method: Projection of the L3 atom at (2/5, 1/2).
+    reference_offset: -1.815147
+    height_reference: local shell Δz = -1.815 Å from L1
+    supports:
+    - layer: 3
+      coordinate: (2/5, 1/2)
+  - marker: 2
+    uv:
+    - 0.3
+    - 0.0
+    coordinate: (3/10, 0)
+    formula: s = s₁
+    method: Projection of the L1 atom at (3/10, 0).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/10, 0)
+  - marker: 3
+    uv:
+    - 0.1
+    - 0.5
+    coordinate: (1/10, 1/2)
+    formula: s = s₁
+    method: Projection of the L2 atom at (1/10, 1/2).
+    reference_offset: -0.907573
+    height_reference: local shell Δz = -0.908 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (1/10, 1/2)
+  - marker: 4
+    uv:
+    - 0.3
+    - 0.5
+    coordinate: (3/10, 1/2)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (3/10, 0) and L1 (3/10, -1).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/10, 0)
+    - layer: 1
+      coordinate: (3/10, -1)
+  - marker: 5
+    uv:
+    - 0.1
+    - 0.0
+    coordinate: (1/10, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L2 (1/10, 1/2) and L2 (1/10, -1/2).
+    reference_offset: -0.907573
+    height_reference: local shell Δz = -0.908 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (1/10, 1/2)
+    - layer: 2
+      coordinate: (1/10, -1/2)
+  - marker: 6
+    uv:
+    - 0.2
+    - 0.25
+    coordinate: (1/5, 1/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (3/10, -1) and L2 (1/10, -1/2).
+    reference_offset: -0.4537865
+    height_reference: local shell Δz = -0.454 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/10, -1)
+    - layer: 2
+      coordinate: (1/10, -1/2)
+  - marker: 7
+    uv:
+    - 0.45
+    - 0.5
+    coordinate: (9/20, 1/2)
+    formula: s = (Σᵢ sᵢ) / 4
+    method: 'Least-squares centroid of the 4-atom projected shell: L1 (3/10, 0), L1 (3/10, -1), L2 (3/5, 0), L2 (3/5, -1).'
+    reference_offset: -0.4537865
+    height_reference: local shell Δz = -0.454 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (3/10, 0)
+    - layer: 1
+      coordinate: (3/10, -1)
+    - layer: 2
+      coordinate: (3/5, 0)
+    - layer: 2
+      coordinate: (3/5, -1)
+hcp-0001:
+  cell:
+    element: Mg
+    a1: 3.2100 Å
+    a2: 3.2100 Å
+    angle: 60.00°
+    area: 8.9236 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.33333333
+    - 0.33333333
+    coordinate: (1/3, 1/3)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/3, 1/3).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/3, 1/3)
+  - marker: 2
+    uv:
+    - 0.83333333
+    - 0.33333333
+    coordinate: (5/6, 1/3)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/3, 1/3) and L1 (4/3, 1/3).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/3, 1/3)
+    - layer: 1
+      coordinate: (4/3, 1/3)
+  - marker: 3
+    uv:
+    - 0.66666667
+    - 0.66666667
+    coordinate: (2/3, 2/3)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (1/3, 1/3), L1 (4/3, 1/3), L1 (1/3, 4/3).'
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/3, 1/3)
+    - layer: 1
+      coordinate: (4/3, 1/3)
+    - layer: 1
+      coordinate: (1/3, 4/3)
+  - marker: 4
+    uv:
+    - 0.0
+    - 0.0
+    coordinate: (0, 0)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (4/3, 1/3), L1 (1/3, 4/3), L1 (4/3, 4/3).'
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (4/3, 1/3)
+    - layer: 1
+      coordinate: (1/3, 4/3)
+    - layer: 1
+      coordinate: (4/3, 4/3)
+hcp-10m10:
+  cell:
+    element: Mg
+    a1: 3.2100 Å
+    a2: 5.2100 Å
+    angle: 90.00°
+    area: 16.7241 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.0
+    - 0.5
+    coordinate: (0, 1/2)
+    formula: s = s₁
+    method: Projection of the L1 atom at (0, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0, 1/2)
+  - marker: 2
+    uv:
+    - 0.5
+    - 0.0
+    coordinate: (1/2, 0)
+    formula: s = s₁
+    method: Projection of the L2 atom at (1/2, 0).
+    reference_offset: -0.926647
+    height_reference: local shell Δz = -0.927 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (1/2, 0)
+  - marker: 3
+    uv:
+    - 0.5
+    - 0.5
+    coordinate: (1/2, 1/2)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (0, 1/2) and L1 (-1, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0, 1/2)
+    - layer: 1
+      coordinate: (-1, 1/2)
+  - marker: 4
+    uv:
+    - 0.0
+    - 0.0
+    coordinate: (0, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (0, 1/2) and L1 (0, 3/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0, 1/2)
+    - layer: 1
+      coordinate: (0, 3/2)
+  - marker: 5
+    uv:
+    - 0.25
+    - 0.25
+    coordinate: (1/4, 1/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (0, 1/2) and L2 (1/2, 0).
+    reference_offset: -0.4633235
+    height_reference: local shell Δz = -0.463 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0, 1/2)
+    - layer: 2
+      coordinate: (1/2, 0)
+hcp-11m20:
+  cell:
+    element: Mg
+    a1: 5.5599 Å
+    a2: 5.2100 Å
+    angle: 90.00°
+    area: 28.9670 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.5
+    - 0.0
+    coordinate: (1/2, 0)
+    formula: s = s₁
+    method: Projection of the L1 atom at (1/2, 0).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, 0)
+  - marker: 2
+    uv:
+    - 0.0
+    - 0.0
+    coordinate: (0, 0)
+    formula: s = s₁
+    method: Projection of the L2 atom at (0, 0).
+    reference_offset: -1.605
+    height_reference: local shell Δz = -1.605 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0, 0)
+  - marker: 3
+    uv:
+    - 0.5
+    - 0.5
+    coordinate: (1/2, 1/2)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/2, 0) and L1 (1/2, 1).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, 0)
+    - layer: 1
+      coordinate: (1/2, 1)
+  - marker: 4
+    uv:
+    - 0.66666667
+    - 0.25
+    coordinate: (2/3, 1/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (5/6, -1/2) and L1 (1/2, -1).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (5/6, -1/2)
+    - layer: 1
+      coordinate: (1/2, -1)
+  - marker: 5
+    uv:
+    - 0.41666667
+    - 0.25
+    coordinate: (5/12, 1/4)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (1/2, -1) and L2 (1/3, -1/2).
+    reference_offset: -0.8025
+    height_reference: local shell Δz = -0.803 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1/2, -1)
+    - layer: 2
+      coordinate: (1/3, -1/2)
+  - marker: 6
+    uv:
+    - 0.77777778
+    - 0.16666667
+    coordinate: (7/9, 1/6)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (-1/2, 0), L2 (0, 0), L3 (-1/6, 1/2).'
+    reference_offset: -1.605
+    height_reference: local shell Δz = -1.605 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (-1/2, 0)
+    - layer: 2
+      coordinate: (0, 0)
+    - layer: 3
+      coordinate: (-1/6, 1/2)
+hcp-10m11:
+  cell:
+    element: Mg
+    a1: 6.1195 Å
+    a2: 3.2100 Å
+    angle: 74.79°
+    area: 18.9559 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.67917975
+    - 0.16041013
+    coordinate: (0.6792, 0.1604)
+    formula: s = s₁
+    method: Projection of the L1 atom at (0.6792, 0.1604).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0.6792, 0.1604)
+  - marker: 2
+    uv:
+    - 0.9945035
+    - 0.50274825
+    coordinate: (0.9945, 0.5027)
+    formula: s = s₁
+    method: Projection of the L2 atom at (0.9945, 0.5027).
+    reference_offset: -2.043867
+    height_reference: local shell Δz = -2.044 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0.9945, 0.5027)
+  - marker: 3
+    uv:
+    - 0.67917975
+    - 0.66041013
+    coordinate: (0.6792, 0.6604)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (0.6792, 0.1604) and L1 (0.6792, -0.8396).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0.6792, 0.1604)
+    - layer: 1
+      coordinate: (0.6792, -0.8396)
+  - marker: 4
+    uv:
+    - 0.83684162
+    - 0.83157919
+    coordinate: (0.8368, 0.8316)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (0.6792, 0.1604) and L2 (0.9945, -0.4973).
+    reference_offset: -1.0219335
+    height_reference: local shell Δz = -1.022 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0.6792, 0.1604)
+    - layer: 2
+      coordinate: (0.9945, -0.4973)
+  - marker: 5
+    uv:
+    - 0.79090158
+    - 0.10454921
+    coordinate: (0.7909, 0.1045)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L3 (0.4576, 0.7712), L3 (0.4576, 1.7712), L3 (1.4576, 0.7712).'
+    reference_offset: -2.45264
+    height_reference: local shell Δz = -2.453 Å from L1
+    supports:
+    - layer: 3
+      coordinate: (0.4576, 0.7712)
+    - layer: 3
+      coordinate: (0.4576, 1.7712)
+    - layer: 3
+      coordinate: (1.4576, 0.7712)
+hcp-10m12:
+  cell:
+    element: Mg
+    a1: 7.6195 Å
+    a2: 3.2100 Å
+    angle: 90.00°
+    area: 24.4585 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.71855385
+    - 0.0
+    coordinate: (0.7186, 0)
+    formula: s = s₁
+    method: Projection of the L3 atom at (0.7186, 0).
+    reference_offset: -1.900852
+    height_reference: local shell Δz = -1.901 Å from L1
+    supports:
+    - layer: 3
+      coordinate: (0.7186, 0)
+  - marker: 2
+    uv:
+    - 0.98478032
+    - 0.5
+    coordinate: (0.9848, 1/2)
+    formula: s = s₁
+    method: Projection of the L1 atom at (0.9848, 1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0.9848, 1/2)
+  - marker: 3
+    uv:
+    - 0.39603816
+    - 0.5
+    coordinate: (0.396, 1/2)
+    formula: s = s₁
+    method: Projection of the L2 atom at (0.396, 1/2).
+    reference_offset: -0.633618
+    height_reference: local shell Δz = -0.634 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0.396, 1/2)
+  - marker: 4
+    uv:
+    - 0.39603816
+    - 0.0
+    coordinate: (0.396, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L2 (0.396, 1/2) and L2 (0.396, 3/2).
+    reference_offset: -0.633618
+    height_reference: local shell Δz = -0.634 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0.396, 1/2)
+    - layer: 2
+      coordinate: (0.396, 3/2)
+  - marker: 5
+    uv:
+    - 0.98478032
+    - 0.0
+    coordinate: (0.9848, 0)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (0.9848, 1/2) and L1 (0.9848, -1/2).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0.9848, 1/2)
+    - layer: 1
+      coordinate: (0.9848, -1/2)
+  - marker: 6
+    uv:
+    - 0.19040924
+    - 0.5
+    coordinate: (0.1904, 1/2)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (0.9848, 3/2) and L2 (1.396, 3/2).
+    reference_offset: -0.316809
+    height_reference: local shell Δz = -0.317 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0.9848, 3/2)
+    - layer: 2
+      coordinate: (1.396, 3/2)
+  - marker: 7
+    uv:
+    - 0.69979078
+    - 0.66666667
+    coordinate: (0.6998, 2/3)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (1.9848, 1/2), L2 (1.396, 1/2), L3 (1.7186, 1).'
+    reference_offset: -0.84482333
+    height_reference: local shell Δz = -0.845 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (1.9848, 1/2)
+    - layer: 2
+      coordinate: (1.396, 1/2)
+    - layer: 3
+      coordinate: (1.7186, 1)
+hcp-11m21:
+  cell:
+    element: Mg
+    a1: 5.5599 Å
+    a2: 6.1195 Å
+    angle: 117.02°
+    area: 30.3104 Å²
+  sites:
+  - marker: 1
+    uv:
+    - 0.99504488
+    - 0.3234231
+    coordinate: (0.995, 0.3234)
+    formula: s = s₁
+    method: Projection of the L1 atom at (0.995, 0.3234).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0.995, 0.3234)
+  - marker: 2
+    uv:
+    - 0.45170683
+    - 0.23674699
+    coordinate: (0.4517, 0.2367)
+    formula: s = s₁
+    method: Projection of the L3 atom at (0.4517, 0.2367).
+    reference_offset: -1.533866
+    height_reference: local shell Δz = -1.534 Å from L1
+    supports:
+    - layer: 3
+      coordinate: (0.4517, 0.2367)
+  - marker: 3
+    uv:
+    - 0.89004252
+    - 0.78008504
+    coordinate: (0.89, 0.7801)
+    formula: s = s₁
+    method: Projection of the L2 atom at (0.89, 0.7801).
+    reference_offset: -0.766933
+    height_reference: local shell Δz = -0.767 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0.89, 0.7801)
+  - marker: 4
+    uv:
+    - 0.49504488
+    - 0.3234231
+    coordinate: (0.495, 0.3234)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (0.995, 0.3234) and L1 (-0.005, 0.3234).
+    reference_offset: 0.0
+    height_reference: local shell Δz = +0.000 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0.995, 0.3234)
+    - layer: 1
+      coordinate: (-0.005, 0.3234)
+  - marker: 5
+    uv:
+    - 0.39004252
+    - 0.78008504
+    coordinate: (0.39, 0.7801)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L2 (0.89, 0.7801) and L2 (-0.11, 0.7801).
+    reference_offset: -0.766933
+    height_reference: local shell Δz = -0.767 Å from L1
+    supports:
+    - layer: 2
+      coordinate: (0.89, 0.7801)
+    - layer: 2
+      coordinate: (-0.11, 0.7801)
+  - marker: 6
+    uv:
+    - 0.9425437
+    - 0.55175407
+    coordinate: (0.9425, 0.5518)
+    formula: s = (s₁ + s₂) / 2
+    method: Periodic midpoint of L1 (0.995, 0.3234) and L2 (0.89, 0.7801).
+    reference_offset: -0.3834665
+    height_reference: local shell Δz = -0.383 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (0.995, 0.3234)
+    - layer: 2
+      coordinate: (0.89, 0.7801)
+  - marker: 7
+    uv:
+    - 0.11226474
+    - 0.11341838
+    coordinate: (0.1123, 0.1134)
+    formula: s = (Σᵢ sᵢ) / 3
+    method: 'Least-squares centroid of the 3-atom projected shell: L1 (-0.005, 1.3234), L2 (-0.11, 0.7801), L3 (0.4517, 1.2367).'
+    reference_offset: -0.766933
+    height_reference: local shell Δz = -0.767 Å from L1
+    supports:
+    - layer: 1
+      coordinate: (-0.005, 1.3234)
+    - layer: 2
+      coordinate: (-0.11, 0.7801)
+    - layer: 3
+      coordinate: (0.4517, 1.2367)

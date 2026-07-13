@@ -17,40 +17,45 @@ from ase import Atoms
 from ase.build import bulk, surface
 from ase.build.tools import minimize_tilt
 
+try:
+    from tools.site_geometry import derive_surface_sites
+except ModuleNotFoundError:  # Direct execution adds tools/, not the repo root.
+    from site_geometry import derive_surface_sites
+
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = ROOT / "surface-atlas" / "assets" / "surfaces"
+SITE_GEOMETRY_FILE = ROOT / "_data" / "site_geometry.yml"
 @dataclass(frozen=True)
 class VisualSpec:
     crystal: str
     miller: tuple[int, int, int]
-    site_fractions: tuple[tuple[float, float], ...]
     profile_axis: int = 0
 
 
 SPECS = {
-    "fcc-100": VisualSpec("fcc", (1, 0, 0), ((0.50, 0.00), (0.25, 0.25), (0.50, 0.50))),
-    "fcc-110": VisualSpec("fcc", (1, 1, 0), ((0.25, 0.50), (0.50, 0.50), (0.25, 0.00), (0.50, 0.00))),
-    "fcc-111": VisualSpec("fcc", (1, 1, 1), ((0.167, 0.167), (0.417, 0.167), (0.333, 0.333), (0.50, 0.50))),
-    "fcc-210": VisualSpec("fcc", (2, 1, 0), ((0.25, 0.50), (0.50, 0.50), (0.75, 0.00))),
-    "fcc-211": VisualSpec("fcc", (2, 1, 1), ((0.34, 0.50), (0.00, 0.50), (0.66, 0.25))),
-    "fcc-221": VisualSpec("fcc", (2, 2, 1), ((0.20, 0.50), (0.45, 0.50), (0.72, 0.25)), profile_axis=1),
-    "fcc-310": VisualSpec("fcc", (3, 1, 0), ((0.35, 0.50), (0.52, 0.50), (0.80, 0.00))),
-    "fcc-311": VisualSpec("fcc", (3, 1, 1), ((0.34, 0.36), (0.59, 0.36), (0.82, 0.55))),
-    "fcc-331": VisualSpec("fcc", (3, 3, 1), ((0.38, 0.36), (0.50, 0.58), (0.72, 0.74)), profile_axis=1),
-    "fcc-511": VisualSpec("fcc", (5, 1, 1), ((0.42, 0.36), (0.56, 0.36), (0.09, 0.61), (0.82, 0.55))),
-    "bcc-100": VisualSpec("bcc", (1, 0, 0), ((0.50, 0.50), (0.50, 0.00), (0.00, 0.00))),
-    "bcc-110": VisualSpec("bcc", (1, 1, 0), ((0.50, 0.00), (0.25, 0.25), (0.50, 0.50), (0.00, 0.00))),
-    "bcc-111": VisualSpec("bcc", (1, 1, 1), ((0.333, 0.333), (0.583, 0.333), (0.50, 0.50))),
-    "bcc-210": VisualSpec("bcc", (2, 1, 0), ((0.20, 0.50), (0.45, 0.50), (0.75, 0.00))),
-    "bcc-211": VisualSpec("bcc", (2, 1, 1), ((0.20, 0.50), (0.50, 0.50), (0.72, 0.25))),
-    "bcc-310": VisualSpec("bcc", (3, 1, 0), ((0.22, 0.50), (0.46, 0.50), (0.78, 0.00))),
-    "hcp-0001": VisualSpec("hcp", (0, 0, 1), ((0.333, 0.333), (0.833, 0.333), (0.667, 0.667), (0.00, 0.00))),
-    "hcp-10m10": VisualSpec("hcp", (1, 0, 0), ((0.00, 0.50), (0.50, 0.50), (0.50, 0.00))),
-    "hcp-11m20": VisualSpec("hcp", (1, 1, 0), ((0.50, 0.00), (0.50, 0.50), (0.167, 0.50))),
-    "hcp-10m11": VisualSpec("hcp", (1, 0, 1), ((0.18, 0.50), (0.45, 0.50), (0.72, 0.25))),
-    "hcp-10m12": VisualSpec("hcp", (1, 0, 2), ((0.18, 0.50), (0.48, 0.50), (0.76, 0.25))),
-    "hcp-11m21": VisualSpec("hcp", (1, 1, 1), ((0.18, 0.50), (0.48, 0.50), (0.76, 0.25)), profile_axis=1),
+    "fcc-100": VisualSpec("fcc", (1, 0, 0)),
+    "fcc-110": VisualSpec("fcc", (1, 1, 0)),
+    "fcc-111": VisualSpec("fcc", (1, 1, 1)),
+    "fcc-210": VisualSpec("fcc", (2, 1, 0)),
+    "fcc-211": VisualSpec("fcc", (2, 1, 1)),
+    "fcc-221": VisualSpec("fcc", (2, 2, 1), profile_axis=1),
+    "fcc-310": VisualSpec("fcc", (3, 1, 0)),
+    "fcc-311": VisualSpec("fcc", (3, 1, 1)),
+    "fcc-331": VisualSpec("fcc", (3, 3, 1), profile_axis=1),
+    "fcc-511": VisualSpec("fcc", (5, 1, 1)),
+    "bcc-100": VisualSpec("bcc", (1, 0, 0)),
+    "bcc-110": VisualSpec("bcc", (1, 1, 0)),
+    "bcc-111": VisualSpec("bcc", (1, 1, 1)),
+    "bcc-210": VisualSpec("bcc", (2, 1, 0)),
+    "bcc-211": VisualSpec("bcc", (2, 1, 1)),
+    "bcc-310": VisualSpec("bcc", (3, 1, 0)),
+    "hcp-0001": VisualSpec("hcp", (0, 0, 1)),
+    "hcp-10m10": VisualSpec("hcp", (1, 0, 0)),
+    "hcp-11m20": VisualSpec("hcp", (1, 1, 0)),
+    "hcp-10m11": VisualSpec("hcp", (1, 0, 1)),
+    "hcp-10m12": VisualSpec("hcp", (1, 0, 2)),
+    "hcp-11m21": VisualSpec("hcp", (1, 1, 1), profile_axis=1),
 }
 
 CRYSTALS = {
@@ -156,7 +161,7 @@ def save(fig: plt.Figure, path: Path) -> None:
     path.write_text("\n".join(line.rstrip() for line in text.splitlines()) + "\n", encoding="utf-8")
 
 
-def draw_top(surface_id: str, slab: Atoms, spec: VisualSpec) -> None:
+def draw_top(surface_id: str, slab: Atoms, spec: VisualSpec, geometries: list[dict]) -> None:
     atoms, origin = repeat_for_view(slab)
     layers = top_layers(atoms)
     fig, ax = plt.subplots(figsize=(9, 6))
@@ -168,7 +173,9 @@ def draw_top(surface_id: str, slab: Atoms, spec: VisualSpec) -> None:
                    edgecolors=PAPER, linewidths=1.4, zorder=3 + len(layers) - depth)
     draw_cell(ax, slab, origin)
     va, vb = slab.cell[0, :2], slab.cell[1, :2]
-    for marker, (u, v) in enumerate(spec.site_fractions, start=1):
+    for geometry in geometries:
+        marker = geometry["marker"]
+        u, v = geometry["uv"]
         point = origin + u * va + v * vb
         ax.scatter(*point, s=275, c=SITE, edgecolors=PAPER, linewidths=2.4, zorder=15)
         ax.text(*point, str(marker), ha="center", va="center", color=PAPER, fontsize=10, weight="bold", zorder=16)
@@ -259,7 +266,8 @@ def cut_polyhedron(spec: VisualSpec) -> tuple[np.ndarray, list[tuple[int, int]],
     middle = np.column_stack((0.34 * np.cos(angles[::2] + np.pi / 3),
                               0.34 * np.sin(angles[::2] + np.pi / 3),
                               np.full(3, 0.5)))
-    atoms = np.vstack((vertices, middle))
+    basal_centres = np.array(((0.0, 0.0, 0.0), (0.0, 0.0, 1.0)))
+    atoms = np.vstack((vertices, basal_centres, middle))
     cell = np.array(((1.0, 0.0, 0.0), (-0.5, np.sqrt(3) / 2, 0.0),
                      (0.0, 0.0, CRYSTALS["hcp"]["c"] / CRYSTALS["hcp"]["a"])))
     normal = np.linalg.solve(cell, np.asarray(spec.miller, dtype=float))
@@ -331,7 +339,7 @@ def draw_bulk_cut(surface_id: str, spec: VisualSpec) -> None:
     save(fig, OUTPUT_DIR / f"{surface_id}-cut.svg")
 
 
-def write_viewer_geometry(surface_id: str, slab: Atoms, spec: VisualSpec, site_labels: list[str]) -> None:
+def write_viewer_geometry(surface_id: str, slab: Atoms, spec: VisualSpec, site_data: list[dict], geometries: list[dict]) -> None:
     atoms, origin = repeat_for_view(slab)
     layers = top_layers(atoms, 6)
     chosen = np.concatenate(layers)
@@ -355,11 +363,18 @@ def write_viewer_geometry(surface_id: str, slab: Atoms, spec: VisualSpec, site_l
     va, vb = slab.cell[0, :2], slab.cell[1, :2]
     top = float(atoms.positions[:, 2].max())
     sites = []
-    for marker, (u, v) in enumerate(spec.site_fractions, start=1):
+    for geometry in geometries:
+        marker = geometry["marker"]
+        u, v = geometry["uv"]
         point = origin + u * va + v * vb
-        label = site_labels[marker - 1] if marker <= len(site_labels) else f"Site {marker}"
+        entry = site_data[marker - 1] if marker <= len(site_data) else {}
+        label = entry.get("label", f"Site {marker}")
+        lowered = label.lower()
+        kind = "ontop" if "ontop" in lowered else "bridge" if "bridge" in lowered else "hollow"
+        local_reference = float(geometry["reference_offset"])
         sites.append({"marker": marker, "label": label, "x": round(float(point[0]), 4),
-                      "y": round(float(point[1]), 4), "z": round(top + nearest * 0.32, 4)})
+                      "y": round(float(point[1]), 4), "z": round(top + local_reference + nearest * 0.32, 4),
+                      "kind": kind, "aseKeyword": entry.get("ase_keyword")})
     cell_xy = [origin, origin + va, origin + va + vb, origin + vb]
     payload = {
         "surface": surface_id,
@@ -377,15 +392,32 @@ def write_viewer_geometry(surface_id: str, slab: Atoms, spec: VisualSpec, site_l
 def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     surface_data = yaml.safe_load((ROOT / "_data" / "surfaces.yml").read_text(encoding="utf-8"))
-    labels = {item["id"]: [site["label"] for site in item["sites"]] for item in surface_data}
+    sites = {item["id"]: item["sites"] for item in surface_data}
+    all_geometries = {}
     for surface_id, spec in SPECS.items():
         slab = unit_slab(spec)
-        draw_top(surface_id, slab, spec)
+        geometries = derive_surface_sites(surface_id, slab, sites.get(surface_id, []))
+        a_length, b_length = slab.cell.lengths()[:2]
+        all_geometries[surface_id] = {
+            "cell": {
+                "element": CRYSTALS[spec.crystal]["element"],
+                "a1": f"{a_length:.4f} Å",
+                "a2": f"{b_length:.4f} Å",
+                "angle": f"{slab.cell.angles()[2]:.2f}°",
+                "area": f"{np.linalg.norm(np.cross(slab.cell[0], slab.cell[1])):.4f} Å²",
+            },
+            "sites": geometries,
+        }
+        draw_top(surface_id, slab, spec, geometries)
         draw_profile(surface_id, slab, spec)
         draw_stacking(surface_id, slab)
         draw_bulk_cut(surface_id, spec)
-        write_viewer_geometry(surface_id, slab, spec, labels.get(surface_id, []))
+        write_viewer_geometry(surface_id, slab, spec, sites.get(surface_id, []), geometries)
         print(f"Generated figures and 3D geometry for {surface_id}")
+    SITE_GEOMETRY_FILE.write_text(
+        yaml.safe_dump(all_geometries, sort_keys=False, allow_unicode=True, width=120),
+        encoding="utf-8",
+    )
 
 
 if __name__ == "__main__":

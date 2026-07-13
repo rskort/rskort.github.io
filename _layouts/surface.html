@@ -3,6 +3,8 @@ layout: default
 ---
 {% assign matches = site.data.surfaces | where: "id", page.surface_id %}
 {% assign surface = matches | first %}
+{% assign surface_geometry = site.data.site_geometry[surface.id] %}
+{% assign site_geometry = surface_geometry.sites %}
 {% assign surface_index = nil %}
 {% for item in site.data.surfaces %}{% if item.id == surface.id %}{% assign surface_index = forloop.index0 %}{% endif %}{% endfor %}
 <article class="surface-page">
@@ -16,7 +18,7 @@ layout: default
     <dl class="surface-facts">
       <div><dt>Plane</dt><dd>{{ surface.facet }}</dd></div>
       <div><dt>Layer character</dt><dd>{{ surface.character }}</dd></div>
-      <div><dt>ASE</dt><dd><code>{{ surface.ase_builder }}</code></dd></div>
+      <div><dt>ASE slab builder</dt><dd><code>{{ surface.ase_builder }}</code></dd></div>
     </dl>
   </header>
 
@@ -38,11 +40,13 @@ layout: default
       <div><p class="kicker">Surface geometry</p><h2 id="site-map-heading">Read the surface from above</h2></div>
       <div class="layer-key" aria-label="Layer colour key"><span class="layer-one"></span>surface <span class="layer-two"></span>second layer <span class="layer-three"></span>third layer</div>
     </div>
+    <p class="quiet site-coordinate-note"><strong>L1</strong> is the highest atom-bearing plane, followed by L2 and L3. Support coordinates outside 0–1 are periodic images. The listed local Δz is the mean support-shell height relative to L1; the marker lift above that reference is visual, not a predicted adsorption height.</p>
     <div class="surface-visual">
-      <figure class="hero-figure"><img src="{{ surface.figures.top | relative_url }}" alt="Top view of {{ surface.title }} with numbered adsorption sites"><figcaption>The outlined shape is one surface repeat cell. Arrows show its two in-plane vectors.</figcaption></figure>
+      <figure class="hero-figure"><img src="{{ surface.figures.top | relative_url }}" alt="Top view of {{ surface.title }} with numbered adsorption sites"><figcaption>The outlined reference cell has |a<sub>1</sub>| = {{ surface_geometry.cell.a1 }}, |a<sub>2</sub>| = {{ surface_geometry.cell.a2 }}, and γ = {{ surface_geometry.cell.angle }} for the {{ surface_geometry.cell.element }} slab used in the drawing. Fractional coordinates mean <strong>r</strong><sub>∥</sub> = u<strong>a</strong><sub>1</sub> + v<strong>a</strong><sub>2</sub>.</figcaption></figure>
       <ol class="site-cards">
         {% for site_entry in surface.sites %}
-          <li value="{{ site_entry.marker }}"><div><strong>{{ site_entry.label }}</strong><span>{{ site_entry.coordination }}-fold</span></div><p>{{ site_entry.definition }}</p>{% if site_entry.ase_keyword %}<code>{{ site_entry.ase_keyword }}</code>{% endif %}</li>
+          {% assign geometry_index = forloop.index0 %}{% assign geometry = site_geometry[geometry_index] %}
+          <li value="{{ site_entry.marker }}"><div><strong>{{ site_entry.label }}</strong><span>{{ site_entry.coordination }}-fold</span></div><p>{{ site_entry.definition }}</p><div class="site-math"><code>(u,v) = {{ geometry.coordinate }}</code><span>{{ geometry.formula }} · {{ geometry.height_reference }}</span><p>{{ geometry.method }}</p></div><div class="site-support">{% if site_entry.ase_keyword %}<span class="support-badge ase">{% if site_entry.ase_status == 'source-only' %}ASE source{% else %}ASE keyword{% endif %}</span><code>{{ site_entry.ase_keyword }}</code>{% else %}<span class="support-badge manual">Not named in ASE</span>{% endif %}</div></li>
         {% endfor %}
       </ol>
     </div>
@@ -83,6 +87,7 @@ layout: default
     <div>
       <p class="kicker">Practical model</p>
       <h2>Build it with ASE</h2>
+      <p class="quiet ase-site-note">The builder creates the slab. Sites marked <strong>ASE keyword</strong> can be passed directly as a named <code>position</code>; <strong>ASE source</strong> marks current but inconsistently documented support. Other sites require explicit Cartesian coordinates converted from the fractional construction above.</p>
       <pre><code class="language-python">{{ surface.ase_example | escape }}</code></pre>
     </div>
   </section>

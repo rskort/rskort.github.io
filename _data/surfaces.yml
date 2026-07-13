@@ -12,7 +12,7 @@
   cut_description: The (100) family is perpendicular to one cube axis and parallel to the other two. Sliding that plane through the FCC cell repeatedly exposes equivalent square layers.
   card_description: A square surface net with a distinctive fourfold hollow.
   registry_note: Successive square layers alternate laterally between A and B positions. A second-layer atom sits below each fourfold hollow, adding subsurface coordination that a top-layer-only picture would miss.
-  math_summary: 'The nearest-neighbour surface spacing is \(a/\sqrt{2}\). A convenient primitive cell has two perpendicular vectors of that length.'
+  math_summary: 'For cubic crystals, \(d_{100}=a\). FCC basis atoms create atom-bearing sublayers every \(a/2\). The outlined \(a\times a\) cell contains two surface atoms; a primitive surface cell has side \(a/\sqrt{2}\).'
   sites:
     - {label: ontop, marker: 1, coordination: 1, definition: Directly above one outermost atom., ase_keyword: ontop}
     - {label: bridge, marker: 2, coordination: 2, definition: Halfway between adjacent surface atoms., ase_keyword: bridge}
@@ -41,7 +41,7 @@
   cut_description: The plane meets two cubic axes equally and remains parallel to the third. Its diagonal passage through the cube produces dense rows separated by open channels.
   card_description: Dense atomic rows separated by open, directional troughs.
   registry_note: The side profile reveals ridges and troughs even though the macroscopic plane is flat. Atoms below the trough change the coordination of sites that appear empty from above.
-  math_summary: 'A rectangular cell uses lengths \(a/\sqrt{2}\) along the close-packed rows and \(a\) across them.'
+  math_summary: 'The cubic plane spacing is \(d_{110}=a/\sqrt{2}\). The outlined conventional surface cell spans \(a\sqrt{2}\) along a doubled close-packed-row repeat and \(a\) across the rows.'
   sites:
     - {label: ontop, marker: 1, coordination: 1, definition: Directly above an atom on a close-packed row., ase_keyword: ontop}
     - {label: short bridge, marker: 2, coordination: 2, definition: Between nearest neighbours along a row., ase_keyword: shortbridge}
@@ -71,7 +71,7 @@
   cut_description: The plane meets x, y, and z at equal intercepts. It slices across the cube corner-to-corner and selects one close-packed layer from the ABC sequence.
   card_description: The close-packed triangular net with FCC and HCP hollows.
   registry_note: FCC layers follow an ABC sequence. An HCP hollow lies above a second-layer atom; an FCC hollow lies above a third-layer atom and continues the ABC sequence.
-  math_summary: 'The two primitive vectors both have length \(a/\sqrt{2}\) and meet at \(60^\circ\). The interlayer spacing is \(a/\sqrt{3}\).'
+  math_summary: 'The plane spacing is \(d_{111}=a/\sqrt{3}\). Primitive surface vectors have length \(a/\sqrt{2}\) at \(60^\circ\); the outlined cell is a \(2\times2\) repeat of that primitive net.'
   sites:
     - {label: ontop, marker: 1, coordination: 1, definition: Directly above one atom in the triangular net., ase_keyword: ontop}
     - {label: bridge, marker: 2, coordination: 2, definition: Halfway along a nearest-neighbour bond., ase_keyword: bridge}
@@ -101,11 +101,13 @@
   cut_description: Relative to (100), the [210] normal is tilted towards [110]. The resulting atomic cut resolves into a rapidly repeating staircase of short terraces.
   card_description: A strongly tilted (100)-like surface with closely spaced ledges.
   registry_note: 'The profile makes the terrace-and-step interpretation explicit: the surface normal averages over a staircase of atomic ledges rather than passing through a single flat layer.'
-  math_summary: 'The normal is \([210]\). Its angle from [100] is \(\cos^{-1}(2/\sqrt{5})\approx26.6^\circ\), so the terrace period is short.'
+  math_summary: 'The normal is \([210]\), \(d_{210}=a/\sqrt{5}\), and its angle from [100] is \(\cos^{-1}(2/\sqrt{5})\approx26.6^\circ\).'
   sites:
-    - {label: ridge ontop, marker: 1, coordination: 1, definition: Above a low-coordinate atom at the upper ledge.}
-    - {label: step bridge, marker: 2, coordination: 2, definition: Between neighbouring atoms along the ledge.}
-    - {label: trough, marker: 3, coordination: 4, definition: In the open channel below the ridge.}
+    - {label: ridge ontop, marker: 1, coordination: 1, definition: Above a low-coordinate atom on the upper ridge.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom in the row below the ridge.}
+    - {label: ridge bridge, marker: 3, coordination: 2, definition: Between neighbouring atoms along the upper ridge.}
+    - {label: ridge-to-lower bridge, marker: 4, coordination: 2, definition: Between atoms on the ridge and lower row.}
+    - {label: trough pocket, marker: 5, coordination: 4, definition: In the mixed-height pocket within the open trough.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -125,21 +127,26 @@
   facet: "(211)"
   surface_shape: (111) terraces
   character: Stepped · kink-free
-  ase_builder: surface
+  ase_builder: fcc211
   description: FCC(211) is commonly read as narrow (111)-like terraces separated by monatomic (100)-type steps. Terrace and step atoms therefore offer clearly different local coordination.
   cut_description: The [211] normal tilts the cut away from (111). At atomic scale the plane becomes three-row (111)-like terraces separated by single-height steps.
   card_description: Narrow close-packed terraces separated by straight monatomic steps.
   registry_note: Rows at the upper ledge have fewer substrate neighbours than atoms inside a terrace. This under-coordination often makes the step edge more reactive than the terrace.
-  math_summary: 'The normal \([211]\) gives a regular staircase with straight step edges. The repeat cell contains both terrace and ledge environments.'
+  math_summary: 'The reciprocal normal is \([211]\) and \(d_{211}=a/\sqrt{6}\). The periodic surface cell contains the distinct projected rows used in the site constructions.'
   sites:
-    - {label: terrace hollow, marker: 1, coordination: 3, definition: A threefold position within the narrow close-packed terrace.}
-    - {label: step bridge, marker: 2, coordination: 2, definition: Between adjacent atoms along the upper ledge.}
-    - {label: step hollow, marker: 3, coordination: 3, definition: At the base of the step with neighbours at two heights.}
+    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom within the narrow (111)-like terrace.}
+    - {label: step-edge ontop, marker: 2, coordination: 1, definition: Above a low-coordinate atom at the upper step edge.}
+    - {label: lower-step ontop, marker: 3, coordination: 1, definition: Above the exposed atom immediately below the step.}
+    - {label: terrace bridge, marker: 4, coordination: 2, definition: Between nearest neighbours within the terrace.}
+    - {label: step-edge bridge, marker: 5, coordination: 2, definition: Between adjacent atoms along the upper ledge.}
+    - {label: cross-step bridge, marker: 6, coordination: 2, definition: Between atoms on opposite sides of the step.}
+    - {label: terrace threefold hollow, marker: 7, coordination: 3, definition: Within a three-atom opening on the terrace.}
+    - {label: step threefold hollow, marker: 8, coordination: 3, definition: A mixed-height threefold pocket beside the step.}
   ase_example: |
-    from ase.build import bulk, surface
+    from ase.build import fcc211
 
-    cu = bulk("Cu", "fcc", a=3.61, cubic=True)
-    slab = surface(cu, (2, 1, 1), layers=8, vacuum=10)
+    # fcc211() builds the slab, but exposes no named adsorption sites.
+    slab = fcc211("Cu", size=(3, 2, 8), a=3.61, vacuum=10)
   common_mistakes:
     - Describing the entire facet as a flat (111) plane and omitting the steps.
     - Comparing terrace and ledge sites using only their lateral coordination.
@@ -159,11 +166,15 @@
   cut_description: Equal h and k keep a mirror direction in the plane, while the smaller l component tilts the cut away from (111) and introduces closely spaced ledges.
   card_description: A compact stepped net close in orientation to the (111) face.
   registry_note: Several apparent openings overlap atoms in lower layers. Reading the pale registry together with the profile prevents an empty-looking top view from being mistaken for a simple hollow.
-  math_summary: 'The normal is \([221]\). Equal h and k indices preserve a mirror symmetry along the step direction.'
+  math_summary: 'The normal is \([221]\), giving \(d_{221}=a/3\). Equal h and k preserve a mirror direction in the surface plane.'
   sites:
-    - {label: ledge ontop, marker: 1, coordination: 1, definition: Above an atom at the top of a closely spaced ledge.}
-    - {label: ledge bridge, marker: 2, coordination: 2, definition: Between neighbours running along the step.}
-    - {label: lower hollow, marker: 3, coordination: 3, definition: In the pocket immediately below the ledge.}
+    - {label: ledge ontop, marker: 1, coordination: 1, definition: Above an atom at the upper ledge.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom below the ledge.}
+    - {label: ledge bridge, marker: 3, coordination: 2, definition: Between neighbouring atoms along the ledge.}
+    - {label: terrace bridge, marker: 4, coordination: 2, definition: Between neighbours in the narrow terrace.}
+    - {label: cross-step bridge, marker: 5, coordination: 2, definition: Between atoms on different step levels.}
+    - {label: lower threefold hollow, marker: 6, coordination: 3, definition: A three-atom opening in the lower row.}
+    - {label: mixed-height step pocket, marker: 7, coordination: 3, definition: A pocket coordinated by atoms at different heights.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -188,11 +199,16 @@
   cut_description: The [310] normal is closer to [100] than [210] is. That smaller miscut produces wider (100)-like terraces before the next ledge.
   card_description: Wider (100)-like terraces with long, directional channels.
   registry_note: Comparing (210) and (310) shows how increasing the first index widens the terrace while retaining the same broad step direction.
-  math_summary: 'The angle between [310] and [100] is \(\cos^{-1}(3/\sqrt{10})\approx18.4^\circ\), smaller than for (210).'
+  math_summary: 'Here \(d_{310}=a/\sqrt{10}\), and the angle between [310] and [100] is \(\cos^{-1}(3/\sqrt{10})\approx18.4^\circ\).'
   sites:
-    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom away from the ledge.}
-    - {label: row bridge, marker: 2, coordination: 2, definition: Between atoms along a dense row.}
-    - {label: channel hollow, marker: 3, coordination: 4, definition: In the elongated opening between rows.}
+    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom within the (100)-like terrace.}
+    - {label: raised-row ontop, marker: 2, coordination: 1, definition: Above a low-coordinate atom on the raised row.}
+    - {label: row bridge, marker: 3, coordination: 2, definition: Between neighbours along the raised row.}
+    - {label: terrace bridge, marker: 4, coordination: 2, definition: Between adjacent atoms within the terrace.}
+    - {label: cross-row bridge, marker: 5, coordination: 2, definition: Between the raised row and a terrace atom.}
+    - {label: terrace fourfold hollow, marker: 6, coordination: 4, definition: At a four-atom opening within the terrace.}
+    - {label: channel fourfold hollow, marker: 7, coordination: 4, definition: In the fourfold channel between rows.}
+    - {label: step pocket, marker: 8, coordination: 3, definition: A mixed-height pocket beside the raised row.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -217,11 +233,16 @@
   cut_description: The [311] cut lies between the (100) and (111) orientations. Its repeated intersection with the FCC lattice creates compact terraces and close-packed step rims.
   card_description: Short square terraces interrupted by close-packed step rows.
   registry_note: The top view mixes square terrace motifs with step pockets. The side profile identifies which apparent neighbours actually lie one atomic level lower.
-  math_summary: 'The \([311]\) normal produces a periodic array of compact terraces; its two equal minor indices retain a mirror-related in-plane geometry.'
+  math_summary: 'The reciprocal normal is \([311]\), so \(d_{311}=a/\sqrt{11}\). The equal minor indices retain a mirror-related in-plane geometry.'
   sites:
-    - {label: terrace hollow, marker: 1, coordination: 4, definition: A square-like pocket on the (100)-type terrace.}
-    - {label: step bridge, marker: 2, coordination: 2, definition: Between adjacent upper-step atoms.}
-    - {label: ledge hollow, marker: 3, coordination: 3, definition: A mixed-height pocket beside the step.}
+    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom within the terrace.}
+    - {label: step-edge ontop, marker: 2, coordination: 1, definition: Above an atom at the upper step edge.}
+    - {label: lower-row ontop, marker: 3, coordination: 1, definition: Above the exposed row below the step.}
+    - {label: terrace bridge, marker: 4, coordination: 2, definition: Between neighbours within the terrace.}
+    - {label: step bridge, marker: 5, coordination: 2, definition: Between adjacent atoms along the step.}
+    - {label: cross-step bridge, marker: 6, coordination: 2, definition: Between atoms on different step levels.}
+    - {label: terrace fourfold hollow, marker: 7, coordination: 4, definition: At a four-atom opening on the terrace.}
+    - {label: mixed-height ledge hollow, marker: 8, coordination: 3, definition: A threefold pocket coordinated across the ledge.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -246,11 +267,16 @@
   cut_description: The [331] normal sits close to [111]. The modest tilt interrupts the close-packed plane every few rows, producing regular straight ledges.
   card_description: A vicinal (111) face with regular straight ledges.
   registry_note: The triangular terrace pattern remains visible, but the ABC stacking is interrupted at each ledge. Hollow labels must therefore be tied to a specific local registry.
-  math_summary: 'The \([331]\) normal is about \(22^\circ\) from [111], giving a visibly stepped version of the close-packed face.'
+  math_summary: 'The spacing is \(d_{331}=a/\sqrt{19}\); [331] is \(\cos^{-1}(7/\sqrt{57})\approx22.0^\circ\) from [111].'
   sites:
-    - {label: terrace hollow, marker: 1, coordination: 3, definition: A threefold site within the (111)-like terrace.}
-    - {label: ledge bridge, marker: 2, coordination: 2, definition: Between neighbouring atoms at the step rim.}
-    - {label: step pocket, marker: 3, coordination: 3, definition: A mixed-layer hollow directly below the rim.}
+    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom within the close-packed terrace.}
+    - {label: ledge ontop, marker: 2, coordination: 1, definition: Above a low-coordinate atom on the ledge.}
+    - {label: lower-step ontop, marker: 3, coordination: 1, definition: Above the exposed atom below the ledge.}
+    - {label: terrace bridge, marker: 4, coordination: 2, definition: Between neighbours within the terrace.}
+    - {label: ledge bridge, marker: 5, coordination: 2, definition: Between adjacent atoms along the ledge.}
+    - {label: cross-step bridge, marker: 6, coordination: 2, definition: Between atoms on opposite step levels.}
+    - {label: terrace threefold hollow, marker: 7, coordination: 3, definition: A terrace hollow whose registry must be checked below.}
+    - {label: mixed-layer step pocket, marker: 8, coordination: 3, definition: A pocket coordinated by atoms from multiple layers.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -275,12 +301,16 @@
   cut_description: The [511] normal lies only slightly away from [100]. The bulk cut therefore preserves broad square terraces between comparatively well-separated steps.
   card_description: Broad square terraces separated by regularly spaced ledges.
   registry_note: Compared with (311), more terrace-like atoms fit between consecutive steps. This lets adsorption approach the (100) limit away from the ledge while remaining distinct at the edge.
-  math_summary: 'The \([511]\) normal is only \(15.8^\circ\) from [100], so (100)-like terrace behaviour dominates a larger fraction of the cell.'
+  math_summary: 'The spacing is \(d_{511}=a/\sqrt{27}\); [511] is \(\cos^{-1}(5/\sqrt{27})\approx15.8^\circ\) from [100].'
   sites:
-    - {label: terrace hollow, marker: 1, coordination: 4, definition: A fourfold-like site near the middle of the broad terrace.}
-    - {label: terrace bridge, marker: 2, coordination: 2, definition: Between two neighbours within the terrace.}
-    - {label: step bridge, marker: 3, coordination: 2, definition: Along the low-coordinate ledge row.}
-    - {label: step pocket, marker: 4, coordination: 3, definition: At the lower side of the step.}
+    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom within the broad terrace.}
+    - {label: step-edge ontop, marker: 2, coordination: 1, definition: Above a low-coordinate atom at the step edge.}
+    - {label: lower-step ontop, marker: 3, coordination: 1, definition: Above the exposed row below the step.}
+    - {label: terrace bridge, marker: 4, coordination: 2, definition: Between adjacent atoms within the terrace.}
+    - {label: step bridge, marker: 5, coordination: 2, definition: Between neighbours along the upper step.}
+    - {label: cross-step bridge, marker: 6, coordination: 2, definition: Between atoms on different step levels.}
+    - {label: terrace fourfold hollow, marker: 7, coordination: 4, definition: At a four-atom opening within the terrace.}
+    - {label: step threefold pocket, marker: 8, coordination: 3, definition: A mixed-height threefold pocket beside the step.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -305,7 +335,7 @@
   cut_description: The cut is perpendicular to one cube axis. Unlike FCC, translating it through BCC alternates between corner-atom and body-centred layers.
   card_description: A square net whose registry alternates through the body centre.
   registry_note: The second layer is shifted to the centre of the surface square, giving the hollow substantial subsurface coordination.
-  math_summary: 'The square repeat follows the cubic axes and has side length \(a\); adjacent atomic layers are separated by \(a/2\).'
+  math_summary: 'The outlined square cell follows the cubic axes with side \(a\). While \(d_{100}=a\), the body-centred basis produces alternating atom-bearing layers separated by \(a/2\).'
   sites:
     - {label: ontop, marker: 1, coordination: 1, definition: Directly above a surface atom., ase_keyword: ontop}
     - {label: bridge, marker: 2, coordination: 2, definition: Halfway along an edge of the square net., ase_keyword: bridge}
@@ -333,7 +363,7 @@
   cut_description: The plane crosses x and y equally and remains parallel to z. It passes through both corner and body-centred sites, producing BCC's most closely packed surface.
   card_description: The densest BCC face, with zig-zag rows and anisotropic bridges.
   registry_note: Atoms in the first two layers interlock to form the dense row pattern; a single-layer view makes the net look more open than it is.
-  math_summary: 'A convenient rectangular cell spans \(a\) and \(a/\sqrt{2}\). The two bridge directions are geometrically distinct.'
+  math_summary: 'The spacing is \(d_{110}=a/\sqrt{2}\). The outlined conventional rectangle spans \(a\sqrt{2}\) by \(a\) and contains the inequivalent short and long bridge directions.'
   sites:
     - {label: ontop, marker: 1, coordination: 1, definition: Above an atom in a dense surface row., ase_keyword: ontop}
     - {label: short bridge, marker: 2, coordination: 2, definition: Between the closest pair along the compact direction., ase_keyword: shortbridge}
@@ -362,11 +392,12 @@
   cut_description: Equal intercepts give a plane normal to the cube body diagonal. In BCC this direction runs through the central atom, creating a sequence of corrugated triangular layers.
   card_description: An open threefold surface built from several closely spaced levels.
   registry_note: Three-layer registry is essential here because the topmost plane alone contains comparatively few atoms.
-  math_summary: 'The macroscopic threefold symmetry follows [111], while the interplanar repeat is \(a/\sqrt{3}\).'
+  math_summary: 'The crystallographic spacing is \(d_{111}=a/\sqrt{3}\). The body-centred basis inserts atom-bearing sublayers at half that distance, which produces the strong corrugation.'
   sites:
-    - {label: ontop, marker: 1, coordination: 1, definition: Above an atom in the outermost triangular row., ase_keyword: ontop}
-    - {label: bridge, marker: 2, coordination: 2, definition: Between neighbouring projected rows.}
-    - {label: threefold pocket, marker: 3, coordination: 3, definition: In a mixed-height triangular opening.}
+    - {label: outermost ontop, marker: 1, coordination: 1, definition: Above an atom in the highest corrugated row., ase_keyword: ontop}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom in the lower projected row.}
+    - {label: row bridge, marker: 3, coordination: 2, definition: Between atoms in neighbouring projected rows.}
+    - {label: mixed-height hollow, marker: 4, coordination: 3, definition: The source-defined hollow; verify its actual coordinating shell., ase_keyword: hollow, ase_status: source-only}
   ase_example: |
     from ase.build import bcc111
 
@@ -391,11 +422,13 @@
   cut_description: Tilting the normal from [100] towards [110] forces the cut through alternating corner and body-centred rows, creating a short-period staircase.
   card_description: A highly open BCC face with sharp ridges and deep channels.
   registry_note: The projected trough contains neighbours from several heights, so lateral coordination alone understates the local environment.
-  math_summary: 'The [210] normal is \(26.6^\circ\) from [100], producing closely spaced ledges.'
+  math_summary: 'For the cubic lattice, \(d_{210}=a/\sqrt{5}\), and [210] is \(\cos^{-1}(2/\sqrt{5})\approx26.6^\circ\) from [100].'
   sites:
-    - {label: ridge ontop, marker: 1, coordination: 1, definition: Above the uppermost low-coordinate row.}
-    - {label: ridge bridge, marker: 2, coordination: 2, definition: Between neighbours along the ridge.}
-    - {label: trough pocket, marker: 3, coordination: 4, definition: In the mixed-layer channel below the ridge.}
+    - {label: ridge ontop, marker: 1, coordination: 1, definition: Above an atom on the upper ridge.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom below the ridge.}
+    - {label: ridge bridge, marker: 3, coordination: 2, definition: Between adjacent atoms along the ridge.}
+    - {label: ridge-to-trough bridge, marker: 4, coordination: 2, definition: Between a ridge atom and a lower trough atom.}
+    - {label: mixed-layer trough pocket, marker: 5, coordination: 4, definition: A four-atom pocket assembled from different heights.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -420,11 +453,15 @@
   cut_description: The nonzero l component rotates the [210]-type cut out of its channel direction, generating staggered ledges rather than parallel coplanar ridges.
   card_description: Narrow BCC terraces with staggered, directional ledges.
   registry_note: Adjacent rows alternate their height and lateral offset, which is easiest to see by rotating the 3D model towards a side view.
-  math_summary: 'The [211] normal defines an oblique repeat containing both terrace-like and ledge atoms.'
+  math_summary: 'The cubic reciprocal normal is [211], giving \(d_{211}=a/\sqrt{6}\); the surface repeat contains several inequivalent projected rows.'
   sites:
-    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom between two ledges.}
-    - {label: step bridge, marker: 2, coordination: 2, definition: Between atoms along the upper ledge.}
-    - {label: step pocket, marker: 3, coordination: 3, definition: In a mixed-height opening beside the ledge.}
+    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom within the terrace.}
+    - {label: step ontop, marker: 2, coordination: 1, definition: Above a low-coordinate atom at the step.}
+    - {label: lower-row ontop, marker: 3, coordination: 1, definition: Above the exposed row below the step.}
+    - {label: terrace bridge, marker: 4, coordination: 2, definition: Between neighbours within the terrace.}
+    - {label: step bridge, marker: 5, coordination: 2, definition: Between adjacent atoms along the step.}
+    - {label: cross-step bridge, marker: 6, coordination: 2, definition: Between atoms on different step levels.}
+    - {label: mixed-height step pocket, marker: 7, coordination: 3, definition: A pocket coordinated across the step.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -449,11 +486,15 @@
   cut_description: Moving the normal closer to [100] increases the distance between equivalent ledges. The cut retains BCC's alternating corner/body-centre sequence.
   card_description: Broader BCC terraces separated by straight raised rows.
   registry_note: Comparing (210) and (310) directly shows how a smaller miscut increases terrace width without changing the basic ledge direction.
-  math_summary: 'The [310] normal is \(18.4^\circ\) from [100], so the step density is lower than on (210).'
+  math_summary: 'Here \(d_{310}=a/\sqrt{10}\), and [310] is \(\cos^{-1}(3/\sqrt{10})\approx18.4^\circ\) from [100].'
   sites:
-    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom in the broader terrace region.}
-    - {label: row bridge, marker: 2, coordination: 2, definition: Between neighbours along a raised row.}
-    - {label: channel pocket, marker: 3, coordination: 4, definition: In the elongated opening between rows.}
+    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom within the terrace.}
+    - {label: raised-row ontop, marker: 2, coordination: 1, definition: Above an atom on the raised row.}
+    - {label: lower-row ontop, marker: 3, coordination: 1, definition: Above an exposed atom in the lower row.}
+    - {label: row bridge, marker: 4, coordination: 2, definition: Between neighbours along the raised row.}
+    - {label: terrace bridge, marker: 5, coordination: 2, definition: Between adjacent atoms within the terrace.}
+    - {label: cross-row bridge, marker: 6, coordination: 2, definition: Between atoms in raised and lower rows.}
+    - {label: channel fourfold pocket, marker: 7, coordination: 4, definition: In the mixed-height channel between rows.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -478,7 +519,7 @@
   cut_description: The (0001) plane is perpendicular to the hexagonal c axis and parallel to all basal axes. It selects one close-packed sheet from the ABAB sequence.
   card_description: The close-packed HCP basal plane with ABAB stacking.
   registry_note: HCP and FCC hollows look identical in one layer; the ABAB stacking below distinguishes them from the ABC sequence on FCC(111).
-  math_summary: 'The basal primitive vectors have length \(a\) and meet at \(60^\circ\); ideal HCP has \(c/a=\sqrt{8/3}\).'
+  math_summary: 'For HCP, \(d_{hkil}^{-2}=\frac{4}{3}(h^2+hk+k^2)/a^2+l^2/c^2\). Thus \(d_{0001}=c\), with the AB basis producing atomic layers separated by \(c/2\).'
   sites:
     - {label: ontop, marker: 1, coordination: 1, definition: Directly above one basal-plane atom., ase_keyword: ontop}
     - {label: bridge, marker: 2, coordination: 2, definition: Halfway along a nearest-neighbour bond., ase_keyword: bridge}
@@ -508,11 +549,13 @@
   cut_description: The plane is parallel to c and cuts one pair of basal axes. In the bulk prism it appears as a vertical sheet through the hexagonal column.
   card_description: A nonpolar prism face with distinct basal and c-axis rows.
   registry_note: Alternating rows originate from the two-atom HCP basis, so equal-looking gaps can have different atoms immediately underneath.
-  math_summary: 'One in-plane vector follows [0001] with period \(c\); the other lies in the basal plane.'
+  math_summary: 'The HCP spacing formula gives \(d_{10\bar{1}0}=\sqrt{3}a/2\). The outlined rectangle uses one basal translation and one [0001] translation of length \(c\).'
   sites:
-    - {label: ontop, marker: 1, coordination: 1, definition: Directly above an outermost prism-row atom., ase_keyword: ontop}
-    - {label: row bridge, marker: 2, coordination: 2, definition: Between neighbours along a prism row.}
-    - {label: channel, marker: 3, coordination: 4, definition: In the rectangular opening between alternating rows.}
+    - {label: raised-row ontop, marker: 1, coordination: 1, definition: Above an outermost prism-row atom., ase_keyword: ontop}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom in the lower prism row.}
+    - {label: row bridge, marker: 3, coordination: 2, definition: Between nearest neighbours along the raised row.}
+    - {label: axial bridge / channel pocket, marker: 4, coordination: 4, definition: The axial midpoint is also surrounded by the lower row, so these are one lateral site rather than two.}
+    - {label: cross-row bridge, marker: 5, coordination: 2, definition: Between atoms in adjacent prism rows.}
   ase_example: |
     from ase.build import hcp10m10
 
@@ -537,11 +580,14 @@
   cut_description: Like (10-10), this plane is parallel to c, but its basal normal is rotated. The hexagonal bulk diagram makes the two inequivalent prism cuts visible.
   card_description: A prism cut rotated 30° from HCP(10-10).
   registry_note: The axial periodicity is unchanged, while the cross-row spacing and exposed two-atom registry differ from the first-order prism.
-  math_summary: 'The plane contains [0001] but uses the basal [11-20] orientation for its second in-plane direction.'
+  math_summary: 'The HCP spacing formula gives \(d_{11\bar{2}0}=a/2\). The plane contains [0001], so one in-plane repeat has length \(c\).'
   sites:
-    - {label: row ontop, marker: 1, coordination: 1, definition: Above an atom on the outer zig-zag row.}
-    - {label: axial bridge, marker: 2, coordination: 2, definition: Between neighbours parallel to the c axis.}
-    - {label: row pocket, marker: 3, coordination: 3, definition: In the opening between adjacent zig-zag rows.}
+    - {label: outer-row ontop, marker: 1, coordination: 1, definition: Above an atom in the outer zig-zag row.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom in the lower row.}
+    - {label: axial bridge, marker: 3, coordination: 2, definition: Between neighbours parallel to the c axis.}
+    - {label: zig-zag row bridge, marker: 4, coordination: 2, definition: Between neighbours following the outer row.}
+    - {label: cross-row bridge, marker: 5, coordination: 2, definition: Between atoms in adjacent projected rows.}
+    - {label: threefold row pocket, marker: 6, coordination: 3, definition: A pocket between three atoms in neighbouring rows.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -566,11 +612,13 @@
   cut_description: Adding a nonzero l index tilts the (10-10) prism plane towards the basal plane. The cut crosses both the side and end of the hexagonal bulk cell.
   card_description: An oblique HCP cut with mixed basal and axial character.
   registry_note: The two-atom HCP basis appears as alternating-height ridges; rotating the model is essential for separating projected neighbours.
-  math_summary: 'Both basal and c-axis intercepts are finite, giving a genuinely pyramidal orientation.'
+  math_summary: 'For this pyramidal plane, \(d_{10\bar{1}1}^{-2}=4/(3a^2)+1/c^2\); both basal and c-axis reciprocal components are nonzero.'
   sites:
     - {label: ridge ontop, marker: 1, coordination: 1, definition: Above an atom on the upper oblique ridge.}
-    - {label: ridge bridge, marker: 2, coordination: 2, definition: Between neighbours along that ridge.}
-    - {label: lower pocket, marker: 3, coordination: 3, definition: In a mixed-height opening below the ridge.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom below the ridge.}
+    - {label: ridge bridge, marker: 3, coordination: 2, definition: Between neighbours along the upper ridge.}
+    - {label: cross-ridge bridge, marker: 4, coordination: 2, definition: Between atoms on opposite sides of the ridge.}
+    - {label: lower threefold pocket, marker: 5, coordination: 3, definition: A mixed-height pocket below the ridge.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -595,11 +643,15 @@
   cut_description: Doubling l moves the plane's c-axis intercept closer to the origin. The coloured cut therefore rotates relative to (10-11) while keeping the same basal orientation.
   card_description: A second pyramidal inclination with broader projected terraces.
   registry_note: The terrace width and layer sequence differ from (10-11), even though both share the same basal indices.
-  math_summary: 'Comparing (10-11) and (10-12) isolates the effect of increasing the c-axis reciprocal component.'
+  math_summary: 'Here \(d_{10\bar{1}2}^{-2}=4/(3a^2)+4/c^2\). Relative to (10-11), doubling l increases the c-axis reciprocal component.'
   sites:
-    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom between oblique ridges.}
-    - {label: terrace bridge, marker: 2, coordination: 2, definition: Between two atoms on the same projected level.}
-    - {label: step pocket, marker: 3, coordination: 3, definition: In the mixed-layer opening at a ridge.}
+    - {label: terrace ontop, marker: 1, coordination: 1, definition: Above an atom within the terrace.}
+    - {label: ridge ontop, marker: 2, coordination: 1, definition: Above an atom on the upper ridge.}
+    - {label: lower-row ontop, marker: 3, coordination: 1, definition: Above an exposed atom below the ridge.}
+    - {label: terrace bridge, marker: 4, coordination: 2, definition: Between neighbours within the terrace.}
+    - {label: ridge bridge, marker: 5, coordination: 2, definition: Between adjacent atoms along the ridge.}
+    - {label: cross-step bridge, marker: 6, coordination: 2, definition: Between atoms on different step levels.}
+    - {label: mixed-layer step pocket, marker: 7, coordination: 3, definition: A pocket coordinated by atoms from multiple layers.}
   ase_example: |
     from ase.build import bulk, surface
 
@@ -624,11 +676,15 @@
   cut_description: Starting from the (11-20) prism, the l=1 component tilts the plane towards the basal direction. The cut meets a different pair of hexagonal side faces than (10-11).
   card_description: A rotated pyramidal cut with strongly staggered ledges.
   registry_note: Several projected nearest neighbours occupy different heights because both the basal rotation and pyramidal tilt act at once.
-  math_summary: 'The four-index constraint \(i=-(h+k)\) gives (11-21); its three-index ASE input is represented here by (1,1,1).'
+  math_summary: 'The constraint \(i=-(h+k)\) gives (11-21), and \(d_{11\bar{2}1}^{-2}=4/a^2+1/c^2\). Its three-index ASE input is (1,1,1).'
   sites:
-    - {label: ledge ontop, marker: 1, coordination: 1, definition: Above an atom at the upper staggered ledge.}
-    - {label: ledge bridge, marker: 2, coordination: 2, definition: Between neighbours following the oblique ledge.}
-    - {label: pyramidal pocket, marker: 3, coordination: 3, definition: In the mixed-height opening below the ledge.}
+    - {label: ledge ontop, marker: 1, coordination: 1, definition: Above a low-coordinate atom on the ledge.}
+    - {label: terrace ontop, marker: 2, coordination: 1, definition: Above an atom within the terrace.}
+    - {label: lower-row ontop, marker: 3, coordination: 1, definition: Above an exposed atom below the ledge.}
+    - {label: ledge bridge, marker: 4, coordination: 2, definition: Between adjacent atoms along the ledge.}
+    - {label: terrace bridge, marker: 5, coordination: 2, definition: Between neighbours within the terrace.}
+    - {label: cross-ledge bridge, marker: 6, coordination: 2, definition: Between atoms on opposite sides of the ledge.}
+    - {label: pyramidal mixed-height pocket, marker: 7, coordination: 3, definition: A pocket characteristic of the pyramidal cut.}
   ase_example: |
     from ase.build import bulk, surface
 

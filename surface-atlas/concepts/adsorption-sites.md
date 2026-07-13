@@ -51,5 +51,7 @@ Report both the initial named site and the final optimized geometry when they di
 
 <aside class="concept-callout"><strong>About the builder markers</strong><p>They are generated from exposed-atom geometry: ontop positions, nearest-neighbour midpoints, and empty circumcentres. They are useful starting guesses, not verified minima.</p></aside>
 
+<aside class="concept-callout"><strong>Physical site does not mean ASE keyword.</strong><p>The surface guides label every listed site as either a named position accepted by an ASE builder or a site that requires explicit coordinates. For corrugated surfaces, a numerical lateral position still needs a local vertical reference; <code>add_adsorbate()</code> otherwise measures height from the slab's highest atom.</p></aside>
+
 <div class="concept-actions"><a class="button" href="{{ '/surface-sites/fcc-111.html' | relative_url }}">Compare FCC and HCP hollows</a><a class="button secondary" href="{{ '/surface-builder/' | relative_url }}">Generate candidate sites</a></div>
 
