@@ -4,6 +4,6 @@ permalink: /robots.txt
 sitemap: false
 ---
 User-agent: *
-Allow: /surface-atlas/
+Allow: /
 
 Sitemap: https://rskort.github.io/surface-atlas/sitemap.xml
