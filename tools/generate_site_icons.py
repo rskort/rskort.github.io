@@ -38,10 +38,8 @@ def main() -> None:
         "sizes": [(16, 16), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)],
     }
     icon = render(256)
-    # Keep the conventional fallback and a stable, brand-specific URL. The
-    # latter avoids stale caches left by the favicon that preceded Surface Atlas.
+    # Keep the conventional favicon path for maximum browser and crawler support.
     icon.save(ROOT / "favicon.ico", **ico_options)
-    icon.save(ROOT / "surface-atlas-favicon.ico", **ico_options)
 
 
 if __name__ == "__main__":
