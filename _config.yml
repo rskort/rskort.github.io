@@ -4,8 +4,6 @@ url: "https://rskort.github.io"
 baseurl: "/surface-atlas"
 markdown: kramdown
 permalink: pretty
-plugins:
-  - jekyll-sitemap
 exclude:
   - tools
   - .venv
