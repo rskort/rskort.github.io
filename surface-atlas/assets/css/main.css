@@ -139,14 +139,22 @@ p, ul, ol { max-width: 72ch; }
 .builder-controls fieldset { border: 0; border-right: 1px solid var(--line); margin: 0; min-width: 0; padding: 1.2rem 1.25rem 1.35rem; }
 .builder-controls fieldset:last-of-type { border-right: 0; }
 .builder-controls legend { color: var(--accent); float: left; font-size: .72rem; font-weight: 780; letter-spacing: .1em; margin-bottom: .9rem; text-transform: uppercase; width: 100%; }
-.lattice-selector { display: grid; gap: .45rem; }
+.lattice-selector { display: grid; gap: .45rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.lattice-selector legend { grid-column: 1 / -1; }
 .lattice-selector > label { cursor: pointer; display: block; position: relative; }
-.lattice-selector input { opacity: 0; position: absolute; }
+.lattice-selector > label > input { opacity: 0; position: absolute; }
 .lattice-selector label > span { border: 1px solid var(--line); border-radius: 9px; display: grid; padding: .55rem .7rem; transition: background .15s ease, border-color .15s ease; }
 .lattice-selector label > span strong { font-size: .82rem; }
 .lattice-selector label > span small { color: var(--muted); font-size: .68rem; }
-.lattice-selector input:checked + span { background: var(--accent-soft); border-color: #8eb8b2; color: var(--accent-dark); }
-.lattice-selector input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lattice-selector > label > input:checked + span { background: var(--accent-soft); border-color: #8eb8b2; color: var(--accent-dark); }
+.lattice-selector > label > input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lattice-parameter-inputs { border-top: 1px solid var(--line); display: flex; gap: .55rem; grid-column: 1 / -1; margin-top: .35rem; padding-top: .75rem; }
+.lattice-parameter-inputs label { align-items: center; display: flex; flex: 1; gap: .4rem; }
+.lattice-parameter-inputs label[hidden] { display: none; }
+.lattice-parameter-inputs label > span { border: 0; color: var(--muted); display: block; font-size: .68rem; padding: 0; white-space: nowrap; }
+.lattice-parameter-inputs input { background: var(--background); border: 1px solid var(--line-dark); border-radius: 7px; color: var(--ink); font: 700 .78rem/1 ui-monospace, monospace; min-width: 0; padding: .42rem; width: 100%; }
+.lattice-parameter-inputs input:focus { border-color: var(--accent); outline: 2px solid #b9d6d1; }
+.lattice-parameter-note { color: var(--muted); font-size: .64rem; grid-column: 1 / -1; line-height: 1.4; margin: .15rem 0 0; }
 .index-inputs { clear: both; display: flex; gap: .45rem; }
 .index-inputs label { align-items: center; display: grid; gap: .2rem; justify-items: center; }
 .index-inputs label > span { font-size: .78rem; font-style: italic; font-weight: 750; }

@@ -694,3 +694,494 @@
     - Dropping the basal rotation when comparing it with (10-11).
     - Counting projected atoms without distinguishing their z levels.
   figures: {top: /assets/surfaces/hcp-11m21-top.svg, profile: /assets/surfaces/hcp-11m21-profile.svg, stacking: /assets/surfaces/hcp-11m21-stacking.svg}
+
+- id: sc-100
+  crystal: sc
+  title: SC(100)
+  group: low-index
+  family: Low-index SC
+  lattice: Simple cubic
+  facet: "(100)"
+  surface_shape: Square net
+  character: Flat · fourfold symmetry
+  ase_builder: surface
+  description: The simple-cubic (100) face is a single square net repeated directly above the layers below it. Its uncluttered geometry separates the ontop, bridge, and fourfold hollow constructions clearly.
+  cut_description: The plane is perpendicular to one cube axis and parallel to the other two. Every translated member cuts an equivalent square layer of corner-lattice sites.
+  card_description: A primitive square net with ontop, bridge, and fourfold hollow sites.
+  registry_note: Successive layers have AA registry, so every deeper atom projects onto an outermost atom rather than into the square hollow.
+  math_summary: 'For a cubic lattice, \(d_{100}=a\). The primitive surface cell is a square of side \(a\) containing one lattice site.'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Directly above one outermost atom.}
+    - {label: bridge, marker: 2, coordination: 2, definition: Halfway between nearest neighbours along a square-net edge.}
+    - {label: fourfold hollow, marker: 3, coordination: 4, definition: At the centre of a square of four surface atoms.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    po = bulk("Po", "sc", a=3.35, cubic=True)
+    slab = surface(po, (1, 0, 0), 6, vacuum=10)
+  common_mistakes:
+    - Importing the alternating layer registry of BCC(100) into the AA-stacked SC face.
+    - Calling the square centre a threefold hollow.
+  figures: {top: /assets/surfaces/sc-100-top.svg, profile: /assets/surfaces/sc-100-profile.svg, stacking: /assets/surfaces/sc-100-stacking.svg}
+
+- id: sc-110
+  crystal: sc
+  title: SC(110)
+  group: low-index
+  family: Low-index SC
+  lattice: Simple cubic
+  facet: "(110)"
+  surface_shape: Rectangular rows
+  character: Flat · anisotropic
+  ase_builder: surface
+  description: SC(110) exposes a rectangular net whose short and long directions are inequivalent. The result has two distinct bridge orientations and an elongated fourfold opening.
+  cut_description: The plane meets two cubic axes equally and remains parallel to the third, producing rows along [001] separated along the face diagonal.
+  card_description: A rectangular simple-cubic face with two bridge directions.
+  registry_note: Consecutive atom-bearing planes shift by half the long surface repeat, making the lower rows visible between outermost rows in projection.
+  math_summary: 'The plane spacing is \(d_{110}=a/\sqrt{2}\). A rectangular surface cell has sides \(a\sqrt{2}\) and \(a\).'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Above an atom in the outermost rectangular row.}
+    - {label: short bridge, marker: 2, coordination: 2, definition: Midpoint along the shorter c-axis surface repeat.}
+    - {label: long bridge, marker: 3, coordination: 2, definition: Midpoint between atoms across the longer in-plane repeat.}
+    - {label: rectangular hollow, marker: 4, coordination: 4, definition: Centre of the elongated rectangle formed by four surface atoms.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    po = bulk("Po", "sc", a=3.35, cubic=True)
+    slab = surface(po, (1, 1, 0), 8, vacuum=10)
+  common_mistakes:
+    - Treating the short and long bridge positions as symmetry equivalent.
+    - Reading projected second-layer atoms as part of the outermost plane.
+  figures: {top: /assets/surfaces/sc-110-top.svg, profile: /assets/surfaces/sc-110-profile.svg, stacking: /assets/surfaces/sc-110-stacking.svg}
+
+- id: sc-111
+  crystal: sc
+  title: SC(111)
+  group: low-index
+  family: Low-index SC
+  lattice: Simple cubic
+  facet: "(111)"
+  surface_shape: Triangular net
+  character: Flat · threefold symmetry
+  ase_builder: surface
+  description: SC(111) produces a triangular outermost net even though simple cubic is not a close-packed structure. Subsurface registry distinguishes the two orientations of threefold hollow.
+  cut_description: Equal intercepts orient the plane normal along the cube body diagonal. Each translated plane selects one triangular registry from a three-layer sequence.
+  card_description: A triangular net with two subsurface-distinct threefold hollows.
+  registry_note: The projected layers cycle through three registries. One hollow lies above L2 and the other above L3, so their top-layer coordination is identical but their subsurface support differs.
+  math_summary: 'The spacing is \(d_{111}=a/\sqrt{3}\), and the triangular surface vectors have length \(a\sqrt{2}\) with a 60° angle.'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Directly above an atom in the triangular outermost layer.}
+    - {label: bridge, marker: 2, coordination: 2, definition: Midpoint of a nearest in-plane connection.}
+    - {label: L2-registry hollow, marker: 3, coordination: 3, definition: Threefold opening whose lateral coordinate coincides with a second-layer atom.}
+    - {label: L3-registry hollow, marker: 4, coordination: 3, definition: The other threefold opening, aligned with the third-layer registry.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    po = bulk("Po", "sc", a=3.35, cubic=True)
+    slab = surface(po, (1, 1, 1), 9, vacuum=10)
+  common_mistakes:
+    - Calling SC(111) close packed because its top view is triangular.
+    - Treating the two hollow orientations as identical without checking lower layers.
+  figures: {top: /assets/surfaces/sc-111-top.svg, profile: /assets/surfaces/sc-111-profile.svg, stacking: /assets/surfaces/sc-111-stacking.svg}
+
+- id: sc-210
+  crystal: sc
+  title: SC(210)
+  group: high-index
+  family: Open SC
+  lattice: Simple cubic
+  facet: "(210)"
+  surface_shape: Parallel ridges
+  character: Stepped · open
+  ase_builder: surface
+  description: SC(210) tilts the square (100) net into a regular sequence of exposed ridges and lower rows. Its compact repeat is a useful first high-index simple-cubic example.
+  cut_description: The [210] normal tilts away from [100] towards [110], so the cut crosses successive cubic rows at two different lateral positions.
+  card_description: A short-period staircase of ridges and lower rows.
+  registry_note: Each visible row belongs to a different atom-bearing height; the open pocket therefore draws support from more than one layer.
+  math_summary: 'For the cubic lattice, \(d_{210}=a/\sqrt{5}\), and the in-plane repeat combines one [001] translation with a longer vector across the steps.'
+  sites:
+    - {label: ridge ontop, marker: 1, coordination: 1, definition: Above an atom in the highest exposed row.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom in the next lower row.}
+    - {label: ridge bridge, marker: 3, coordination: 2, definition: Between adjacent atoms along the upper ridge.}
+    - {label: ridge-to-trough bridge, marker: 4, coordination: 2, definition: Between an upper-row atom and its nearest lower-row neighbour.}
+    - {label: mixed-height pocket, marker: 5, coordination: 3, definition: A three-atom opening supported by consecutive exposed heights.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    po = bulk("Po", "sc", a=3.35, cubic=True)
+    slab = surface(po, (2, 1, 0), 10, vacuum=10)
+  common_mistakes:
+    - Flattening all ridge and trough atoms into one layer in the top view.
+    - Inferring energetic stability from the geometric site labels.
+  figures: {top: /assets/surfaces/sc-210-top.svg, profile: /assets/surfaces/sc-210-profile.svg, stacking: /assets/surfaces/sc-210-stacking.svg}
+
+- id: sc-211
+  crystal: sc
+  title: SC(211)
+  group: high-index
+  family: Open SC
+  lattice: Simple cubic
+  facet: "(211)"
+  surface_shape: Oblique ledges
+  character: Stepped · corrugated
+  ase_builder: surface
+  description: SC(211) adds a finite third index to the (210)-type tilt. The surface becomes a corrugated sequence of oblique ledges with several projected height levels.
+  cut_description: The plane cuts all three cubic axes with unequal intercepts, producing an oblique in-plane cell rather than the rectangular repeat of SC(210).
+  card_description: Corrugated oblique ledges with mixed-height pockets.
+  registry_note: Ledge, lower-row, and deeper atoms occupy different lateral registries, so apparent neighbours in projection can be separated vertically.
+  math_summary: 'The plane spacing is \(d_{211}=a/\sqrt{6}\). Both in-plane translations combine multiple cubic axes.'
+  sites:
+    - {label: ledge ontop, marker: 1, coordination: 1, definition: Above an atom on the highest oblique ledge.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom below the ledge.}
+    - {label: ledge bridge, marker: 3, coordination: 2, definition: Between nearest atoms along the ledge.}
+    - {label: cross-ledge bridge, marker: 4, coordination: 2, definition: Between atoms on adjacent height levels.}
+    - {label: mixed-height pocket, marker: 5, coordination: 3, definition: A three-atom pocket assembled from successive exposed rows.}
+  ase_example: |
+    from ase.build import bulk, surface
+
+    po = bulk("Po", "sc", a=3.35, cubic=True)
+    slab = surface(po, (2, 1, 1), 10, vacuum=10)
+  common_mistakes:
+    - Treating SC(211) as a rectangular terrace merely because its parent lattice is cubic.
+    - Counting projected coordination without retaining atom heights.
+  figures: {top: /assets/surfaces/sc-211-top.svg, profile: /assets/surfaces/sc-211-profile.svg, stacking: /assets/surfaces/sc-211-stacking.svg}
+
+- id: sh-0001
+  crystal: sh
+  title: SH(0001)
+  group: low-index
+  family: Basal SH
+  lattice: Simple hexagonal
+  facet: "(0001)"
+  surface_shape: Triangular net
+  character: Basal · sixfold symmetry
+  ase_builder: surface
+  description: The simple-hexagonal basal face is a triangular net repeated in AA registry. Its top view resembles HCP(0001), but it has no shifted second atom in the bulk basis.
+  cut_description: The basal plane is perpendicular to c and parallel to all three basal axes. Translating it by c reaches the next identical one-site layer.
+  card_description: A triangular basal net with direct AA layer registry.
+  registry_note: Every deeper layer projects onto the outermost atoms. The two triangular hollow orientations are symmetry equivalent and neither lies above a shifted HCP-like sublayer.
+  math_summary: 'For a simple hexagonal lattice, \(d_{0001}=c\). The primitive basal cell has side \(a\), a 60° angle, and one lattice site.'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Directly above a basal-plane atom.}
+    - {label: bridge, marker: 2, coordination: 2, definition: Halfway between nearest basal neighbours.}
+    - {label: threefold hollow, marker: 3, coordination: 3, definition: Centre of a triangular opening; the opposite orientation is symmetry equivalent.}
+  ase_example: |
+    from math import sqrt
+    from ase import Atoms
+    from ase.build import surface
+
+    a, c = 2.70, 4.40
+    # X is ASE's dummy atom; replace it with the species being modelled.
+    sh = Atoms("X", cell=[(a, 0, 0), (-a/2, sqrt(3)*a/2, 0),
+                          (0, 0, c)], pbc=True)
+    slab = surface(sh, (0, 0, 1), 6, vacuum=10)
+  common_mistakes:
+    - Equating simple hexagonal AA stacking with the two-atom AB stacking of HCP.
+    - Assigning FCC and HCP names to symmetry-equivalent SH hollows.
+  figures: {top: /assets/surfaces/sh-0001-top.svg, profile: /assets/surfaces/sh-0001-profile.svg, stacking: /assets/surfaces/sh-0001-stacking.svg}
+
+- id: sh-10m10
+  crystal: sh
+  title: SH(10-10)
+  group: low-index
+  family: Prismatic SH
+  lattice: Simple hexagonal
+  facet: "(10-10)"
+  surface_shape: Rectangular net
+  character: Prism · anisotropic
+  ase_builder: surface
+  description: SH(10-10) is a first-order prism face with independent basal and c-axis repeats. Those unequal directions create basal and axial bridge sites around a rectangular hollow.
+  cut_description: The plane is parallel to c and cuts one pair of basal axes, appearing as a vertical sheet through the simple hexagonal prism.
+  card_description: A rectangular prism net with basal and axial bridges.
+  registry_note: Adjacent atom-bearing planes alternate laterally by half the basal surface repeat, while the c-axis rows remain straight.
+  math_summary: 'The spacing is \(d_{10\bar{1}0}=\sqrt{3}a/2\). The rectangular surface repeats are \(a\) and \(c\).'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Above an atom in the outermost prism row.}
+    - {label: basal bridge, marker: 2, coordination: 2, definition: Between neighbours along the basal surface repeat.}
+    - {label: axial bridge, marker: 3, coordination: 2, definition: Between neighbours parallel to the c axis.}
+    - {label: rectangular hollow, marker: 4, coordination: 4, definition: Centre of the rectangle bounded by two basal and two axial rows.}
+  ase_example: |
+    from math import sqrt
+    from ase import Atoms
+    from ase.build import surface
+
+    a, c = 2.70, 4.40
+    # X is ASE's dummy atom; replace it with the species being modelled.
+    sh = Atoms("X", cell=[(a, 0, 0), (-a/2, sqrt(3)*a/2, 0),
+                          (0, 0, c)], pbc=True)
+    slab = surface(sh, (1, 0, 0), 8, vacuum=10)
+  common_mistakes:
+    - Treating the basal and axial bridge directions as equivalent when a and c differ.
+    - Forgetting that (10-10) is written as (100) in the three-index ASE cell.
+  figures: {top: /assets/surfaces/sh-10m10-top.svg, profile: /assets/surfaces/sh-10m10-profile.svg, stacking: /assets/surfaces/sh-10m10-stacking.svg}
+
+- id: sh-11m20
+  crystal: sh
+  title: SH(11-20)
+  group: low-index
+  family: Prismatic SH
+  lattice: Simple hexagonal
+  facet: "(11-20)"
+  surface_shape: Wide rectangular net
+  character: Prism · rotated basal cut
+  ase_builder: surface
+  description: SH(11-20) rotates the prism normal by 30 degrees in the basal plane. It remains parallel to c but changes the cross-row repeat and surface density.
+  cut_description: The cut is vertical like (10-10), but it meets a different pair of basal directions in the hexagonal prism.
+  card_description: The second prism orientation, rotated 30° in the basal plane.
+  registry_note: Atom-bearing planes alternate across the wide basal repeat; the unchanged axial rows make the contrast with SH(10-10) easy to isolate.
+  math_summary: 'The spacing is \(d_{11\bar{2}0}=a/2\). One surface vector remains the c-axis translation of length \(c\).'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Above an atom in the outermost prism row.}
+    - {label: axial bridge, marker: 2, coordination: 2, definition: Midpoint between neighbours parallel to c.}
+    - {label: cross-row bridge, marker: 3, coordination: 2, definition: Midpoint across the wider basal surface repeat.}
+    - {label: rectangular hollow, marker: 4, coordination: 4, definition: Centre of the four-atom rectangular opening.}
+  ase_example: |
+    from math import sqrt
+    from ase import Atoms
+    from ase.build import surface
+
+    a, c = 2.70, 4.40
+    # X is ASE's dummy atom; replace it with the species being modelled.
+    sh = Atoms("X", cell=[(a, 0, 0), (-a/2, sqrt(3)*a/2, 0),
+                          (0, 0, c)], pbc=True)
+    slab = surface(sh, (1, 1, 0), 8, vacuum=10)
+  common_mistakes:
+    - Treating the two prism orientations as the same surface cell.
+    - Confusing the four-index label with four independent Miller indices.
+  figures: {top: /assets/surfaces/sh-11m20-top.svg, profile: /assets/surfaces/sh-11m20-profile.svg, stacking: /assets/surfaces/sh-11m20-stacking.svg}
+
+- id: sh-10m11
+  crystal: sh
+  title: SH(10-11)
+  group: high-index
+  family: Pyramidal SH
+  lattice: Simple hexagonal
+  facet: "(10-11)"
+  surface_shape: Oblique ridges
+  character: Pyramidal · corrugated
+  ase_builder: surface
+  description: SH(10-11) cuts both the basal axes and c axis, turning the rectangular prism rows into oblique ridges with several exposed heights.
+  cut_description: A nonzero l component tilts the (10-10) prism plane towards the basal face, so the sheet crosses both the side and end of the hexagonal prism.
+  card_description: An oblique pyramidal face with mixed basal and axial character.
+  registry_note: Consecutive one-site layers trace a sequence of shifted ridges; mixed-height sites must therefore be read from the profile as well as the top view.
+  math_summary: 'The spacing follows \(d_{10\bar{1}1}^{-2}=4/(3a^2)+1/c^2\), retaining independent contributions from a and c.'
+  sites:
+    - {label: ridge ontop, marker: 1, coordination: 1, definition: Above an atom on the highest oblique ridge.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom in the next lower row.}
+    - {label: ridge bridge, marker: 3, coordination: 2, definition: Between periodic neighbours along the upper ridge.}
+    - {label: ridge-to-trough bridge, marker: 4, coordination: 2, definition: Between atoms on adjacent exposed heights.}
+    - {label: mixed-height pocket, marker: 5, coordination: 3, definition: A three-atom opening supported by consecutive ridges.}
+  ase_example: |
+    from math import sqrt
+    from ase import Atoms
+    from ase.build import surface
+
+    a, c = 2.70, 4.40
+    # X is ASE's dummy atom; replace it with the species being modelled.
+    sh = Atoms("X", cell=[(a, 0, 0), (-a/2, sqrt(3)*a/2, 0),
+                          (0, 0, c)], pbc=True)
+    slab = surface(sh, (1, 0, 1), 10, vacuum=10)
+  common_mistakes:
+    - Reusing HCP pyramidal stacking labels for a one-site SH basis.
+    - Comparing inclinations without holding the c/a ratio fixed.
+  figures: {top: /assets/surfaces/sh-10m11-top.svg, profile: /assets/surfaces/sh-10m11-profile.svg, stacking: /assets/surfaces/sh-10m11-stacking.svg}
+
+- id: bct-001
+  crystal: bct
+  title: BCT(001)
+  group: low-index
+  family: Basal BCT
+  lattice: Body-centred tetragonal
+  facet: "(001)"
+  surface_shape: Square net
+  character: Basal · fourfold symmetry
+  ase_builder: surface
+  description: BCT(001) exposes a square basal net like BCC(100), but the separation between alternating corner and body-centred layers is controlled independently by c.
+  cut_description: The plane is perpendicular to the tetragonal c axis. Translating it by c/2 alternates between corner and body-centred square registries.
+  card_description: A square basal face with c-dependent alternating layers.
+  registry_note: L1 and L2 are square nets shifted by half a surface diagonal. The fourfold hollow of one layer lies above an atom in the next.
+  math_summary: 'For tetragonal metrics, \(d_{001}=c\); the body-centred basis inserts atom-bearing planes every \(c/2\). The surface square has side \(a\).'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Directly above an outermost basal atom.}
+    - {label: bridge, marker: 2, coordination: 2, definition: Halfway between nearest surface atoms along a square edge.}
+    - {label: fourfold hollow, marker: 3, coordination: 4, definition: Centre of the top-layer square, aligned with the next-layer registry.}
+  ase_example: |
+    from ase import Atoms
+    from ase.build import surface
+
+    a, c = 3.25, 4.95
+    indium = Atoms("In2", scaled_positions=[(0, 0, 0), (.5, .5, .5)],
+                   cell=[(a, 0, 0), (0, a, 0), (0, 0, c)], pbc=True)
+    slab = surface(indium, (0, 0, 1), 6, vacuum=10)
+  common_mistakes:
+    - Replacing c with a in the layer spacing.
+    - Passing a primitive BCT cell to ASE surface while interpreting the indices as conventional tetragonal indices.
+  figures: {top: /assets/surfaces/bct-001-top.svg, profile: /assets/surfaces/bct-001-profile.svg, stacking: /assets/surfaces/bct-001-stacking.svg}
+
+- id: bct-100
+  crystal: bct
+  title: BCT(100)
+  group: low-index
+  family: Prismatic BCT
+  lattice: Body-centred tetragonal
+  facet: "(100)"
+  surface_shape: Rectangular net
+  character: Prism · twofold symmetry
+  ase_builder: surface
+  description: BCT(100) exposes a rectangle with side lengths a and c. Its basal and axial bridge positions cease to be equivalent as soon as c differs from a.
+  cut_description: The plane is normal to a basal axis and parallel to both the other basal direction and the tetragonal c axis.
+  card_description: A rectangular prism face that makes a and c visibly independent.
+  registry_note: Corner and body-centred rectangular layers alternate every a/2, shifted by half of both in-plane repeats.
+  math_summary: 'The plane spacing is \(d_{100}=a\), with atom-bearing sublayers every \(a/2\). The surface rectangle has sides \(a\) and \(c\).'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Above an outermost atom in the rectangular net.}
+    - {label: basal bridge, marker: 2, coordination: 2, definition: Midpoint between neighbours along the in-plane a direction.}
+    - {label: axial bridge, marker: 3, coordination: 2, definition: Midpoint between neighbours parallel to c.}
+    - {label: rectangular hollow, marker: 4, coordination: 4, definition: Centre of a four-atom a by c rectangle.}
+  ase_example: |
+    from ase import Atoms
+    from ase.build import surface
+
+    a, c = 3.25, 4.95
+    indium = Atoms("In2", scaled_positions=[(0, 0, 0), (.5, .5, .5)],
+                   cell=[(a, 0, 0), (0, a, 0), (0, 0, c)], pbc=True)
+    slab = surface(indium, (1, 0, 0), 8, vacuum=10)
+  common_mistakes:
+    - Treating the basal and axial bridges as symmetry equivalent.
+    - Assuming BCT(100) and BCT(001) remain equivalent when c differs from a.
+  figures: {top: /assets/surfaces/bct-100-top.svg, profile: /assets/surfaces/bct-100-profile.svg, stacking: /assets/surfaces/bct-100-stacking.svg}
+
+- id: bct-110
+  crystal: bct
+  title: BCT(110)
+  group: low-index
+  family: Prismatic BCT
+  lattice: Body-centred tetragonal
+  facet: "(110)"
+  surface_shape: Centred rectangular net
+  character: Prism · dense rows
+  ase_builder: surface
+  description: BCT(110) contains both corner and body-centred sites in each atom-bearing plane. The centred rectangle supports diagonal, basal-channel, and axial-row bridge geometries.
+  cut_description: The plane bisects the two basal axes equally and remains parallel to c; the body-centred site lies in the same member of the plane family as corner sites.
+  card_description: A centred rectangular net with three distinct bridge geometries.
+  registry_note: Each layer contains two staggered rows. Their separations depend on c/a, so a square-looking projection should not be assumed without checking the metric.
+  math_summary: 'The spacing is \(d_{110}=a/\sqrt{2}\). A conventional surface rectangle has sides \(a\sqrt{2}\) and \(c\) and contains two lattice sites.'
+  sites:
+    - {label: ontop, marker: 1, coordination: 1, definition: Above one atom of the centred outermost net.}
+    - {label: diagonal bridge, marker: 2, coordination: 2, definition: Between the two staggered sublattices in the surface plane.}
+    - {label: basal bridge / fourfold channel, marker: 3, coordination: 4, definition: The basal midpoint also occupies the centre of the four-atom channel, so these are one lateral site.}
+    - {label: axial-row bridge, marker: 4, coordination: 2, definition: Between equivalent atoms parallel to c.}
+  ase_example: |
+    from ase import Atoms
+    from ase.build import surface
+
+    a, c = 3.25, 4.95
+    indium = Atoms("In2", scaled_positions=[(0, 0, 0), (.5, .5, .5)],
+                   cell=[(a, 0, 0), (0, a, 0), (0, 0, c)], pbc=True)
+    slab = surface(indium, (1, 1, 0), 8, vacuum=10)
+  common_mistakes:
+    - Reducing every bridge to the cubic BCC(110) labels without considering c/a.
+    - Counting the two staggered outermost rows as different atomic layers.
+  figures: {top: /assets/surfaces/bct-110-top.svg, profile: /assets/surfaces/bct-110-profile.svg, stacking: /assets/surfaces/bct-110-stacking.svg}
+
+- id: bct-101
+  crystal: bct
+  title: BCT(101)
+  group: low-index
+  family: Mixed-index BCT
+  lattice: Body-centred tetragonal
+  facet: "(101)"
+  surface_shape: Anisotropic rows
+  character: Mixed basal–axial · corrugated
+  ase_builder: surface
+  description: BCT(101) mixes one basal reciprocal component with the c-axis component. It is not symmetry equivalent to (110) unless the tetragonal distortion disappears.
+  cut_description: The plane cuts one basal axis and the c axis while remaining parallel to the second basal direction, producing rows with a c/a-dependent inclination.
+  card_description: A mixed basal–axial face whose inclination depends on c/a.
+  registry_note: Two outermost rows share L1, while subsequent planes shift across the long mixed-index repeat. Lower-layer checks distinguish bridges from deeper pockets.
+  math_summary: 'The spacing is \(d_{101}^{-2}=1/a^2+1/c^2\). One in-plane repeat is the untouched basal translation; the other combines a and c.'
+  sites:
+    - {label: outermost ontop, marker: 1, coordination: 1, definition: Above an atom in the highest exposed row.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom in the next atom-bearing plane.}
+    - {label: row bridge, marker: 3, coordination: 2, definition: Between periodic neighbours within the outermost row.}
+    - {label: cross-row bridge, marker: 4, coordination: 2, definition: Between atoms in neighbouring projected rows.}
+    - {label: mixed-height pocket, marker: 5, coordination: 3, definition: A three-atom opening supported by consecutive atom-bearing planes.}
+  ase_example: |
+    from ase import Atoms
+    from ase.build import surface
+
+    a, c = 3.25, 4.95
+    indium = Atoms("In2", scaled_positions=[(0, 0, 0), (.5, .5, .5)],
+                   cell=[(a, 0, 0), (0, a, 0), (0, 0, c)], pbc=True)
+    slab = surface(indium, (1, 0, 1), 8, vacuum=10)
+  common_mistakes:
+    - Treating (101) and (110) as symmetry-equivalent cubic permutations.
+    - Comparing slabs without reporting both a and c.
+  figures: {top: /assets/surfaces/bct-101-top.svg, profile: /assets/surfaces/bct-101-profile.svg, stacking: /assets/surfaces/bct-101-stacking.svg}
+
+- id: bct-111
+  crystal: bct
+  title: BCT(111)
+  group: low-index
+  family: Mixed-index BCT
+  lattice: Body-centred tetragonal
+  facet: "(111)"
+  surface_shape: Distorted triangular rows
+  character: Mixed basal–axial · open
+  ase_builder: surface
+  description: BCT(111) is a tetragonally distorted counterpart of BCC(111). Its three-index label does not imply three equal Cartesian intercept lengths because c differs from a.
+  cut_description: The plane meets both basal axes after a and the c axis after c. The body-centred basis inserts a second registry halfway between equivalent planes.
+  card_description: An open distorted-triangular face with closely spaced sublayers.
+  registry_note: Alternating corner and body-centred planes create a dense sequence of height levels. Projected triangular motifs therefore require explicit layer labels.
+  math_summary: 'The spacing is \(d_{111}^{-2}=2/a^2+1/c^2\); the odd body-centred phase inserts atom-bearing sublayers at half this crystallographic spacing.'
+  sites:
+    - {label: outermost ontop, marker: 1, coordination: 1, definition: Above an atom in the highest distorted row.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom in the next height level.}
+    - {label: row bridge, marker: 3, coordination: 2, definition: Between nearest periodic atoms in the upper row.}
+    - {label: cross-row bridge, marker: 4, coordination: 2, definition: Between atoms on consecutive height levels.}
+    - {label: mixed-height hollow, marker: 5, coordination: 3, definition: A three-atom pocket supported by several corrugated rows.}
+  ase_example: |
+    from ase import Atoms
+    from ase.build import surface
+
+    a, c = 3.25, 4.95
+    indium = Atoms("In2", scaled_positions=[(0, 0, 0), (.5, .5, .5)],
+                   cell=[(a, 0, 0), (0, a, 0), (0, 0, c)], pbc=True)
+    slab = surface(indium, (1, 1, 1), 10, vacuum=10)
+  common_mistakes:
+    - Treating [111] as the Cartesian plane normal when a and c differ.
+    - Assuming BCT(111) retains the threefold metric symmetry of a cubic (111) face.
+  figures: {top: /assets/surfaces/bct-111-top.svg, profile: /assets/surfaces/bct-111-profile.svg, stacking: /assets/surfaces/bct-111-stacking.svg}
+
+- id: bct-211
+  crystal: bct
+  title: BCT(211)
+  group: high-index
+  family: Stepped BCT
+  lattice: Body-centred tetragonal
+  facet: "(211)"
+  surface_shape: Oblique ledges
+  character: Stepped · anisotropic
+  ase_builder: surface
+  description: BCT(211) exposes oblique ledges whose widths and inclinations depend on the tetragonal c/a ratio. It extends the low-index set into a compact stepped surface.
+  cut_description: Unequal basal indices and a finite c-axis index make the plane intersect all three conventional tetragonal axes at different distances.
+  card_description: A c/a-dependent stepped face with oblique ledges.
+  registry_note: Each atom-bearing plane contains two staggered sites, followed by a shifted pair in the next layer. Mixed-height sites span both the body-centred basis and the step sequence.
+  math_summary: 'The spacing is \(d_{211}^{-2}=5/a^2+1/c^2\). The even body-centred phase places corner and centre sites in the same plane family member.'
+  sites:
+    - {label: ledge ontop, marker: 1, coordination: 1, definition: Above an atom on the highest ledge.}
+    - {label: lower-row ontop, marker: 2, coordination: 1, definition: Above an exposed atom in the next atom-bearing plane.}
+    - {label: ledge bridge, marker: 3, coordination: 2, definition: Between nearest atoms along the upper ledge.}
+    - {label: cross-ledge bridge, marker: 4, coordination: 2, definition: Between atoms on adjacent exposed height levels.}
+    - {label: mixed-height pocket, marker: 5, coordination: 3, definition: A pocket supported by atoms from consecutive ledges.}
+  ase_example: |
+    from ase import Atoms
+    from ase.build import surface
+
+    a, c = 3.25, 4.95
+    indium = Atoms("In2", scaled_positions=[(0, 0, 0), (.5, .5, .5)],
+                   cell=[(a, 0, 0), (0, a, 0), (0, 0, c)], pbc=True)
+    slab = surface(indium, (2, 1, 1), 10, vacuum=10)
+  common_mistakes:
+    - Reusing cubic BCC(211) dimensions without applying the tetragonal metric.
+    - Counting atoms in projection without separating the paired height levels.
+  figures: {top: /assets/surfaces/bct-211-top.svg, profile: /assets/surfaces/bct-211-profile.svg, stacking: /assets/surfaces/bct-211-stacking.svg}

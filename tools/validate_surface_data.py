@@ -25,6 +25,7 @@ except ModuleNotFoundError:
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "_data" / "surfaces.yml"
+FAMILIES_FILE = ROOT / "_data" / "crystal_families.yml"
 SITE_GEOMETRY_FILE = ROOT / "_data" / "site_geometry.yml"
 PUBLIC_DIR = ROOT / "surface-atlas"
 ASSETS_DIR = PUBLIC_DIR / "assets" / "surfaces"
@@ -37,6 +38,12 @@ REQUIRED_SURFACE_FIELDS = {
 }
 REQUIRED_SITE_FIELDS = {"label", "marker", "definition", "coordination"}
 REQUIRED_FIGURES = {"top", "profile", "stacking"}
+SUPPORTED_CRYSTALS = {"fcc", "bcc", "hcp", "sc", "sh", "bct"}
+REQUIRED_NEW_SURFACES = {
+    "sc-100", "sc-110", "sc-111", "sc-210", "sc-211",
+    "sh-0001", "sh-10m10", "sh-11m20", "sh-10m11",
+    "bct-001", "bct-100", "bct-110", "bct-101", "bct-111", "bct-211",
+}
 ASE_SITE_KEYWORDS = {
     "fcc-100": {"ontop", "bridge", "hollow"},
     "fcc-110": {"ontop", "shortbridge", "longbridge", "hollow"},
@@ -100,8 +107,8 @@ def validate() -> list[str]:
         if surface_id in ids:
             errors.append(f"{surface_id}: duplicate surface id")
         ids.add(surface_id)
-        if surface.get("crystal") not in {"fcc", "bcc", "hcp"}:
-            errors.append(f"{surface_id}: crystal must be fcc, bcc, or hcp")
+        if surface.get("crystal") not in SUPPORTED_CRYSTALS:
+            errors.append(f"{surface_id}: crystal must be one of {sorted(SUPPORTED_CRYSTALS)}")
 
         sites = surface.get("sites", [])
         if not isinstance(sites, list) or not sites:
@@ -160,12 +167,21 @@ def validate() -> list[str]:
                 levels = sorted({round(float(value), 6) for value in slab.positions[:, 2]})
                 if len(levels) < 10:
                     errors.append(f"{surface_id}: expected at least 10 atom-bearing layers, found {len(levels)}")
-                if spec.crystal in {"fcc", "bcc"}:
+                if spec.crystal in {"fcc", "bcc", "sc"}:
                     d_hkl = CRYSTALS[spec.crystal]["a"] / np.linalg.norm(spec.miller)
                     gaps = np.diff(levels)
                     ratio = d_hkl / float(np.median(gaps))
                     if min(abs(ratio - 1), abs(ratio - 2)) > 2e-5:
                         errors.append(f"{surface_id}: atomic-layer spacing is inconsistent with d_hkl")
+                elif spec.crystal == "bct":
+                    h, k, l = spec.miller
+                    a = CRYSTALS["bct"]["a"]
+                    c = CRYSTALS["bct"]["c"]
+                    d_hkl = 1 / np.sqrt((h * h + k * k) / (a * a) + l * l / (c * c))
+                    gaps = np.diff(levels)
+                    ratio = d_hkl / float(np.median(gaps))
+                    if min(abs(ratio - 1), abs(ratio - 2)) > 2e-5:
+                        errors.append(f"{surface_id}: atomic-layer spacing is inconsistent with tetragonal d_hkl")
                 derived = derive_surface_sites(surface_id, slab, sites)
                 stored_entry = stored_geometry.get(surface_id, {})
                 if stored_entry.get("sites") != derived:
@@ -174,6 +190,11 @@ def validate() -> list[str]:
                     "fcc-111": ((2, 3, True), (3, 2, True)),
                     "hcp-0001": ((2, 2, False), (3, 2, True)),
                     "bcc-111": ((3, 3, True),),
+                    "sc-111": ((2, 2, True), (3, 3, True)),
+                    "sh-0001": ((2, 2, False),),
+                    "bct-001": ((2, 2, True),),
+                    "bct-100": ((3, 2, True),),
+                    "bct-110": ((2, 2, True),),
                 }
                 for site_index, layer_number, expected in registry_checks.get(surface_id, ()):
                     actual = projected_layer_match(slab, derived[site_index]["uv"], layer_number)
@@ -193,10 +214,17 @@ def validate() -> list[str]:
                 residual = np.max(np.abs(polygon @ normal - offset))
                 if residual > 1e-8:
                     errors.append(f"{surface_id}: bulk-cut polygon is not in the requested Miller plane")
-                if spec.crystal in {"fcc", "bcc"} and not np.allclose(normal, spec.miller):
+                if spec.crystal in {"fcc", "bcc", "sc"} and not np.allclose(normal, spec.miller):
                     errors.append(f"{surface_id}: cubic reciprocal normal does not equal [hkl]")
                 if spec.crystal == "hcp" and len(atoms) != 17:
                     errors.append(f"{surface_id}: HCP conventional-cell drawing must contain 17 displayed atom positions")
+                if spec.crystal == "sh" and len(atoms) != 14:
+                    errors.append(f"{surface_id}: SH conventional-cell drawing must contain 14 displayed atom positions")
+                if spec.crystal == "bct":
+                    c_over_a = CRYSTALS["bct"]["c"] / CRYSTALS["bct"]["a"]
+                    expected_normal = np.array((spec.miller[0], spec.miller[1], spec.miller[2] / c_over_a))
+                    if not np.allclose(normal, expected_normal):
+                        errors.append(f"{surface_id}: tetragonal reciprocal normal does not use independent a and c")
             except (ValueError, IndexError) as exc:
                 errors.append(f"{surface_id}: cannot validate Miller-plane cut: {exc}")
 
@@ -275,9 +303,30 @@ def validate() -> list[str]:
     for surface_id in ids:
         if surface_id not in page_ids:
             errors.append(f"{surface_id}: no matching surface page")
+    missing_new_surfaces = REQUIRED_NEW_SURFACES - ids
+    if missing_new_surfaces:
+        errors.append(f"Required SC, SH, or BCT surfaces are missing: {sorted(missing_new_surfaces)}")
     extra_geometry = set(stored_geometry) - ids
     if extra_geometry:
         errors.append(f"Site geometry contains unknown surfaces: {sorted(extra_geometry)}")
+
+    try:
+        families = yaml.safe_load(FAMILIES_FILE.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as exc:
+        errors.append(f"Cannot load {FAMILIES_FILE}: {exc}")
+        families = []
+    if not isinstance(families, list):
+        errors.append("_data/crystal_families.yml must contain a top-level list")
+    else:
+        family_ids = [entry.get("id") for entry in families if isinstance(entry, dict)]
+        if len(family_ids) != len(families) or set(family_ids) != SUPPORTED_CRYSTALS:
+            errors.append("Crystal-family navigation must define every supported crystal exactly once")
+        for entry in families:
+            if isinstance(entry, dict) and (not entry.get("name") or not entry.get("summary")):
+                errors.append(f"Crystal-family navigation entry {entry.get('id')!r} is incomplete")
+
+    if CRYSTALS["bct"]["a"] == CRYSTALS["bct"]["c"]:
+        errors.append("BCT reference geometry must retain independent a and c parameters")
 
     return errors
 

@@ -30,7 +30,7 @@ layout: default
       <div class="cut-copy">
         <p class="cut-index">{{ surface.facet }}</p>
         <p>{{ surface.cut_description }}</p>
-        <dl><div><dt>Bulk lattice</dt><dd>{{ surface.lattice }}</dd></div><div><dt>Plane normal</dt><dd>{% if surface.crystal == 'hcp' %}reciprocal vector G{{ surface.facet }}{% else %}{{ surface.facet | remove: '(' | remove: ')' | prepend: '[' | append: ']' }}{% endif %}</dd></div><div><dt>What remains</dt><dd>{{ surface.surface_shape }}</dd></div></dl>
+        <dl><div><dt>Bulk lattice</dt><dd>{{ surface.lattice }}</dd></div><div><dt>Plane normal</dt><dd>{% if surface.crystal == 'hcp' or surface.crystal == 'sh' or surface.crystal == 'bct' %}reciprocal vector G{{ surface.facet }}{% else %}{{ surface.facet | remove: '(' | remove: ')' | prepend: '[' | append: ']' }}{% endif %}</dd></div><div><dt>What remains</dt><dd>{{ surface.surface_shape }}</dd></div></dl>
         <p class="quiet">The plane is drawn through the centre so high-index cuts remain legible. Its orientation is what the indices specify, not its absolute position inside one cell.</p>
       </div>
     </div>

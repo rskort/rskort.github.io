@@ -30,8 +30,9 @@ jobs:
 
       - name: Validate content structure, references, and math
         run: |
-          python -m pip install "PyYAML==6.0.2"
+          python -m pip install -r tools/requirements.txt
           python tools/validate_concepts.py
+          python tools/validate_surface_data.py
 
   build:
     if: github.event_name != 'pull_request'

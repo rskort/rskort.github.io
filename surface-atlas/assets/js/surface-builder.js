@@ -2,7 +2,6 @@
   "use strict";
 
   const SQRT3 = Math.sqrt(3);
-  const HCP_C = Math.sqrt(8 / 3);
   const EPSILON = 1e-8;
   const INDEX_LIMIT = 8;
 
@@ -25,22 +24,67 @@
   const LATTICES = {
     fcc: {
       label: "FCC",
-      primitive: [[0, .5, .5], [.5, 0, .5], [.5, .5, 0]],
-      basis: [[0, 0, 0]],
-      nearest: 1 / Math.sqrt(2)
+      system: "cubic",
+      defaults: {a: 3.61},
+      geometry: ({a}) => ({
+        primitive: [[0, a / 2, a / 2], [a / 2, 0, a / 2], [a / 2, a / 2, 0]],
+        basis: [[0, 0, 0]], nearest: a / Math.sqrt(2)
+      })
     },
     bcc: {
       label: "BCC",
-      primitive: [[-.5, .5, .5], [.5, -.5, .5], [.5, .5, -.5]],
-      basis: [[0, 0, 0]],
-      nearest: Math.sqrt(3) / 2
+      system: "cubic",
+      defaults: {a: 2.87},
+      geometry: ({a}) => ({
+        primitive: [[-a / 2, a / 2, a / 2], [a / 2, -a / 2, a / 2], [a / 2, a / 2, -a / 2]],
+        basis: [[0, 0, 0]], nearest: a * Math.sqrt(3) / 2
+      })
     },
     hcp: {
       label: "HCP",
-      primitive: [[1, 0, 0], [-.5, SQRT3 / 2, 0], [0, 0, HCP_C]],
-      basis: [[0, 0, 0], [1 / 2, SQRT3 / 6, HCP_C / 2]],
-      nearest: 1
+      system: "hexagonal",
+      defaults: {a: 3.21, c: 5.21},
+      geometry: ({a, c}) => ({
+        primitive: [[a, 0, 0], [-a / 2, SQRT3 * a / 2, 0], [0, 0, c]],
+        basis: [[0, 0, 0], [a / 2, SQRT3 * a / 6, c / 2]],
+        nearest: Math.min(a, c, Math.hypot(a / SQRT3, c / 2))
+      })
+    },
+    sc: {
+      label: "SC",
+      system: "cubic",
+      defaults: {a: 3.35},
+      geometry: ({a}) => ({
+        primitive: [[a, 0, 0], [0, a, 0], [0, 0, a]],
+        basis: [[0, 0, 0]], nearest: a
+      })
+    },
+    sh: {
+      label: "SH",
+      system: "hexagonal",
+      defaults: {a: 2.70, c: 4.40},
+      geometry: ({a, c}) => ({
+        primitive: [[a, 0, 0], [-a / 2, SQRT3 * a / 2, 0], [0, 0, c]],
+        basis: [[0, 0, 0]], nearest: Math.min(a, c)
+      })
+    },
+    bct: {
+      label: "BCT",
+      system: "tetragonal",
+      defaults: {a: 3.25, c: 4.95},
+      geometry: ({a, c}) => ({
+        primitive: [[-a / 2, a / 2, c / 2], [a / 2, -a / 2, c / 2], [a / 2, a / 2, -c / 2]],
+        basis: [[0, 0, 0]], nearest: Math.min(a, c, Math.sqrt(2 * a * a + c * c) / 2)
+      })
     }
+  };
+
+  const latticeGeometry = (lattice, parameters = {}) => {
+    const definition = LATTICES[lattice];
+    if (!definition) throw new Error(`Unknown lattice: ${lattice}.`);
+    const a = Number.isFinite(parameters.a) ? parameters.a : definition.defaults.a;
+    const c = Number.isFinite(parameters.c) ? parameters.c : (definition.defaults.c || a);
+    return {...definition, ...definition.geometry({a, c}), a, c};
   };
 
   const CATALOGUE = {
@@ -56,6 +100,18 @@
     hcp: {
       "0,0,1": "hcp-0001", "1,0,0": "hcp-10m10", "1,1,0": "hcp-11m20",
       "1,0,1": "hcp-10m11", "1,0,2": "hcp-10m12", "1,1,1": "hcp-11m21"
+    },
+    sc: {
+      "1,0,0": "sc-100", "1,1,0": "sc-110", "1,1,1": "sc-111",
+      "2,1,0": "sc-210", "2,1,1": "sc-211"
+    },
+    sh: {
+      "0,0,1": "sh-0001", "1,0,0": "sh-10m10", "1,1,0": "sh-11m20",
+      "1,0,1": "sh-10m11"
+    },
+    bct: {
+      "0,0,1": "bct-001", "1,0,0": "bct-100", "1,1,0": "bct-110",
+      "1,0,1": "bct-101", "1,1,1": "bct-111", "2,1,1": "bct-211"
     }
   };
 
@@ -80,9 +136,13 @@
     return indices;
   };
 
-  const reciprocalNormal = (lattice, indices) => {
-    if (lattice !== "hcp") return [...indices];
-    const [a1, a2, a3] = LATTICES.hcp.primitive;
+  const reciprocalNormal = (lattice, indices, parameters = {}) => {
+    const latticeData = latticeGeometry(lattice, parameters);
+    if (latticeData.system === "cubic") return indices.map(value => value / latticeData.a);
+    if (latticeData.system === "tetragonal") {
+      return [indices[0] / latticeData.a, indices[1] / latticeData.a, indices[2] / latticeData.c];
+    }
+    const [a1, a2, a3] = latticeData.primitive;
     const volume = vector.dot(a1, vector.cross(a2, a3));
     const reciprocal = [
       vector.scale(vector.cross(a2, a3), 1 / volume),
@@ -95,7 +155,7 @@
   const primitivePlaneCoefficients = (lattice, [h, k, l]) => {
     let coefficients;
     if (lattice === "fcc") coefficients = [k + l, h + l, h + k];
-    else if (lattice === "bcc") coefficients = [-h + k + l, h - k + l, h + k - l];
+    else if (lattice === "bcc" || lattice === "bct") coefficients = [-h + k + l, h - k + l, h + k - l];
     else coefficients = [h, k, l];
     const divisor = gcdMany(coefficients);
     return coefficients.map(value => value / divisor);
@@ -136,8 +196,8 @@
     return [u, v];
   };
 
-  const findSurfaceTranslations = (lattice, indices) => {
-    const primitive = LATTICES[lattice].primitive;
+  const findSurfaceTranslations = (lattice, indices, parameters = {}) => {
+    const primitive = latticeGeometry(lattice, parameters).primitive;
     const planeCoefficients = primitivePlaneCoefficients(lattice, indices);
     const range = Math.max(5, Math.max(...planeCoefficients.map(Math.abs)) + 2);
     const candidates = [];
@@ -177,7 +237,7 @@
       pair = [first, second];
     }
     let [u, v] = reduceSurfacePair(...pair);
-    const physicalNormal = reciprocalNormal(lattice, indices);
+    const physicalNormal = reciprocalNormal(lattice, indices, parameters);
     if (vector.dot(vector.cross(u.cartesian, v.cartesian), physicalNormal) < 0) {
       v = {coefficients: v.coefficients.map(value => -value), cartesian: v.cartesian.map(value => -value)};
     }
@@ -209,13 +269,14 @@
     return levels.sort((a, b) => b - a);
   };
 
-  const createSurfaceGeometry = ({lattice, indices, offset}) => {
-    const latticeData = LATTICES[lattice];
-    const physicalNormal = reciprocalNormal(lattice, indices);
+  const createSurfaceGeometry = ({lattice, indices, offset, a, c}) => {
+    const parameters = {a, c};
+    const latticeData = latticeGeometry(lattice, parameters);
+    const physicalNormal = reciprocalNormal(lattice, indices, parameters);
     const normalLength = vector.length(physicalNormal);
     const normal = vector.scale(physicalNormal, 1 / normalLength);
     const spacing = 1 / normalLength;
-    const {u, v, planeCoefficients} = findSurfaceTranslations(lattice, indices);
+    const {u, v, planeCoefficients} = findSurfaceTranslations(lattice, indices, parameters);
     const transverseCoefficients = bezoutVector(planeCoefficients);
     const transverse = vector.combine(transverseCoefficients, latticeData.primitive);
     const e1 = vector.normalise(u.cartesian);
@@ -382,10 +443,12 @@
     return [...ontop, ...bridges, ...hollows].map((site, index) => ({...site, marker: index + 1}));
   }
 
-  const bulkPolyhedron = lattice => {
-    if (lattice !== "hcp") {
+  const bulkPolyhedron = (lattice, parameters = {}) => {
+    const latticeData = latticeGeometry(lattice, parameters);
+    if (latticeData.system !== "hexagonal") {
       const vertices = [];
-      for (const z of [0, 1]) for (const y of [0, 1]) for (const x of [0, 1]) vertices.push([x, y, z]);
+      const height = latticeData.system === "tetragonal" ? latticeData.c : latticeData.a;
+      for (const z of [0, height]) for (const y of [0, latticeData.a]) for (const x of [0, latticeData.a]) vertices.push([x, y, z]);
       const edges = [];
       for (let first = 0; first < vertices.length; first += 1) {
         for (let second = first + 1; second < vertices.length; second += 1) {
@@ -393,23 +456,31 @@
         }
       }
       const atoms = [...vertices];
-      if (lattice === "fcc") atoms.push([.5, .5, 0], [.5, .5, 1], [.5, 0, .5], [.5, 1, .5], [0, .5, .5], [1, .5, .5]);
-      else atoms.push([.5, .5, .5]);
+      const halfA = latticeData.a / 2;
+      if (lattice === "fcc") {
+        atoms.push(
+          [halfA, halfA, 0], [halfA, halfA, height],
+          [halfA, 0, height / 2], [halfA, latticeData.a, height / 2],
+          [0, halfA, height / 2], [latticeData.a, halfA, height / 2]
+        );
+      } else if (lattice === "bcc" || lattice === "bct") atoms.push([halfA, halfA, height / 2]);
       return {vertices, edges, atoms};
     }
     const basal = Array.from({length: 6}, (_, index) => {
       const angle = index * Math.PI / 3;
-      return [.58 * Math.cos(angle), .58 * Math.sin(angle)];
+      return [latticeData.a / SQRT3 * Math.cos(angle), latticeData.a / SQRT3 * Math.sin(angle)];
     });
     const vertices = [];
-    for (const z of [0, HCP_C]) basal.forEach(([x, y]) => vertices.push([x, y, z]));
+    for (const z of [0, latticeData.c]) basal.forEach(([x, y]) => vertices.push([x, y, z]));
     const edges = [];
     for (let layer = 0; layer < 2; layer += 1) for (let index = 0; index < 6; index += 1) edges.push([layer * 6 + index, layer * 6 + (index + 1) % 6]);
     for (let index = 0; index < 6; index += 1) edges.push([index, index + 6]);
-    const atoms = [...vertices];
-    for (let index = 0; index < 3; index += 1) {
-      const angle = index * 2 * Math.PI / 3 + Math.PI / 3;
-      atoms.push([.34 * Math.cos(angle), .34 * Math.sin(angle), HCP_C / 2]);
+    const atoms = [...vertices, [0, 0, 0], [0, 0, latticeData.c]];
+    if (lattice === "hcp") {
+      for (let index = 0; index < 3; index += 1) {
+        const angle = index * 2 * Math.PI / 3 + Math.PI / 3;
+        atoms.push([latticeData.a / 3 * Math.cos(angle), latticeData.a / 3 * Math.sin(angle), latticeData.c / 2]);
+      }
     }
     return {vertices, edges, atoms};
   };
@@ -456,9 +527,10 @@
 
     render() {
       if (!this.state) return;
-      const {lattice, indices, offset} = this.state;
-      const geometry = bulkPolyhedron(lattice);
-      const rawNormal = reciprocalNormal(lattice, indices);
+      const {lattice, indices, offset, a, c} = this.state;
+      const parameters = {a, c};
+      const geometry = bulkPolyhedron(lattice, parameters);
+      const rawNormal = reciprocalNormal(lattice, indices, parameters);
       const normal = vector.normalise(rawNormal);
       const spacing = 1 / vector.length(rawNormal);
       const centroid = geometry.vertices.reduce((sum, point) => vector.add(sum, point), [0, 0, 0]).map(value => value / geometry.vertices.length);
@@ -524,18 +596,21 @@
 
   const catalogueMatch = (lattice, indices) => {
     let key;
-    if (lattice === "hcp") key = indices.map(Math.abs).join(",");
-    else key = indices.map(Math.abs).sort((a, b) => b - a).join(",");
+    if (LATTICES[lattice].system === "hexagonal") key = indices.map(Math.abs).join(",");
+    else if (LATTICES[lattice].system === "tetragonal") {
+      const [h, k, l] = indices.map(Math.abs);
+      key = [Math.max(h, k), Math.min(h, k), l].join(",");
+    } else key = indices.map(Math.abs).sort((a, b) => b - a).join(",");
     return CATALOGUE[lattice][key] || null;
   };
 
-  const formatPlane = (lattice, [h, k, l]) => lattice === "hcp" ? `(${h} ${k} ${-(h + k)} ${l})` : `(${h} ${k} ${l})`;
+  const formatPlane = (lattice, [h, k, l]) => LATTICES[lattice].system === "hexagonal" ? `(${h} ${k} ${-(h + k)} ${l})` : `(${h} ${k} ${l})`;
 
   class SurfaceBuilder {
     constructor(root) {
       this.root = root;
       this.form = root.querySelector("form");
-      this.inputs = Object.fromEntries(["h", "k", "i", "l", "offset"].map(name => [name, root.querySelector(`[name="${name}"]`)]));
+      this.inputs = Object.fromEntries(["h", "k", "i", "l", "a", "c", "offset"].map(name => [name, root.querySelector(`[name="${name}"]`)]));
       this.error = root.querySelector("[data-builder-error]");
       this.normalisedOutput = root.querySelector("[data-normalised-plane]");
       this.spacingOutput = root.querySelector("[data-spacing]");
@@ -544,6 +619,7 @@
       this.offsetOutput = root.querySelector("[data-offset-value]");
       this.catalogueLink = root.querySelector("[data-catalogue-link]");
       this.hcpIndex = root.querySelector("[data-hcp-index]");
+      this.cParameter = root.querySelector("[data-c-parameter]");
       this.cutView = new BulkCutView(root.querySelector("[data-bulk-cut-canvas]"));
       this.viewer = new window.SurfaceViewer(root.querySelector(".surface-viewer"));
       this.debounceTimer = null;
@@ -559,7 +635,7 @@
     bind() {
       this.form.addEventListener("submit", event => event.preventDefault());
       this.form.querySelectorAll('[name="lattice"]').forEach(input => input.addEventListener("change", () => {
-        this.updateHcpControls();
+        this.updateLatticeControls(true);
         this.inputs.offset.value = .5;
         this.schedule(true);
       }));
@@ -568,6 +644,7 @@
         this.inputs.offset.value = .5;
         this.schedule(true);
       }));
+      [this.inputs.a, this.inputs.c].forEach(input => input.addEventListener("input", () => this.schedule(false)));
       this.inputs.offset.addEventListener("input", () => {
         this.offsetOutput.textContent = Number(this.inputs.offset.value).toFixed(2);
         this.schedule(false, 35);
@@ -578,8 +655,15 @@
       });
     }
 
-    updateHcpControls() {
-      this.hcpIndex.hidden = this.lattice !== "hcp";
+    updateLatticeControls(resetParameters = false) {
+      const definition = LATTICES[this.lattice];
+      const usesC = definition.system !== "cubic";
+      this.hcpIndex.hidden = definition.system !== "hexagonal";
+      this.cParameter.hidden = !usesC;
+      if (resetParameters) {
+        this.inputs.a.value = definition.defaults.a;
+        this.inputs.c.value = definition.defaults.c || definition.defaults.a;
+      }
       this.updateDerivedIndex();
     }
 
@@ -592,7 +676,11 @@
     readState() {
       const indices = [this.inputs.h, this.inputs.k, this.inputs.l].map(input => input.value.trim() === "" ? Number.NaN : Number(input.value));
       validateEditableIndices(indices);
-      return {lattice: this.lattice, rawIndices: indices, indices: normaliseIndices(indices), offset: Number(this.inputs.offset.value)};
+      const a = Number(this.inputs.a.value);
+      const usesC = LATTICES[this.lattice].system !== "cubic";
+      const c = usesC ? Number(this.inputs.c.value) : a;
+      if (!Number.isFinite(a) || a <= 0 || !Number.isFinite(c) || c <= 0) throw new Error("Lattice parameters a and c must be positive numbers.");
+      return {lattice: this.lattice, rawIndices: indices, indices: normaliseIndices(indices), a, c, offset: Number(this.inputs.offset.value)};
     }
 
     schedule(resetOffset, delay = 180) {
@@ -611,7 +699,7 @@
         this.hasGenerated = true;
         this.cutView.setState(state);
         this.normalisedOutput.textContent = `${LATTICES[state.lattice].label}${formatPlane(state.lattice, state.indices)}`;
-        this.spacingOutput.textContent = `${result.metrics.spacing.toFixed(3)} a`;
+        this.spacingOutput.textContent = `${result.metrics.spacing.toFixed(3)} Å`;
         this.cellOutput.textContent = `${result.metrics.surfaceLengths[0].toFixed(2)} × ${result.metrics.surfaceLengths[1].toFixed(2)} · ${result.metrics.surfaceAngle.toFixed(1)}°`;
         this.atomOutput.textContent = String(result.payload.atoms.length);
         this.offsetOutput.textContent = state.offset.toFixed(2);
@@ -634,13 +722,16 @@
       url.searchParams.set("h", state.rawIndices[0]);
       url.searchParams.set("k", state.rawIndices[1]);
       url.searchParams.set("l", state.rawIndices[2]);
+      url.searchParams.set("a", state.a.toFixed(4));
+      if (LATTICES[state.lattice].system === "cubic") url.searchParams.delete("c");
+      else url.searchParams.set("c", state.c.toFixed(4));
       url.searchParams.set("offset", state.offset.toFixed(3));
       history.replaceState(null, "", url);
     }
 
     restoreFromUrl() {
       const params = new URLSearchParams(window.location.search);
-      const lattice = ["fcc", "bcc", "hcp"].includes(params.get("lattice")) ? params.get("lattice") : "fcc";
+      const lattice = Object.hasOwn(LATTICES, params.get("lattice")) ? params.get("lattice") : "fcc";
       const radio = this.form.querySelector(`[name="lattice"][value="${lattice}"]`);
       radio.checked = true;
       const fallback = {h: 1, k: 1, l: 1};
@@ -651,7 +742,12 @@
       }
       const offset = Number.parseFloat(params.get("offset"));
       this.inputs.offset.value = Number.isFinite(offset) ? Math.max(0, Math.min(1, offset)) : .5;
-      this.updateHcpControls();
+      const definition = LATTICES[lattice];
+      const parsedA = Number.parseFloat(params.get("a"));
+      const parsedC = Number.parseFloat(params.get("c"));
+      this.inputs.a.value = Number.isFinite(parsedA) && parsedA > 0 ? parsedA : definition.defaults.a;
+      this.inputs.c.value = Number.isFinite(parsedC) && parsedC > 0 ? parsedC : (definition.defaults.c || definition.defaults.a);
+      this.updateLatticeControls();
       this.offsetOutput.textContent = Number(this.inputs.offset.value).toFixed(2);
     }
   }

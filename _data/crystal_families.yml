@@ -1,0 +1,18 @@
+- id: fcc
+  name: Face-centred cubic (FCC)
+  summary: Close-packed faces, open rows, and regular steps
+- id: bcc
+  name: Body-centred cubic (BCC)
+  summary: Dense (110), open low-index faces, and stepped rows
+- id: hcp
+  name: Hexagonal close packed (HCP)
+  summary: Basal, prismatic, and pyramidal cuts
+- id: sc
+  name: Simple cubic (SC)
+  summary: Square and triangular nets with open stepped faces
+- id: sh
+  name: Simple hexagonal (SH)
+  summary: AA-stacked basal, prismatic, and pyramidal cuts
+- id: bct
+  name: Body-centred tetragonal (BCT)
+  summary: Basal, prismatic, mixed-index, and stepped faces with independent a and c

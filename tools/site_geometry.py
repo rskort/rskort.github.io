@@ -66,6 +66,57 @@ EXPLICIT: dict[str, list[dict]] = {
         {"kind": "centroid", "supports": [(1, (1 / 3, 1 / 3)), (1, (4 / 3, 1 / 3)), (1, (1 / 3, 4 / 3))]},
         {"kind": "centroid", "supports": [(1, (4 / 3, 1 / 3)), (1, (1 / 3, 4 / 3)), (1, (4 / 3, 4 / 3))]},
     ],
+    "sc-100": [
+        {"kind": "projection", "supports": [(1, (0.0, 0.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.0, 0.0)), (1, (1.0, 0.0))]},
+        {"kind": "centroid", "supports": [(1, (0.0, 0.0)), (1, (1.0, 0.0)), (1, (0.0, 1.0)), (1, (1.0, 1.0))]},
+    ],
+    "sc-110": [
+        {"kind": "projection", "supports": [(1, (0.5, 0.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.0)), (1, (0.5, 1.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.0)), (1, (1.5, 0.0))]},
+        {"kind": "centroid", "supports": [(1, (0.5, 0.0)), (1, (1.5, 0.0)), (1, (0.5, 1.0)), (1, (1.5, 1.0))]},
+    ],
+    "sc-111": [
+        {"kind": "projection", "supports": [(1, (0.0, 0.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.0, 0.0)), (1, (1.0, 0.0))]},
+        {"kind": "centroid", "supports": [(1, (0.0, 0.0)), (1, (1.0, 0.0)), (1, (0.0, 1.0))]},
+        {"kind": "centroid", "supports": [(1, (1.0, 0.0)), (1, (0.0, 1.0)), (1, (1.0, 1.0))]},
+    ],
+    "sh-0001": [
+        {"kind": "projection", "supports": [(1, (0.0, 0.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.0, 0.0)), (1, (1.0, 0.0))]},
+        {"kind": "centroid", "supports": [(1, (0.0, 0.0)), (1, (1.0, 0.0)), (1, (0.0, 1.0))]},
+    ],
+    "sh-10m10": [
+        {"kind": "projection", "supports": [(1, (0.5, 0.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.0)), (1, (1.5, 0.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.0)), (1, (0.5, 1.0))]},
+        {"kind": "centroid", "supports": [(1, (0.5, 0.0)), (1, (1.5, 0.0)), (1, (0.5, 1.0)), (1, (1.5, 1.0))]},
+    ],
+    "sh-11m20": [
+        {"kind": "projection", "supports": [(1, (0.5, 0.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.0)), (1, (0.5, 1.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.0)), (1, (1.5, 0.0))]},
+        {"kind": "centroid", "supports": [(1, (0.5, 0.0)), (1, (1.5, 0.0)), (1, (0.5, 1.0)), (1, (1.5, 1.0))]},
+    ],
+    "bct-001": [
+        {"kind": "projection", "supports": [(1, (0.5, 0.5))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.5)), (1, (1.5, 0.5))]},
+        {"kind": "centroid", "supports": [(1, (0.5, 0.5)), (1, (-0.5, 0.5)), (1, (0.5, -0.5)), (1, (-0.5, -0.5))]},
+    ],
+    "bct-100": [
+        {"kind": "projection", "supports": [(1, (0.5, 0.5))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.5)), (1, (1.5, 0.5))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.5)), (1, (0.5, 1.5))]},
+        {"kind": "centroid", "supports": [(1, (0.5, 0.5)), (1, (1.5, 0.5)), (1, (0.5, 1.5)), (1, (1.5, 1.5))]},
+    ],
+    "bct-110": [
+        {"kind": "projection", "supports": [(1, (0.5, 0.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.0)), (1, (0.0, 0.5))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.0)), (1, (1.5, 0.0))]},
+        {"kind": "midpoint", "supports": [(1, (0.5, 0.0)), (1, (0.5, 1.0))]},
+    ],
 }
 
 

@@ -1,5 +1,5 @@
 title: Surface Atlas
-description: An interactive visual guide to FCC, BCC, and HCP crystal surfaces, Miller indices, surface structures, and adsorption sites.
+description: An interactive visual guide to FCC, BCC, HCP, SC, SH, and BCT crystal surfaces, Miller indices, surface structures, and adsorption sites.
 url: "https://rskort.github.io"
 baseurl: "/surface-atlas"
 markdown: kramdown

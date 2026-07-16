@@ -56,12 +56,35 @@ SPECS = {
     "hcp-10m11": VisualSpec("hcp", (1, 0, 1)),
     "hcp-10m12": VisualSpec("hcp", (1, 0, 2)),
     "hcp-11m21": VisualSpec("hcp", (1, 1, 1), profile_axis=1),
+    "sc-100": VisualSpec("sc", (1, 0, 0)),
+    "sc-110": VisualSpec("sc", (1, 1, 0)),
+    "sc-111": VisualSpec("sc", (1, 1, 1)),
+    "sc-210": VisualSpec("sc", (2, 1, 0)),
+    "sc-211": VisualSpec("sc", (2, 1, 1)),
+    "sh-0001": VisualSpec("sh", (0, 0, 1)),
+    "sh-10m10": VisualSpec("sh", (1, 0, 0)),
+    "sh-11m20": VisualSpec("sh", (1, 1, 0)),
+    "sh-10m11": VisualSpec("sh", (1, 0, 1)),
+    "bct-001": VisualSpec("bct", (0, 0, 1)),
+    "bct-100": VisualSpec("bct", (1, 0, 0)),
+    "bct-110": VisualSpec("bct", (1, 1, 0)),
+    "bct-101": VisualSpec("bct", (1, 0, 1)),
+    "bct-111": VisualSpec("bct", (1, 1, 1)),
+    "bct-211": VisualSpec("bct", (2, 1, 1)),
 }
 
 CRYSTALS = {
     "fcc": {"element": "Cu", "a": 3.61, "c": None, "nearest": 3.61 / np.sqrt(2)},
     "bcc": {"element": "Fe", "a": 2.87, "c": None, "nearest": 2.87 * np.sqrt(3) / 2},
     "hcp": {"element": "Mg", "a": 3.21, "c": 5.21, "nearest": 3.21},
+    "sc": {"element": "Po", "a": 3.35, "c": None, "nearest": 3.35},
+    "sh": {"element": "X", "a": 2.70, "c": 4.40, "nearest": 2.70},
+    "bct": {
+        "element": "In",
+        "a": 3.25,
+        "c": 4.95,
+        "nearest": min(3.25, 4.95, np.sqrt(2 * 3.25**2 + 4.95**2) / 2),
+    },
 }
 
 LAYER_COLOURS = ("#176b72", "#91aaa6", "#d4dfda", "#e9efeb")
@@ -84,15 +107,36 @@ mpl.rcParams.update(
 )
 
 
-def unit_slab(spec: VisualSpec) -> Atoms:
+def bulk_cell(spec: VisualSpec) -> Atoms:
+    """Build the conventional cell in which ``spec.miller`` is defined."""
     crystal_data = CRYSTALS[spec.crystal]
+    a = crystal_data["a"]
+    c = crystal_data["c"]
+    element = crystal_data["element"]
+    if spec.crystal == "sh":
+        return Atoms(
+            element,
+            scaled_positions=[(0.0, 0.0, 0.0)],
+            cell=((a, 0.0, 0.0), (-a / 2, a * np.sqrt(3) / 2, 0.0), (0.0, 0.0, c)),
+            pbc=True,
+        )
+    if spec.crystal == "bct":
+        return Atoms(
+            f"{element}2",
+            scaled_positions=[(0.0, 0.0, 0.0), (0.5, 0.5, 0.5)],
+            cell=((a, 0.0, 0.0), (0.0, a, 0.0), (0.0, 0.0, c)),
+            pbc=True,
+        )
     kwargs = {"a": crystal_data["a"]}
-    if spec.crystal in {"fcc", "bcc"}:
+    if spec.crystal in {"fcc", "bcc", "sc"}:
         kwargs["cubic"] = True
     else:
         kwargs["c"] = crystal_data["c"]
-    crystal = bulk(crystal_data["element"], spec.crystal, **kwargs)
-    slab = surface(crystal, spec.miller, layers=10, vacuum=None, periodic=True)
+    return bulk(element, spec.crystal, **kwargs)
+
+
+def unit_slab(spec: VisualSpec) -> Atoms:
+    slab = surface(bulk_cell(spec), spec.miller, layers=10, vacuum=None, periodic=True)
     # Choose an equivalent, reduced in-plane basis. This avoids extremely thin
     # parallelograms for facets such as (331) while preserving the same surface.
     minimize_tilt(slab)
@@ -244,7 +288,7 @@ def draw_profile(surface_id: str, slab: Atoms, spec: VisualSpec) -> None:
 
 def cut_polyhedron(spec: VisualSpec) -> tuple[np.ndarray, list[tuple[int, int]], np.ndarray, np.ndarray]:
     """Return bulk-cell vertices, edges, representative atoms and a plane normal."""
-    if spec.crystal in {"fcc", "bcc"}:
+    if spec.crystal in {"fcc", "bcc", "sc"}:
         vertices = np.array([(x, y, z) for z in (0.0, 1.0) for y in (0.0, 1.0) for x in (0.0, 1.0)])
         edges = [(i, j) for i in range(8) for j in range(i + 1, 8)
                  if np.count_nonzero(np.abs(vertices[i] - vertices[j]) > 0.1) == 1]
@@ -253,9 +297,23 @@ def cut_polyhedron(spec: VisualSpec) -> tuple[np.ndarray, list[tuple[int, int]],
             faces = np.array(((0.5, 0.5, 0), (0.5, 0.5, 1), (0.5, 0, 0.5),
                               (0.5, 1, 0.5), (0, 0.5, 0.5), (1, 0.5, 0.5)))
             atoms = np.vstack((corners, faces))
-        else:
+        elif spec.crystal == "bcc":
             atoms = np.vstack((corners, np.array(((0.5, 0.5, 0.5),))))
+        else:
+            atoms = corners
         normal = np.asarray(spec.miller, dtype=float)
+        return vertices, edges, atoms, normal
+
+    if spec.crystal == "bct":
+        c_over_a = CRYSTALS["bct"]["c"] / CRYSTALS["bct"]["a"]
+        vertices = np.array(
+            [(x, y, z) for z in (0.0, c_over_a) for y in (0.0, 1.0) for x in (0.0, 1.0)]
+        )
+        edges = [(i, j) for i in range(8) for j in range(i + 1, 8)
+                 if np.count_nonzero(np.abs(vertices[i] - vertices[j]) > 0.1) == 1]
+        atoms = np.vstack((vertices, np.array(((0.5, 0.5, c_over_a / 2),))))
+        h, k, l = spec.miller
+        normal = np.array((h, k, l / c_over_a), dtype=float)
         return vertices, edges, atoms, normal
 
     angles = np.linspace(0, 2 * np.pi, 6, endpoint=False)
@@ -263,13 +321,16 @@ def cut_polyhedron(spec: VisualSpec) -> tuple[np.ndarray, list[tuple[int, int]],
     vertices = np.array([(x, y, z) for z in (0.0, 1.0) for x, y in basal])
     edges = [(z * 6 + i, z * 6 + (i + 1) % 6) for z in range(2) for i in range(6)]
     edges += [(i, i + 6) for i in range(6)]
-    middle = np.column_stack((0.34 * np.cos(angles[::2] + np.pi / 3),
-                              0.34 * np.sin(angles[::2] + np.pi / 3),
-                              np.full(3, 0.5)))
     basal_centres = np.array(((0.0, 0.0, 0.0), (0.0, 0.0, 1.0)))
-    atoms = np.vstack((vertices, basal_centres, middle))
+    if spec.crystal == "hcp":
+        middle = np.column_stack((0.34 * np.cos(angles[::2] + np.pi / 3),
+                                  0.34 * np.sin(angles[::2] + np.pi / 3),
+                                  np.full(3, 0.5)))
+        atoms = np.vstack((vertices, basal_centres, middle))
+    else:
+        atoms = np.vstack((vertices, basal_centres))
     cell = np.array(((1.0, 0.0, 0.0), (-0.5, np.sqrt(3) / 2, 0.0),
-                     (0.0, 0.0, CRYSTALS["hcp"]["c"] / CRYSTALS["hcp"]["a"])))
+                     (0.0, 0.0, CRYSTALS[spec.crystal]["c"] / CRYSTALS[spec.crystal]["a"])))
     normal = np.linalg.solve(cell, np.asarray(spec.miller, dtype=float))
     return vertices, edges, atoms, normal
 

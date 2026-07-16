@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Surface builder
-description: Build an ideal FCC, BCC, or HCP surface from manually selected Miller indices.
+description: Build an ideal FCC, BCC, HCP, SC, SH, or BCT surface from Miller indices and lattice parameters.
 permalink: /surface-atlas/surface-builder/
 scripts:
   - /assets/js/surface-builder.js
@@ -11,7 +11,7 @@ scripts:
   <header class="builder-hero">
     <p class="eyebrow">Interactive crystallography</p>
     <h1>Build a surface from its indices.</h1>
-    <p class="lede">Choose a bulk lattice and set the plane orientation. The bulk cut, exposed atomic layers, repeat cell, and geometric adsorption-site candidates update together.</p>
+    <p class="lede">Choose a bulk structure, set its lattice parameters and plane orientation, then compare the cut, exposed layers, repeat cell, and geometric adsorption-site candidates.</p>
   </header>
 
   <form class="builder-controls" novalidate>
@@ -20,6 +20,14 @@ scripts:
       <label><input type="radio" name="lattice" value="fcc" checked><span><strong>FCC</strong><small>Face-centred cubic</small></span></label>
       <label><input type="radio" name="lattice" value="bcc"><span><strong>BCC</strong><small>Body-centred cubic</small></span></label>
       <label><input type="radio" name="lattice" value="hcp"><span><strong>HCP</strong><small>Hexagonal close packed</small></span></label>
+      <label><input type="radio" name="lattice" value="sc"><span><strong>SC</strong><small>Simple cubic</small></span></label>
+      <label><input type="radio" name="lattice" value="sh"><span><strong>SH</strong><small>Simple hexagonal</small></span></label>
+      <label><input type="radio" name="lattice" value="bct"><span><strong>BCT</strong><small>Body-centred tetragonal</small></span></label>
+      <div class="lattice-parameter-inputs">
+        <label><span>a (Å)</span><input name="a" type="number" min="0.1" step="0.01" value="3.61" inputmode="decimal"></label>
+        <label data-c-parameter hidden><span>c (Å)</span><input name="c" type="number" min="0.1" step="0.01" value="3.61" inputmode="decimal"></label>
+      </div>
+      <p class="lattice-parameter-note">Hexagonal and tetragonal structures use independent a and c values.</p>
     </fieldset>
 
     <fieldset class="index-selector">
