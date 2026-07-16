@@ -30,9 +30,14 @@ def render(size: int) -> Image.Image:
 
 
 def main() -> None:
+    surface_dir = ROOT / "surface-atlas"
+
     render(180).save(ROOT / "apple-touch-icon.png", optimize=True)
+    render(180).save(surface_dir / "apple-touch-icon.png", optimize=True)
     render(192).save(ROOT / "favicon-192.png", optimize=True)
+    render(192).save(surface_dir / "favicon-192.png", optimize=True)
     render(512).save(ROOT / "favicon-512.png", optimize=True)
+    render(512).save(surface_dir / "favicon-512.png", optimize=True)
     ico_options = {
         "format": "ICO",
         "sizes": [(16, 16), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)],
@@ -40,6 +45,11 @@ def main() -> None:
     icon = render(256)
     # Keep the conventional favicon path for maximum browser and crawler support.
     icon.save(ROOT / "favicon.ico", **ico_options)
+    icon.save(surface_dir / "favicon.ico", **ico_options)
+
+    svg_source = ROOT / "favicon.svg"
+    svg_target = surface_dir / "favicon.svg"
+    svg_target.write_text(svg_source.read_text(encoding="utf-8"), encoding="utf-8")
 
 
 if __name__ == "__main__":

@@ -9,13 +9,13 @@
   "theme_color": "#176b72",
   "icons": [
     {
-      "src": "/favicon-192.png",
+      "src": "/surface-atlas/favicon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/favicon-512.png",
+      "src": "/surface-atlas/favicon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
