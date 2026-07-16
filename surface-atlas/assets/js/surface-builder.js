@@ -4,6 +4,12 @@
   const SQRT3 = Math.sqrt(3);
   const EPSILON = 1e-8;
   const INDEX_LIMIT = 8;
+  const MIN_SLAB_LAYERS = 6;
+  const MAX_SLAB_LAYERS = 24;
+  const SURFACE_PROBE_FACTOR = .78;
+  // Generic, substrate-scaled starting clearance. Site cards explicitly flag
+  // that a chemistry-specific adsorption height still requires relaxation.
+  const ADSORBATE_DISTANCE_FACTOR = .70;
 
   const vector = {
     add: (a, b) => a.map((value, index) => value + b[index]),
@@ -269,6 +275,17 @@
     return levels.sort((a, b) => b - a);
   };
 
+  const selectSlabLevels = (availableLevels, nearest, indices) => {
+    if (!availableLevels.length) return [];
+    const indexMagnitude = Math.hypot(...indices);
+    const complexity = Math.max(...indices.map(Math.abs));
+    const targetDepth = nearest * (3.8 + Math.min(1.2, Math.max(0, indexMagnitude - 1) * .18));
+    const depthCount = availableLevels.findIndex(level => availableLevels[0] - level >= targetDepth);
+    const complexityFloor = Math.min(MAX_SLAB_LAYERS, MIN_SLAB_LAYERS + Math.max(0, complexity - 1));
+    const requested = Math.max(MIN_SLAB_LAYERS, complexityFloor, depthCount < 0 ? availableLevels.length : depthCount + 1);
+    return availableLevels.slice(0, Math.min(MAX_SLAB_LAYERS, requested));
+  };
+
   const createSurfaceGeometry = ({lattice, indices, offset, a, c}) => {
     const parameters = {a, c};
     const latticeData = latticeGeometry(lattice, parameters);
@@ -291,7 +308,8 @@
     const determinant = u2[0] * v2[1];
     const cutLevel = (offset - .5) * spacing + 1e-7;
     const records = [];
-    for (let layer = -24; layer <= 24; layer += 1) {
+    const sourceLayerRadius = MAX_SLAB_LAYERS * 3;
+    for (let layer = -sourceLayerRadius; layer <= sourceLayerRadius; layer += 1) {
       const translation = vector.scale(transverse, layer);
       latticeData.basis.forEach(basis => {
         const point = vector.add(translation, basis);
@@ -318,7 +336,8 @@
       });
     }
     const belowCut = records.filter(record => record.z <= cutLevel);
-    const levels = uniqueLevels(belowCut).slice(0, 6);
+    const availableLevels = uniqueLevels(belowCut);
+    const levels = selectSlabLevels(availableLevels, latticeData.nearest, indices);
     if (!levels.length) throw new Error("No atomic layers intersect the selected viewing window.");
     const deduplicated = new Map();
     belowCut.forEach(record => {
@@ -336,7 +355,7 @@
         if (distance > .08 && distance < latticeData.nearest * 1.12) bonds.push([first, second]);
       }
     }
-    const sites = findCandidateSites(internalAtoms, {u2, v2, nearest: latticeData.nearest, levels});
+    const siteResult = findCandidateSites(internalAtoms, {u2, v2, nearest: latticeData.nearest, levels});
     const top = levels[0];
     const corner = (fu, fv) => [fu * u2[0] + fv * v2[0], fv * v2[1], top + .02];
     return {
@@ -347,7 +366,9 @@
         candidateSites: true,
         atoms,
         bonds,
-        sites,
+        sites: siteResult.sites,
+        siteAnalysis: siteResult.analysis,
+        layerCount: levels.length,
         cell: [corner(1, 1), corner(2, 1), corner(2, 2), corner(1, 2)]
       },
       metrics: {
@@ -355,6 +376,8 @@
         surfaceLengths: [vector.length(u.cartesian), vector.length(v.cartesian)],
         surfaceAngle: Math.acos(Math.max(-1, Math.min(1, vector.dot(u.cartesian, v.cartesian) / (vector.length(u.cartesian) * vector.length(v.cartesian))))) * 180 / Math.PI,
         layerCount: levels.length,
+        slabDepth: levels[0] - levels[levels.length - 1],
+        layerLimitReached: levels.length === MAX_SLAB_LAYERS && availableLevels.length > MAX_SLAB_LAYERS,
         normal,
         cutLevel
       }
@@ -368,12 +391,84 @@
 
   const inCentralCell = ([u, v], margin = 0) => u >= 1 + margin && u < 2 - margin && v >= 1 + margin && v < 2 - margin;
 
-  const deduplicateSites = (sites, tolerance) => {
+  const periodicSiteDistance = (first, second, u2, v2) => {
+    const a = fractionalCoordinates(first.x, first.y, u2, v2);
+    const b = fractionalCoordinates(second.x, second.y, u2, v2);
+    const du = a[0] - b[0] - Math.round(a[0] - b[0]);
+    const dv = a[1] - b[1] - Math.round(a[1] - b[1]);
+    return Math.hypot(du * u2[0] + dv * v2[0], dv * v2[1]);
+  };
+
+  const deduplicateSites = (sites, tolerance, u2 = null, v2 = null) => {
     const unique = [];
     sites.forEach(site => {
-      if (!unique.some(known => known.kind === site.kind && Math.hypot(known.x - site.x, known.y - site.y) < tolerance)) unique.push(site);
+      const distance = known => u2 && v2
+        ? periodicSiteDistance(known, site, u2, v2)
+        : Math.hypot(known.x - site.x, known.y - site.y);
+      if (!unique.some(known => known.kind === site.kind && distance(known) < tolerance)) unique.push(site);
     });
     return unique;
+  };
+
+  const cleanFractional = value => {
+    const wrapped = wrapUnit(value);
+    return wrapped < 1e-6 || 1 - wrapped < 1e-6 ? 0 : wrapped;
+  };
+
+  const surfaceEnvelopeHeight = (x, y, atoms, targetDistance) => atoms.reduce((height, atom) => {
+    const lateralDistance = Math.hypot(atom.x - x, atom.y - y);
+    if (lateralDistance >= targetDistance) return height;
+    const clearance = Math.sqrt(Math.max(0, targetDistance * targetDistance - lateralDistance * lateralDistance));
+    return Math.max(height, atom.z + clearance);
+  }, -Infinity);
+
+  const supportLayerText = supports => [...new Set(supports.map(atom => atom.layer + 1))]
+    .sort((a, b) => a - b).map(layer => `L${layer}`).join(" + ");
+
+  const placeCandidate = (candidate, atoms, {u2, v2, nearest, levels}) => {
+    const targetDistance = nearest * ADSORBATE_DISTANCE_FACTOR;
+    const highestSupport = Math.max(...candidate.supports.map(atom => atom.z));
+    const z = Math.max(
+      highestSupport + nearest * .30,
+      surfaceEnvelopeHeight(candidate.x, candidate.y, atoms, targetDistance)
+    );
+    const clearance = Math.min(...atoms.map(atom => Math.hypot(candidate.x - atom.x, candidate.y - atom.y, z - atom.z)));
+    const [rawU, rawV] = fractionalCoordinates(candidate.x, candidate.y, u2, v2);
+    const fractional = [cleanFractional(rawU - 1), cleanFractional(rawV - 1)];
+    const layers = supportLayerText(candidate.supports);
+    const coordination = candidate.coordination || candidate.supports.length;
+    const isMixedLayer = new Set(candidate.supports.map(atom => atom.layer)).size > 1;
+    let label;
+    let definition;
+    let formula;
+    if (candidate.kind === "ontop") {
+      label = candidate.supports[0].layer ? `L${candidate.supports[0].layer + 1} step ontop` : "ontop";
+      definition = `Placed above one exposed ${layers} support atom.`;
+      formula = "s = s₁";
+    } else if (candidate.kind === "bridge") {
+      label = isMixedLayer ? "step bridge" : "bridge";
+      definition = `Midpoint between two exposed support atoms in ${layers}.`;
+      formula = "s = (s₁ + s₂) / 2";
+    } else {
+      label = isMixedLayer ? `${coordination}-fold step pocket` : `${coordination}-fold hollow`;
+      definition = `Empty projected circumcentre coordinated by ${coordination} exposed atoms in ${layers}.`;
+      formula = `s = circumcentre(s₁…s${coordination})`;
+    }
+    return {
+      ...candidate,
+      label,
+      definition,
+      formula,
+      coordination,
+      z,
+      fractional,
+      coordinate: `(${fractional.map(value => value.toFixed(3)).join(", ")})`,
+      supportLayers: layers,
+      heightAboveSupport: z - highestSupport,
+      heightAboveTop: z - levels[0],
+      estimatedBondLength: targetDistance,
+      clearance
+    };
   };
 
   const circumcentre = (a, b, c) => {
@@ -388,14 +483,23 @@
     };
   };
 
-  function findCandidateSites(atoms, {u2, v2, nearest}) {
-    const exposed = atoms.filter(atom => atom.layer < 3);
+  function findCandidateSites(atoms, geometry) {
+    const {u2, v2, nearest, levels} = geometry;
     const centreX = 1.5 * u2[0] + 1.5 * v2[0];
     const centreY = 1.5 * v2[1];
     const byCentre = (a, b) => Math.hypot(a.x - centreX, a.y - centreY) - Math.hypot(b.x - centreX, b.y - centreY);
-    const ontop = exposed.filter(atom => inCentralCell([atom.fu, atom.fv]))
-      .map(atom => ({kind: "ontop", label: "ontop candidate", x: atom.x, y: atom.y, z: atom.z + .32 * nearest}))
-      .sort(byCentre).slice(0, 12);
+    const targetDistance = nearest * ADSORBATE_DISTANCE_FACTOR;
+    const probeDistance = nearest * SURFACE_PROBE_FACTOR;
+    const searchLayerCount = Math.min(levels.length, Math.max(4, Math.min(10, Math.ceil(levels.length / 2))));
+    const searchPool = atoms.filter(atom => atom.layer < searchLayerCount);
+    const envelopeTolerance = nearest * .045;
+    const exposed = searchPool.filter(atom => {
+      const atomContribution = atom.z + probeDistance;
+      return atomContribution >= surfaceEnvelopeHeight(atom.x, atom.y, searchPool, probeDistance) - envelopeTolerance;
+    });
+    const ontopCandidates = exposed.filter(atom => inCentralCell([atom.fu, atom.fv]))
+      .map(atom => ({kind: "ontop", x: atom.x, y: atom.y, supports: [atom]}));
+    const ontop = deduplicateSites(ontopCandidates, nearest * .06, u2, v2).sort(byCentre).slice(0, 6);
 
     const bridgeCandidates = [];
     for (let first = 0; first < exposed.length; first += 1) {
@@ -407,40 +511,48 @@
         const x = (a.x + b.x) / 2;
         const y = (a.y + b.y) / 2;
         if (!inCentralCell(fractionalCoordinates(x, y, u2, v2))) continue;
-        bridgeCandidates.push({kind: "bridge", label: "bridge candidate", x, y, z: Math.max(a.z, b.z) + .32 * nearest});
+        bridgeCandidates.push({kind: "bridge", coordination: 2, x, y, supports: [a, b]});
       }
     }
-    const bridges = deduplicateSites(bridgeCandidates, nearest * .08).sort(byCentre).slice(0, 20);
+    const bridges = deduplicateSites(bridgeCandidates, nearest * .08, u2, v2).sort(byCentre).slice(0, 6);
 
     const hollowCandidates = [];
-    for (let layer = 0; layer < 3; layer += 1) {
-      const triangulationPool = exposed.filter(atom => atom.layer === layer && atom.fu > -.05 && atom.fu < 3.05 && atom.fv > -.05 && atom.fv < 3.05).slice(0, 90);
-      for (let a = 0; a < triangulationPool.length; a += 1) {
-        for (let b = a + 1; b < triangulationPool.length; b += 1) {
-          for (let c = b + 1; c < triangulationPool.length; c += 1) {
-            const centre = circumcentre(triangulationPool[a], triangulationPool[b], triangulationPool[c]);
-            if (!centre) continue;
-            const radius = Math.hypot(centre.x - triangulationPool[a].x, centre.y - triangulationPool[a].y);
-            if (radius < nearest * .25 || radius > nearest * 1.35 || !inCentralCell(fractionalCoordinates(centre.x, centre.y, u2, v2), .02)) continue;
-            const hasInteriorAtom = triangulationPool.some((atom, index) => ![a, b, c].includes(index) && Math.hypot(atom.x - centre.x, atom.y - centre.y) < radius - nearest * .045);
-            if (hasInteriorAtom) continue;
-            const neighbours = triangulationPool.filter(atom => Math.abs(Math.hypot(atom.x - centre.x, atom.y - centre.y) - radius) < Math.max(nearest * .055, radius * .075));
-            if (neighbours.length < 3) continue;
-            const coordination = Math.min(8, neighbours.length);
-            hollowCandidates.push({
-              kind: "hollow",
-              label: `${coordination}-fold hollow candidate`,
-              coordination,
-              x: centre.x,
-              y: centre.y,
-              z: Math.max(...neighbours.map(atom => atom.z)) + .32 * nearest
-            });
-          }
+    const triangulationPool = [...exposed].sort(byCentre).slice(0, 72);
+    for (let a = 0; a < triangulationPool.length; a += 1) {
+      for (let b = a + 1; b < triangulationPool.length; b += 1) {
+        if (Math.hypot(triangulationPool[a].x - triangulationPool[b].x, triangulationPool[a].y - triangulationPool[b].y) > nearest * 2.05) continue;
+        for (let c = b + 1; c < triangulationPool.length; c += 1) {
+          const centre = circumcentre(triangulationPool[a], triangulationPool[b], triangulationPool[c]);
+          if (!centre) continue;
+          const radius = Math.hypot(centre.x - triangulationPool[a].x, centre.y - triangulationPool[a].y);
+          if (radius < nearest * .25 || radius > nearest * 1.35 || !inCentralCell(fractionalCoordinates(centre.x, centre.y, u2, v2), .02)) continue;
+          const hasInteriorAtom = triangulationPool.some((atom, index) => ![a, b, c].includes(index) && Math.hypot(atom.x - centre.x, atom.y - centre.y) < radius - nearest * .045);
+          if (hasInteriorAtom) continue;
+          const shellTolerance = Math.max(nearest * .055, radius * .075);
+          const triangleTop = Math.max(triangulationPool[a].z, triangulationPool[b].z, triangulationPool[c].z);
+          const neighbours = triangulationPool.filter(atom =>
+            Math.abs(Math.hypot(atom.x - centre.x, atom.y - centre.y) - radius) < shellTolerance &&
+            Math.abs(atom.z - triangleTop) < nearest * 1.05
+          );
+          if (neighbours.length < 3) continue;
+          const coordination = Math.min(8, neighbours.length);
+          hollowCandidates.push({kind: "hollow", coordination, x: centre.x, y: centre.y, supports: neighbours.slice(0, coordination)});
         }
       }
     }
-    const hollows = deduplicateSites(hollowCandidates, nearest * .10).sort(byCentre).slice(0, 12);
-    return [...ontop, ...bridges, ...hollows].map((site, index) => ({...site, marker: index + 1}));
+    hollowCandidates.sort((a, b) => b.coordination - a.coordination);
+    const hollows = deduplicateSites(hollowCandidates, nearest * .10, u2, v2).sort(byCentre).slice(0, 6);
+    const sites = [...ontop, ...bridges, ...hollows]
+      .map(site => placeCandidate(site, atoms, geometry))
+      .map((site, index) => ({...site, marker: index + 1}));
+    return {
+      sites,
+      analysis: {
+        exposedAtomCount: exposed.filter(atom => inCentralCell([atom.fu, atom.fv])).length,
+        searchLayerCount,
+        targetDistance
+      }
+    };
   }
 
   const bulkPolyhedron = (lattice, parameters = {}) => {
@@ -616,8 +728,11 @@
       this.spacingOutput = root.querySelector("[data-spacing]");
       this.cellOutput = root.querySelector("[data-cell]");
       this.atomOutput = root.querySelector("[data-atom-count]");
+      this.layerOutput = root.querySelector("[data-layer-count]");
       this.offsetOutput = root.querySelector("[data-offset-value]");
       this.catalogueLink = root.querySelector("[data-catalogue-link]");
+      this.siteList = root.querySelector("[data-candidate-site-list]");
+      this.siteSummary = root.querySelector("[data-candidate-site-summary]");
       this.hcpIndex = root.querySelector("[data-hcp-index]");
       this.cParameter = root.querySelector("[data-c-parameter]");
       this.cutView = new BulkCutView(root.querySelector("[data-bulk-cut-canvas]"));
@@ -702,6 +817,10 @@
         this.spacingOutput.textContent = `${result.metrics.spacing.toFixed(3)} Å`;
         this.cellOutput.textContent = `${result.metrics.surfaceLengths[0].toFixed(2)} × ${result.metrics.surfaceLengths[1].toFixed(2)} · ${result.metrics.surfaceAngle.toFixed(1)}°`;
         this.atomOutput.textContent = String(result.payload.atoms.length);
+        if (this.layerOutput) this.layerOutput.textContent = result.metrics.layerLimitReached
+          ? `${result.metrics.layerCount} (adaptive cap)`
+          : String(result.metrics.layerCount);
+        this.renderCandidateSites(result.payload);
         this.offsetOutput.textContent = state.offset.toFixed(2);
         const match = catalogueMatch(state.lattice, state.indices);
         if (match) {
@@ -713,6 +832,53 @@
       } catch (error) {
         this.error.textContent = error.message;
         this.error.hidden = false;
+      }
+    }
+
+    renderCandidateSites(payload) {
+      if (!this.siteList) return;
+      this.siteList.replaceChildren();
+      payload.sites.forEach(site => {
+        const item = document.createElement("li");
+        item.value = site.marker;
+        item.className = `candidate-card candidate-${site.kind}`;
+
+        const heading = document.createElement("div");
+        const name = document.createElement("strong");
+        name.textContent = site.label;
+        const coordination = document.createElement("span");
+        coordination.textContent = `${site.coordination}-fold`;
+        heading.append(name, coordination);
+
+        const definition = document.createElement("p");
+        definition.textContent = site.definition;
+
+        const math = document.createElement("div");
+        math.className = "site-math";
+        const coordinate = document.createElement("code");
+        coordinate.textContent = `(u,v) = ${site.coordinate}`;
+        const height = document.createElement("span");
+        const topOffset = `${site.heightAboveTop >= 0 ? "+" : "−"}${Math.abs(site.heightAboveTop).toFixed(3)} Å`;
+        height.textContent = `Estimated height = ${site.heightAboveSupport.toFixed(3)} Å above highest support · Δz ${topOffset} from L1`;
+        const method = document.createElement("p");
+        method.textContent = `${site.formula} · supports ${site.supportLayers} · nearest clearance ${site.clearance.toFixed(3)} Å`;
+        math.append(coordinate, height, method);
+
+        const support = document.createElement("div");
+        support.className = "site-support";
+        const badge = document.createElement("span");
+        badge.className = "support-badge automatic";
+        badge.textContent = "Geometry-derived";
+        const distance = document.createElement("code");
+        distance.textContent = `target distance ${site.estimatedBondLength.toFixed(3)} Å`;
+        support.append(badge, distance);
+
+        item.append(heading, definition, math, support);
+        this.siteList.append(item);
+      });
+      if (this.siteSummary) {
+        const analysis = payload.siteAnalysis;
+        this.siteSummary.textContent = `${payload.sites.length} candidates from ${analysis.exposedAtomCount} exposed support atoms across the first ${analysis.searchLayerCount} analysed layers. Marker heights clear the local surface envelope by an estimated ${analysis.targetDistance.toFixed(3)} Å substrate–adsorbate distance.`;
       }
     }
 

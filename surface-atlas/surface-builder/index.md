@@ -55,6 +55,7 @@ scripts:
     <div><span>Plane spacing</span><strong data-spacing>—</strong></div>
     <div><span>Surface cell</span><strong data-cell>—</strong></div>
     <div><span>Displayed atoms</span><strong data-atom-count>—</strong></div>
+    <div><span>Displayed layers</span><strong data-layer-count>—</strong></div>
     <a data-catalogue-link hidden href="#"></a>
   </section>
 
@@ -89,11 +90,20 @@ scripts:
     </div>
   </section>
 
+  <section class="builder-site-results" aria-labelledby="builder-sites-heading">
+    <div class="section-heading">
+      <div><p class="kicker">Adsorbate placement</p><h2 id="builder-sites-heading">Geometry-derived starting sites</h2></div>
+      <p class="quiet">Numbered markers correspond to the cards below.</p>
+    </div>
+    <p class="quiet builder-site-summary" data-candidate-site-summary></p>
+    <ol class="site-cards builder-site-cards" data-candidate-site-list></ol>
+  </section>
+
   <aside class="candidate-note">
     <h2>How to read the candidates</h2>
     <div><span class="candidate-dot ontop"></span><p><strong>Ontop</strong> positions sit above exposed atoms.</p></div>
     <div><span class="candidate-dot bridge"></span><p><strong>Bridge</strong> positions are nearest-neighbour midpoints.</p></div>
     <div><span class="candidate-dot hollow"></span><p><strong>Hollow or pocket</strong> positions are empty circumcentres, classified by the number of surrounding atoms.</p></div>
-    <p>These are geometric starting points; not predicted adsorption minima. Relaxation, reconstruction, chemistry, and the chosen termination can change the preferred position.</p>
+    <p>Automatic heights clear nearby substrate atoms using a geometry-based target distance. They are safer starting coordinates, not chemistry-specific adsorption heights or predicted minima. Relaxation, reconstruction, adsorbate size, and the chosen termination can change the final position.</p>
   </aside>
 </article>

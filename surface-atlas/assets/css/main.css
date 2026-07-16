@@ -168,7 +168,7 @@ p, ul, ol { max-width: 72ch; }
 .offset-selector input[type="range"] { accent-color: var(--accent); cursor: pointer; margin: 1rem 0 .35rem; width: 100%; }
 .offset-labels { color: var(--muted); display: flex; font-size: .58rem; justify-content: space-between; }
 .builder-error { background: #fff0ec; border-top: 1px solid #efc2b8; color: #993d2d; font-size: .8rem; grid-column: 1 / -1; margin: 0; max-width: none; padding: .65rem 1.2rem; }
-.builder-summary { align-items: stretch; display: grid; gap: .7rem; grid-template-columns: repeat(4, 1fr); margin: 1rem 0 3.5rem; }
+.builder-summary { align-items: stretch; display: grid; gap: .7rem; grid-template-columns: repeat(5, 1fr); margin: 1rem 0 3.5rem; }
 .builder-summary > div { border-left: 1px solid var(--line); display: grid; padding: .35rem .8rem; }
 .builder-summary span { color: var(--muted); font-size: .66rem; text-transform: uppercase; }
 .builder-summary strong { font-size: .82rem; }
@@ -186,6 +186,18 @@ p, ul, ol { max-width: 72ch; }
 .candidate-toggles .ontop-toggle { color: #a84733; }
 .candidate-toggles .bridge-toggle { color: #9a651c; }
 .candidate-toggles .hollow-toggle { color: #72518f; }
+.builder-site-results { margin-top: 4rem; }
+.builder-site-results .section-heading { margin-bottom: .55rem; }
+.builder-site-summary { margin: 0 0 1rem; max-width: 88ch; }
+.builder-site-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.builder-site-cards li { min-height: 0; }
+.builder-site-cards .candidate-ontop::before { background: #d85f45; }
+.builder-site-cards .candidate-bridge::before { background: #c98a32; }
+.builder-site-cards .candidate-hollow::before { background: #8b6aa8; }
+.builder-site-cards .site-math > span { white-space: normal; }
+.builder-site-cards .site-support { align-items: flex-start; flex-direction: column; }
+.builder-site-cards .site-support code { overflow-wrap: anywhere; }
+.builder-site-cards .support-badge.automatic { background: #f1f4f1; color: var(--muted); }
 .candidate-note { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); display: grid; gap: .55rem; grid-template-columns: repeat(3, 1fr); margin-top: 2rem; padding: 1.2rem 1.35rem; }
 .candidate-note h2 { font-size: 1rem; grid-column: 1 / -1; margin: 0 .0 .2rem; }
 .candidate-note > div { align-items: start; display: grid; gap: .55rem; grid-template-columns: 12px 1fr; }

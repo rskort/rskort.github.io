@@ -94,7 +94,8 @@
           ? "lateral sites · shared schematic height"
           : "ideal sites";
       if (this.status) {
-        this.status.textContent = `${data.element} slab · ${data.atoms.length} atoms · ${data.sites.length} ${siteDescription}`;
+        const layerDescription = data.layerCount ? ` · ${data.layerCount} atomic layers` : "";
+        this.status.textContent = `${data.element} slab · ${data.atoms.length} atoms${layerDescription} · ${data.sites.length} ${siteDescription}`;
       }
       if (!this.resizeObserver) {
         this.resizeObserver = new ResizeObserver(() => this.render());
@@ -270,7 +271,7 @@
         this.data.sites.filter(site => !site.kind || this.toggle(site.kind)).forEach(site => {
           const point = this.project(site, width, height, scale);
           const isCandidate = Boolean(this.data.candidateSites);
-          const radius = isCandidate ? 7.5 : 11;
+          const radius = isCandidate ? 10 : 11;
           ctx.beginPath();
           ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
           const siteColours = {ontop: "#d85f45", bridge: "#c98a32", hollow: "#8b6aa8"};
@@ -282,14 +283,15 @@
           ctx.strokeStyle = "#ffffff";
           ctx.lineWidth = isCandidate ? 1.7 : 2.2;
           ctx.stroke();
-          if (!isCandidate) {
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "700 11px Inter, system-ui, sans-serif";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(site.marker, point.x, point.y + 0.5);
-          }
-          this.hitTargets.push({x: point.x, y: point.y, radius: isCandidate ? 11 : 14, text: isCandidate ? site.label : `${site.marker}. ${site.label}`});
+          ctx.fillStyle = "#ffffff";
+          ctx.font = `${isCandidate ? 650 : 700} ${isCandidate ? 9 : 11}px Inter, system-ui, sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(site.marker, point.x, point.y + 0.5);
+          const candidateDetail = site.coordinate && Number.isFinite(site.heightAboveSupport)
+            ? `${site.marker}. ${site.label} · (u,v) ${site.coordinate} · height ${site.heightAboveSupport.toFixed(2)} Å`
+            : `${site.marker}. ${site.label}`;
+          this.hitTargets.push({x: point.x, y: point.y, radius: isCandidate ? 13 : 14, text: isCandidate ? candidateDetail : `${site.marker}. ${site.label}`});
         });
       }
     }

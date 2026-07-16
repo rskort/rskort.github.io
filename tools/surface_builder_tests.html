@@ -5,9 +5,10 @@
 <body data-result="pending"><pre id="results">Waiting for browser tests…</pre>
 <div data-surface-builder style="max-width:900px;margin:2rem auto">
   <form><label><input type="radio" name="lattice" value="fcc" checked>FCC</label><label><input type="radio" name="lattice" value="bcc">BCC</label><label><input type="radio" name="lattice" value="hcp">HCP</label><label><input type="radio" name="lattice" value="sc">SC</label><label><input type="radio" name="lattice" value="sh">SH</label><label><input type="radio" name="lattice" value="bct">BCT</label><input name="h" value="1"><input name="k" value="1"><span data-hcp-index hidden><input name="i" readonly></span><input name="l" value="1"><input name="a" value="3.61"><span data-c-parameter hidden><input name="c" value="3.61"></span><input name="offset" type="range" min="0" max="1" step=".002" value=".5"><output data-offset-value></output><p data-builder-error hidden></p></form>
-  <span data-normalised-plane></span><span data-spacing></span><span data-cell></span><span data-atom-count></span><a data-catalogue-link hidden></a>
+  <span data-normalised-plane></span><span data-spacing></span><span data-cell></span><span data-atom-count></span><span data-layer-count></span><a data-catalogue-link hidden></a>
   <div style="height:260px"><canvas data-bulk-cut-canvas style="width:100%;height:100%"></canvas></div>
   <div class="surface-viewer"><div class="viewer-stage" style="height:400px"><canvas></canvas><div class="viewer-loading">Loading</div><div class="viewer-tooltip" hidden></div></div><div><button data-view="reset">Perspective</button><button data-view="top">Top</button><button data-view="side">Side</button><input type="checkbox" data-toggle="sites" checked><input type="checkbox" data-toggle="ontop" checked><input type="checkbox" data-toggle="bridge" checked><input type="checkbox" data-toggle="hollow" checked><input type="checkbox" data-toggle="bonds" checked><input type="checkbox" data-toggle="cell" checked><input type="checkbox" data-toggle="deep" checked></div><p class="viewer-status"></p></div>
+  <p data-candidate-site-summary></p><ol data-candidate-site-list></ol>
 </div></body>
 <script src="../surface-atlas/assets/js/site.js"></script>
 <script src="../surface-atlas/assets/js/surface-builder.js"></script>
@@ -43,6 +44,15 @@
       });
       assert(fcc100.payload.sites.some(site => site.kind === "hollow" && site.coordination === 4), "FCC(100) finds a fourfold hollow candidate");
       assert(fcc111.payload.sites.some(site => site.kind === "hollow" && site.coordination === 3), "FCC(111) finds a threefold hollow candidate");
+      assert(fcc111.payload.sites.every(site => site.heightAboveSupport > 0 && site.clearance + 1e-7 >= site.estimatedBondLength), "candidate heights clear every nearby substrate atom");
+      assert(fcc111.payload.sites.every(site => site.coordinate && site.supportLayers && site.definition && site.formula), "candidates include detailed placement metadata");
+      assert(fcc111.payload.sites.every(site => site.fractional.every(value => value >= 0 && value < 1)), "candidate coordinates are wrapped into the reference surface cell");
+      assert(new Set(fcc111.payload.sites.map(site => `${site.kind}:${site.fractional.map(value => value.toFixed(5)).join()}`)).size === fcc111.payload.sites.length, "periodic candidate copies are deduplicated");
+      assert(fcc111.payload.sites.filter(site => site.kind === "ontop").every(site => site.supportLayers === "L1"), "buried close-packed atoms are not mislabeled as ontop sites");
+      assert(extremeFcc.metrics.layerCount > fcc111.metrics.layerCount && extremeFcc.metrics.layerCount >= 12, "high-index FCC cuts receive a deeper adaptive slab");
+      assert(extremeFcc.payload.sites.length <= 18, "dense high-index candidate sets stay readable");
+      assert(extremeBcc.metrics.layerCount > bcc110.metrics.layerCount && extremeBcc.metrics.layerCount <= 24, "adaptive layer depth remains bounded for high-index BCC cuts");
+      assert(extremeHcp.metrics.layerCount > hcp0001.metrics.layerCount, "high-index hexagonal cuts receive more closely spaced atomic layers");
       assert(hcp0001.metrics.normal[0] < 1e-8 && hcp0001.metrics.normal[1] < 1e-8, "HCP(0001) normal follows c");
       assert(Math.abs(bct001.metrics.spacing - 4.95) < 1e-8, "BCT(001) spacing uses c");
       assert(bctStretched.metrics.spacing > bct001.metrics.spacing, "changing BCT c changes its surface metric");
@@ -55,6 +65,10 @@
       const after = build("fcc", [1, 0, 0], .51).payload.atoms.filter(atom => atom.layer === 0).map(atom => atom.z).join();
       assert(before !== after, "crossing an atomic layer changes the termination");
       assert(document.querySelector(".viewer-status").textContent.includes("atoms"), "builder UI renders generated geometry");
+      assert(document.querySelector(".viewer-status").textContent.includes("atomic layers"), "builder UI reports adaptive slab layers");
+      assert(Number.parseInt(document.querySelector("[data-layer-count]").textContent, 10) >= 6, "builder summary reports the layer count");
+      assert(document.querySelectorAll("[data-candidate-site-list] li").length > 0, "builder renders detailed candidate-site cards");
+      assert(document.querySelector("[data-candidate-site-list]").textContent.includes("Estimated height"), "candidate cards explain automatic placement height");
       assert(document.querySelector("[data-normalised-plane]").textContent === "FCC(1 1 1)", "builder UI displays the reduced plane");
       assert(document.querySelector("[data-hcp-index]").hidden, "HCP-only index starts hidden for cubic lattices");
       assert(location.search.includes("lattice=fcc") && location.search.includes("a=3.6100") && location.search.includes("offset=0.500"), "builder UI stores state in the URL");
